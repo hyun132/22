@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_home"
+        android:enabled="true"
+        android:icon="@drawable/bottom_home"
+        android:title="홈"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/nav_data"
+        android:enabled="true"
+        android:icon="@drawable/bottom_data"
+        android:title="나의의료데이터"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/space"
+        android:enabled="true"
+        android:title=""
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/nav_Insurance"
+        android:enabled="true"
+        android:icon="@drawable/bottom_insurance"
+        android:title="보험청구"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/nav_Profile"
+        android:enabled="true"
+        android:icon="@drawable/bottom_profile"
+        android:title="마이페이지"
+        app:showAsAction="always" />
+
+</menu>

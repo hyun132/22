@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="semi_black">#111111</color>
+    <color name="semi_black2">#333333</color>
+    <color name="text_black">#585858</color>
+
+    <color name="colorToastBack">#734924</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="gray1">#AAAAAA</color>
+    <color name="gray2">#888888</color>
+    <color name="gray3">#DDDDDD</color>
+    <color name="gray4">#f6f6f6</color>
+    <color name="gray5">#f8f8fb</color>
+    <color name="gray6">#777777</color>
+    <color name="gray7">#B3B3B3</color>
+    <color name="gray8">#999999</color>
+    <color name="black_trans">#44000000</color>
+    <color name="borderGray">#f8f7fc</color>
+
+    <color name="colorPrimary">#5441ff</color>
+    <color name="colorPrimaryDark">#5441ff</color>
+    <color name="colorOverlayAccent">#642EFE</color>
+    <color name="colorupdate">#A9A9F5</color>
+    <color name="background">#f8f8fb</color>
+    <color name="pro_side_btn">#2E2E2E</color>
+
+    <color name="main_status">#00a7fd</color>
+
+    <color name="gray_FBFAFA">#FFFBFAFA</color>
+    <color name="dark_gray_333333">#FF333333</color>
+    <color name="dark_gray_5C5C5C">#FF5C5C5C</color>
+    <color name="dark_gray_242424">#FF242424</color>
+
+    <color name="splash_1">#F69163</color>
+
+
+</resources>

@@ -1,0 +1,109 @@
+package com.iium.iium_medioz.util.`object`
+
+import android.Manifest
+import android.os.Handler
+import android.os.Looper
+
+object  Constant {
+    const val TAG = "My_Heaven"
+    const val BASE_URL="http://49.50.161.198:8080/"
+    const val PREF_KEY_USER_TOKEN = "PREF_KEY_USER_TOKEN"
+    const val PREF_KEY_APP_TOKEN = "myAppToken"
+    const val PREF_KEY_ENCTYPT_IV = "myEncryptIv"
+    const val PREF_KEY_ENCTYPT_KEY = "myEncryptKey"
+    const val PREF_KEY_AUTH_TOKEN ="myAuthToken"
+    const val PREF_KEY_LANG = "myLang"
+    const val PREF_KEY_LANG_CODE = "myLangCode"
+    const val PREF_HASH_KEY_TOKEN = "myHashToken"
+    const val PREF_PERMISSION_GRANTED = "PREF_PERMISSION_GRANTED"
+    const val PREF_PHONE = "myphone"
+    const val PREF_PW = "myPW"
+    const val PREF_AUTO_LOGIN = "PREF_AUTO_LOGIN"
+    const val PREF_KEY_LANGUAGE = "PREF_KEY_LANGUAGE"
+    const val PREF_KEY_LANGUAGE_CODE = "PREF_KEY_LANGUAGE_CODE"
+    const val PREF_SMS = "PREF_SMS"
+    const val PREF_KEY_ENC_KEY = "PREF_KEY_ENC_KEY"
+    const val PREF_KEY_ENC_IV = "PREF_KEY_ENC_IV"
+    const val PREF_TERMS = "PREF_TERMS"
+    const val PREF_ACCESS_TOKEN = "PREF_ACCESS_TOKEN"
+    const val PREF_NEW_ACCESS_TOKEN = "PREF_NEW_ACCESS_TOKEN"
+    const val ONE_PERMISSION_REQUEST_CODE = 1
+    const val SECOND_PERMISSION_REQUEST_CODE = 2
+    const val THRID_PERMISSION_REQUEST_CODE = 3
+
+    const val ALL_PERMISSION_REQUEST_CODE = 2
+    const val BACKPRESS_CLOSE_TIME = 1500
+    const val DEFATULT_TIMEOUT = 20000
+
+    const val CAMERA_REQUEST_CODE = 101
+    const val VIDEO_REQUEST_CODE = 202
+    const val ALBUM_REQUEST_CODE = 302
+    const val PERM_STROAGE = 100
+
+    //로그인 정보
+    const val LOGIN_PHONE = "LOGIN_PHONE"
+    const val LOGIN_SEX = "LOGIN_SEX"
+
+    //DATA 데이터
+    const val DATA_TITLE = "DATA_TITLE"
+    const val DATA_DETAIL = "DATA_DETAIL"
+    const val DATA_KEYWORD = "DATA_KEYWORD"
+    const val DATA_TIMESTAMP = "DATA_TIMESTAMP"
+    const val DATA_IMG = "DATA_IMG"
+
+    const val DATA_TEXTIMG = "DATA_TEXTIMG"
+    const val DATA_NORMAL = "DATA_NORMAL"
+    const val DATA_VIDEOFILE = "DATA_VIDEOFILE"
+
+    //Notice
+    const val NOTICE_TITLE = "NOTICE_TITLE"
+    const val NOTICE_CONTENT = "NOTICE_CONTENT"
+    const val NOTICE_CREATED = "NOTICE_CREATED"
+
+    //Coun
+    const val COUN_NAME = "COUN_NAME"
+    const val COUN_TITLE = "COUN_TITLE"
+    const val COUN_CONTENT = "COUN_CONTENT"
+    const val COUN_CREATED = "COUN_CREATED"
+
+    //Search
+    const val SEARCH_IMG = "SEARCH_IMG"
+    const val SEARCH_TITLE = "SEARCH_TITLE"
+    const val SEARCH_KEYWORD = "SEARCH_KEYWORD"
+    const val SEARCH_DETAIL = "SEARCH_DETAIL"
+    const val SEARCH_TIME_STAMP = "SEARCH_TIME_STAMP"
+
+    //뷰페이저
+    const val NUM_TABS = 2
+
+    const val ONE_PICK_PERMISSION_REQUEST_CODE = 1
+
+
+    // Splash
+    const val SPLASH_WAIT = 3500
+    val MUTILE_PERMISSION: ArrayList<String?> = object : ArrayList<String?>() {
+        init {
+            add(Manifest.permission.ACCESS_FINE_LOCATION)
+            add(Manifest.permission.ACCESS_COARSE_LOCATION)
+            add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            add(Manifest.permission.READ_EXTERNAL_STORAGE)
+            add(Manifest.permission.CAMERA)
+        }
+    }
+
+    val CAMERA = arrayOf(Manifest.permission.CAMERA)
+
+    val STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+    fun delayRun(r: Runnable?, delay: Int) {
+        val loop = Looper.myLooper()
+        if (loop != null) {
+            val handler = Handler(loop)
+            handler.postDelayed(r!!, delay.toLong())
+        }
+    }
+
+
+
+
+}

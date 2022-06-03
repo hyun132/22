@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable-v24/switch_thumb.xml" value="0.4415" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable-v24/switch_track_off.xml" value="0.4415" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable-v24/switch_track_on.xml" value="0.4415" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable-v24/switch_track_slector.xml" value="0.4415" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/bottom_icon_color.xml" value="0.2975" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/check_box.xml" value="0.193" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/check_selector.xml" value="0.193" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/color_common_btn.xml" value="0.2975" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/data_btn_color.xml" value="0.193" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/data_btn_selected.xml" value="0.1515" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/edit_box.xml" value="0.4415" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.2975" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/ic_check_circle.xml" value="0.193" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/profile_detail_button.xml" value="0.2975" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/drawable/selector_agreement.xml" value="0.1515" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/font/s.xml" value="0.3921875" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_achievement.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_cs.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_cs_detail.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_cs_upload.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_data_detyail.xml" value="0.25" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_data_upload.xml" value="0.33" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_guide.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_login.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_notice.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_notice_detail.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_per_mission.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_profile_modify.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_save.xml" value="0.44533558463486705" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_setting.xml" value="0.25" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_sign_up.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_sign_up_profile.xml" value="0.33" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_sign_up_pw.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_splash.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/activity_start_login.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/fragment_all.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/fragment_data.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/fragment_insurance.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/fragment_my_page.xml" value="0.33" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/fragment_send.xml" value="0.34739583333333335" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/fragment_thrid_dialog.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/one_button_dialog.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/two_button_dialog.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_data_detail_list.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_item_counseling.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_item_img.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_item_notice.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_item_photo_list.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_item_push.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_item_search.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_item_video_list.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_label_admin.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_medical_data_group.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_medical_recycler_list_item.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_photo_item.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_term_first.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/layout/view_test_item.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/menu/bottom_menu.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/menu/s.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/IIUMPC14/Documents/IIum_Medioz/app/src/main/res/xml/x.xml" value="0.3619791666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

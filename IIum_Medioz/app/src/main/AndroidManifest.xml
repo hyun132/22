@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.iium.iium_medioz">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <application
+        android:name=".util.base.MyApplication"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="false"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_logo"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_config"
+        android:requestLegacyExternalStorage="true"
+        android:resizeableActivity="true"
+        android:roundIcon="@mipmap/ic_logo_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.IIum_Medioz"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:theme"
+        tools:targetApi="s">
+        <activity
+            android:name=".view.main.bottom.mypage.cs.CsUploadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.mypage.cs.CsDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.mypage.cs.CsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.mypage.notice.NoticeDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.mypage.notice.NoticeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.mypage.setting.ProfileModifyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.mypage.setting.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.data.SaveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.banner.AchievementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.banner.GuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.data.DataUploadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.data.DataDetyailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.login.sign.SignUpPwActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.login.sign.SignUpProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.login.sign.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.login.StartLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.intro.splash.SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.intro.permission.PerMissionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".util.base.BaseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".util.activity.ActivityController"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

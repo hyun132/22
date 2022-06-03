@@ -1,0 +1,224 @@
+<resources>
+    <string name="app_name">Medioz</string>
+
+    <string name="backpress_exit">\'뒤로\' 버튼을 한 번 더 누르시면 앱이 종료됩니다.</string>
+    <!-- 접근 권한 동의 -->
+    <string name="permission_title">앱 접근 권한 동의</string>
+    <string name="permission_camera">카메라</string>
+    <string name="permission_camera_desc">의료 데이터 업로드 및 처방전 사진 촬영</string>
+    <string name="permission_location">위치정보</string>
+    <string name="permission_location_desc">위치기반 서비스 제공</string>
+    <string name="permission_storage">저장공간</string>
+    <string name="permission_storage_desc">첨부파일 저장</string>
+    <string name="permission_bluetooth">블루투스</string>
+    <string name="permission_bluetooth_desc">자전거 잠금장치 통신</string>
+    <string name="permission_alarm">알림</string>
+    <string name="permission_alarm_desc">공지 및 PUSH 알림</string>
+    <string name="permission_select">(선택)</string>
+    <string name="permission_necessary">(필수)</string>
+
+    <string name="permission_error_all_agree">권한동의를 하지 않으면 앱을 이용하실 수 없습니다.</string>
+    <string name="permission_error_all_agree_not_show">권한동의를 하지 않으면 앱을 이용하실 수 없습니다. \n[애플리케이션 설정] - [권한]에서 권한을 확인 해주세요.</string>
+
+    <string name="permission_push_title">마케팅정보(PUSH) 수신동의</string>
+    <string name="permission_push_agree">애도에서 제공하는 행사 및 이벤트, 할인 등의 정보와 다양한 혜택의 알림을 받으시겠습니까?</string>
+    <string name="permission_push_agree_sub">마케팅 정보 수신 동의는\n메뉴>설정에서 변경(동의/철회) 할 수 있습니다.</string>
+    <string name="permission_push_yes">동의</string>
+    <string name="permission_push_no">동의안함</string>
+    <string name="permission_push_sender">1. 전송자 : 애도</string>
+    <string name="permission_push_process_day">2. 처리일 :</string>
+    <string name="permission_push_process_result">3. 처리내용 :</string>
+    <string name="permission_push_process_agree">마케팅 정보 푸시 수신 동의</string>
+    <string name="permission_push_process_disagree">마케팅 정보 푸시 수신 거부</string>
+
+    <string name="error_network_connectivity">네트워크에 연결 할 수 없습니다.\n네트워크 연결상태를 확인해주세요.</string>
+    <string name="error_network">네트워크 에러가 발생했습니다.</string>
+    <string name="error_policy_data">정책정보를 불러오던 중 에러가 발생했습니다.</string>
+    <string name="error_policy_update_db">정책정보를 업데이트 하던중 에러가 발생했습니다.\n앱을 다시 실행해주세요.</string>
+    <string name="service_disable_error">서비스 점검중입니다.\n잠시 후에 다시 시도해 주세요.</string>
+    <string name="need_update_app">앱 업데이트가 필요합니다.\n업데이트를 진행해 주세요.</string>
+    <string name="auth_num_wrong_text">인증번호가 잘못되었습니다.</string>
+
+    <string name="login_hint_phone">핸드폰 번호를 입력해 주세요.</string>
+    <string name="login_hint_pass">비밀번호 4자리를 입력해 주세요.</string>
+    <string name="login_hint_nickname">닉네임을 입력해 주세요.</string>
+    <string name="login_btn">로그인</string>
+
+    <string name="start_bottim">이미 계정이 있으신가요?</string>
+    <string name="start_bottim_second">로그인</string>
+    <string name="term_check">이용약관 동의를 체크해주세요.</string>
+    <string name="phone_check">핸드폰 번호를 정확하게 입력해주세요.</string>
+    <string name="password_check">비밀번호 4자리를 설정해 주세요.</string>
+
+    <string name="start_login_title">의료 데이터를\n내 손에서\n체계적이고 안전하게\n관리하세요</string>
+
+    <string name="warning_close_app">앱을 종료하시겠습니까?</string>
+    <string name="warning_rooting">고객님의 정보보호를 위해 탈옥이나 루팅을 통한 비정상 단말은 지원되지 않습니다.</string>
+    <string name="warning_repackaging">정상적이지 않은 경로로 설치된 앱입니다.\n앱 제거 후 스토어에서 다시 다운로드 해주세요.</string>
+
+    <string name="login_authnum">인증번호</string>
+
+    <string name="login_desc1">휴대전화 번호를 입력해주세요.</string>
+    <string name="login_subtitle1">안녕하세요. 메디오즈입니다.\n인증을 위해 휴대전화 번호를 입력해주세요.</string>
+
+    <string name="login_desc2">인증번호를 입력해주세요.</string>
+    <string name="login_subtitle2">휴대전화로 전송된 6자리의\n인증번호를 입력해주세요.</string>
+
+    <string name="login_desc3">회원가입이 필요합니다.</string>
+    <string name="login_subtitle3">회원정보를 입력해주시고 약관 동의를 해주세요.</string>
+
+    <string name="login_title_phone_number">휴대전화 번호 입력</string>
+    <string name="login_title_phone_number_auth">휴대전화 번호</string>
+    <string name="login_hint_phone_number">\'-\' 없이 입력해주세요.</string>
+    <string name="login_hint_auth_number">인증번호를 입력해주세요</string>
+    <string name="login_btn_sms_send">인증번호 전송</string>
+    <string name="login_hint_birth">6자리 생년월일을 입력해주세요.</string>
+    <string name="login_hint_name">이름을 입력해 주세요.</string>
+    <string name="pass_title">간편 비밀번호를\n한번 더 입력해 주세요.</string>
+    <string name="pass_body">비밀번호를 설정해 주세요</string>
+    <string name="pass_button">확인</string>
+    <string name="profile_title">프로필을 설정하고\n메디오즈를 이용해보세요.</string>
+    <string name="profile_hint">닉네임을 입력해주세요.</string>
+
+    <string name="login_btn_phone_input_again">휴대전화 번호 재입력</string>
+    <string name="login_btn_auth_sms_request_again">인증코드 재전송</string>
+    <string name="login_confirm_auth_sms_request_again">인증코드를 재전송하시겠습니까?</string>
+
+    <string name="login_terms_all">이용약관 동의, 개인정보 이용동의, 제3자정보제공동의, 위치정보이용동의의 모든 약관을 확인 하였으며, 충분히 숙지 하였고 동의 합니다.</string>
+    <string name="login_terms_term">이용약관 동의</string>
+    <string name="login_terms_privit">개인정보 이용동의</string>
+    <string name="login_terms_third">제3자정보제공동의</string>
+    <string name="login_terms_location">위치정보이용동의</string>
+    <string name="login_terms_end">의 모든 약관을 확인 하였으며, 충분히 숙지 하였고 동의 합니다.</string>
+    <string name="login_terms_divider">, </string>
+
+    <string name="error_network_server_connect">서버 연결에 실패하였습니다.</string>
+
+    <string name="message_send">메시지가 전송되었습니다.</string>
+    <string name="login_subtitle_phone">휴대폰 본인인증</string>
+    <string name="login_subtitle_birtday">생년월일</string>
+    <string name="login_subtitle_gender">이름</string>
+    <string name="login_layout_hint">휴대폰 번호 입력</string>
+    <string name="login_join_age_error_15">만 15세 이상만\n가입 할 수 있습니다.</string>
+    <string name="longin_success">회원가입되었습니다.</string>
+    <string name="login_failed">회원가입에 실패했습니다.</string>
+    <string name="login_error_place">지역을 입력해 주세요.</string>
+    <string name="login_error_agree">이용약관에 동의해 주세요.</string>
+    <string name="login_error_bitrhday">생년월일 정보가 올바르지 않습니다.</string>
+    <string name="login_error_phone_num">휴대전화 번호 정보가 올바르지 않습니다.</string>
+    <string name="login_error_token">토큰 정보가 올바르지 않습니다.</string>
+    <string name="login_error_info">로그인 정보가 올바르지 않습니다.</string>
+    <string name="login_error_auth_num">인증번호 4자리를 모두 입력해 주세요.</string>
+    <string name="login_layout_hint_phone">휴대전화번호를 입력해 주세요.</string>
+    <string name="login_layout_auth_send">인증번호받기</string>
+    <string name="login_layout_auth_resend">인증번호재전송</string>
+    <string name="login_layout_auth_input">인증번호 입력</string>
+    <string name="login_layout_birthday">생년월일</string>
+    <string name="login_layout_hint_birthday">YYYYMMDD</string>
+    <string name="login_layout_gender">성별</string>
+    <string name="login_layout_gender_male">남</string>
+    <string name="login_layout_gender_female">여</string>
+    <string name="login_error_join_info">회원정보가 누락되었습니다.\n다시 로그인해 주세요.</string>
+    <string name="login_term_warning">※ 회원가입은 만 15세 이상만 가능합니다. 허위사항 기재 시\n불이익을 받을 수 있습니다.</string>
+
+    <string name="gender_male">남</string>
+    <string name="gender_female">여</string>
+
+
+    <string name="login_picker_year">yyyy년</string>
+    <string name="login_picker_month">MM월</string>
+    <string name="login_picker_day">dd일</string>
+    <string name="login_picker_year_suffix">년</string>
+    <string name="login_picker_month_suffix">월</string>
+    <string name="login_picker_day_suffix">일</string>
+
+    <!-- 약관 -->
+    <string name="term_agree_again_popup">회원님은 약관 재동의 대상입니다.\n약관 재동의 화면으로 이동합니다.</string>
+    <string name="term_agree_again_title">이용약관 및 개인정보 수집 및\n이용 재동의 안내</string>
+    <string name="term_agree_again_content">회원 서비스를 이용하기 위해서는 아래의 이용약관 및 \n개인정보 수집·이용에 재동의하셔야 합니다.</string>
+    <string name="term_agree_again_success">약관 재동의가 완료되었습니다.</string>
+    <string name="term_agree_again_msg">약관에 동의해 주시기 바랍니다.</string>
+
+    <string name="error_terms_version_no_availavle">약관 버전이 유효하지 않습니다.</string>
+    <string name="menu_infor">이용안내</string>
+    <string name="menu_card">결제수단</string>
+    <string name="menu_list">부고목록</string>
+    <string name="menu_find">장례식장 찾기</string>
+    <string name="menu_center">고객센터</string>
+    <string name="menu_setting">설정</string>
+
+    <string name="space"> </string>
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
+    <string name="krw">원</string>
+    <string name="delete">삭제</string>
+    <string name="location">위치</string>
+    <string name="exit">종료</string>
+    <string name="close">닫기</string>
+    <string name="over">초과</string>
+    <string name="update">업데이트</string>
+    <string name="minute">분</string>
+    <string name="available">이용 가능</string>
+    <string name="policy_default">기본</string>
+    <string name="policy_extra">추가</string>
+    <string name="parking_bike_counter">대</string>
+    <string name="register">등록</string>
+    <string name="rent">대여하기</string>
+    <string name="no_card">미등록</string>
+    <string name="not_use">미사용</string>
+    <string name="using">사용중</string>
+    <string name="content_detail">상세내용</string>
+    <string name="select_picture">사진 선택</string>
+    <string name="take_picture">사진 선택</string>
+    <string name="battery">배터리</string>
+    <string name="menu">메뉴</string>
+    <string name="notice">공지</string>
+
+    <string name="server_check">서버 점검중입니다.\n잠시 후에 이용해 주세요.</string>
+    <string name="update_check">앱 업데이트가 필요합니다.\n업데이트를 진행해주세요.</string>
+    <string name="network_check">네트워크 연결이 원활하지 않습니다.\n다시 시도해 주세요.</string>
+    <string name="update_cancle">종료</string>
+    <string name="update_start">업데이트</string>
+
+    <!--나의 의료 데이터 -->
+    <string name="medical_btn_first">처방전</string>
+    <string name="medical_btn_second">입/퇴원 및 수술 내역서</string>
+    <string name="medical_btn_third">진단서</string>
+    <string name="medical_btn_four">즐겨찾기</string>
+    <string name="medical_edit_hint">검색할 진단서를 입력해 주세요.</string>
+    <string name="upload_title">제목을 입력하는 곳입니다.</string>
+    <string name="upload_detail_text">상세내용을 1000자 내외로 입력해 주세요.</string>
+    <string name="key_word">키워드를 입력해 주세요.</string>
+
+
+    <string name="agree_service">서비스 이용약관</string>
+    <string name="agree_get">개인정보 수집 및 이용동의</string>
+    <string name="agree_three">제3자 제공 동의</string>
+    <string name="term_first">이용자가 제공한 모든 정보는 다음의 목적을 위해 활용하며\n목적 이외의 용도로는 사용되지 않습니다.</string>
+    <string name="term_detail_first">(가) 보유기간 : 회원이 탈퇴 요청을 하거나 개인정보 파기\n요청이 있을때까지 보유하고 이용합니다.\n다만 분쟁해결,민원처리,법률상 의무 이행을 위하여\n필요한 범위 내에서 보유, 이용됩니다.</string>
+    <string name="term_detail_second">(가) 동의 거부할 권리 및 불이익 : \n회원은 개인정보 수집 및 이용에 대한 동의를 거부할 수 \n있으며, 동의 후에도 언제든지 동의를 철회 할 수 있습니다.\n다만, 필수정보 수집 및 이용을 거부하는 경우\n본 서비스 이용이 제한됩니다.</string>
+    <string name="term_marketing_first">(가) 회사가 제공하는 이용자 맞춤형 서비스 \n상품 추천, 각종 경품 행사,문자 또는 SMS\n등을 통해 이용자에게 제공</string>
+
+    <string-array name="spinner_year">
+        <item>그룹</item>
+        <item>진단서</item>
+        <item>처방전</item>
+        <item>입/퇴원 및 수술 내역서</item>
+    </string-array>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_book_mark">BookMarkActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_per_mission">PerMissionActivity</string>
+</resources>
