@@ -37,6 +37,9 @@
         tools:replace="android:theme"
         tools:targetApi="s">
         <activity
+            android:name=".view.main.bottom.mypage.point.PointActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.main.bottom.mypage.cs.CsUploadActivity"
             android:exported="false" />
         <activity

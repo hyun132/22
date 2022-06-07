@@ -4,31 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="fragment"
-            type="com.iium.iium_medioz.view.main.bottom.data.DataFragment" />
+            name="activity"
+            type="com.iium.iium_medioz.view.main.bottom.mypage.point.PointActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/main_noti"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginEnd="20dp"
-                android:onClick='@{fragment::onSearchClick}'
+                android:id="@+id/back_press"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:onClick='@{activity::onBackPressed}'
+                android:src="@drawable/back_pressed"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/img_search" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/img_medical"
@@ -38,28 +40,34 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/medical_top_text" />
+                app:srcCompat="@drawable/point_text" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/data_tablayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="95dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/point_header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-        </com.google.android.material.tabs.TabLayout>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/data_viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/data_tablayout">
-
-        </androidx.viewpager2.widget.ViewPager2>
+            <TextView
+                android:id="@+id/tv_mypage_point_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                android:fontFamily="@font/gyeonggititle_medium"
+                android:text="9,999 p"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

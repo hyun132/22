@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imageView13"
+                    android:id="@+id/profile_img"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_marginStart="20dp"
@@ -84,7 +84,7 @@
                     android:textColor="@color/white"
                     android:textSize="23dp"
                     android:fontFamily="@font/gyeonggititle_medium"
-                    app:layout_constraintStart_toEndOf="@+id/imageView13"
+                    app:layout_constraintStart_toEndOf="@+id/profile_img"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -97,7 +97,7 @@
                     android:textSize="17dp"
                     android:textColor="@color/white"
                     android:fontFamily="@font/gyeonggititle_medium"
-                    app:layout_constraintStart_toEndOf="@+id/imageView13"
+                    app:layout_constraintStart_toEndOf="@+id/profile_img"
                     app:layout_constraintTop_toBottomOf="@+id/tv_mypage_nickname" />
 
                 <TextView
