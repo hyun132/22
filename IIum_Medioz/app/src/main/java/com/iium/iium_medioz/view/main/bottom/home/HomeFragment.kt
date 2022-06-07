@@ -34,6 +34,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var mBinding : FragmentHomeBinding
     private lateinit var apiServices: APIService
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

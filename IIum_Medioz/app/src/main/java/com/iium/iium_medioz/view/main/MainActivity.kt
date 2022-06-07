@@ -24,7 +24,6 @@ class MainActivity : BaseActivity() {
     private lateinit var apiServices: APIService
     private var doubleBackToExit = false
 
-
     private val fragmentOne by lazy { HomeFragment() }
     private val fragmentTwo by lazy { DataFragment() }
     private val fragmentThree by lazy { InsuranceFragment() }

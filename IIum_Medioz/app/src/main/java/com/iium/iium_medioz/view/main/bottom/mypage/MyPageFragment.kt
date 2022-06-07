@@ -45,8 +45,12 @@ class MyPageFragment : Fragment() {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_page, container, false)
         apiServices = ApiUtils.apiService
         mBinding.fragment = this
-        initAPI()
         return mBinding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initAPI()
     }
 
     private fun initAPI() {
@@ -117,10 +121,9 @@ class MyPageFragment : Fragment() {
                             mBinding.profileImg.setImageBitmap(bit)
                         }
                         catch (e: Exception) {
-
+                            LLog.d(e.toString())
                         }
                     }.start()
-
                 }
                 else {
                     Log.d(TAG,"getProfileImg response ERROR -> $result")

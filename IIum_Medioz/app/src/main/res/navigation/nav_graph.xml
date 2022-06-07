@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_HomeFragment_to_DataFragment"
             app:destination="@id/DataFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_InsuranceFragment"
+            app:destination="@id/InsuranceFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_MyPageFragment"
+            app:destination="@id/MyPageFragment" />
     </fragment>
 
     <fragment
@@ -23,6 +29,12 @@
         <action
             android:id="@+id/action_DataFragment_to_InsuranceFragment"
             app:destination="@id/InsuranceFragment" />
+        <action
+            android:id="@+id/action_DataFragment_to_MyPageFragment"
+            app:destination="@id/MyPageFragment" />
+        <action
+            android:id="@+id/action_DataFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
     </fragment>
 
     <fragment
@@ -33,6 +45,12 @@
         <action
             android:id="@+id/action_InsuranceFragment_to_MyPageFragment"
             app:destination="@id/MyPageFragment" />
+        <action
+            android:id="@+id/action_InsuranceFragment_to_DataFragment"
+            app:destination="@id/DataFragment" />
+        <action
+            android:id="@+id/action_InsuranceFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
     </fragment>
 
     <fragment
@@ -40,8 +58,5 @@
         android:name="com.iium.iium_medioz.view.main.bottom.mypage.MyPageFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_my_page">
-        <action
-            android:id="@+id/action_MyPageFragment_to_HomeFragment"
-            app:destination="@id/HomeFragment" />
     </fragment>
 </navigation>

@@ -20,6 +20,12 @@
         <item name="cardElevation">0dp</item>
     </style>
 
+    <style name="profile_modify_style" parent="CardView">
+        <item name="android:layout_height">50dp</item>
+        <item name="cardCornerRadius">7dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
     <style name="profile_btn_style" parent="CardView">
         <item name="android:layout_height">45dp</item>
         <item name="cardCornerRadius">9dp</item>
@@ -32,6 +38,16 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">17dp</item>
         <item name="android:background">@drawable/color_common_btn</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:outlineProvider">background</item>
+    </style>
+
+    <style name="profile_modify_style_second" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:background">@drawable/profile_modify</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="android:outlineProvider">background</item>
     </style>
