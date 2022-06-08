@@ -103,7 +103,7 @@ interface APIService {
                @Header("Accesstoken") accesstoken: String?) : Call<ResponseBody>
 
     //나의 의료데이터 수정
-    @PUT("v1/datalist/:id")
+    @PUT("v1/datalist")
     fun getChange(@Body changeModel: ChangeModel,
                   @Header("Accesstoken") accesstoken: String?) : Call<ChangeModel>
 

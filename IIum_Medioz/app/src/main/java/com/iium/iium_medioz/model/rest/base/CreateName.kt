@@ -10,4 +10,7 @@ data class CreateSearch(
     var keyword : String? = null,
     var detail: String? = null,
     var timestamp : String? = null,
+    val defaultcode : String? = null,
+    val sensitivity : String? = null,
+    val sendcode : String? = null
 )
