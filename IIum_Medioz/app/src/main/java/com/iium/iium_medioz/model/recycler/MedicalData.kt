@@ -6,9 +6,7 @@ data class MedicalData(
 )
 
 data class DataList(
-    val textImg : List<TextList>? = null,
-    val normalImg : List<NormalList>? = null,
-    val video : List<VideoList>? = null,
+    val DataList : List<DataListSecond>? = null,
     val title : String? = null,
     val keyword  : String? = null,
     val timestamp : String? =null,
@@ -17,6 +15,12 @@ data class DataList(
     val sendcode : String? = null,
     val userId : String? =null,
     val id : String? =null
+)
+
+data class DataListSecond(
+    val textImg : List<TextList>,
+    val Img : List<NormalList>,
+    val video : List<VideoList>
 )
 
 data class TextList(

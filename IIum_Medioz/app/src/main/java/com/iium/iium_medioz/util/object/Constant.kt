@@ -46,7 +46,6 @@ object  Constant {
 
     //DATA 데이터
     const val DATA_TITLE = "DATA_TITLE"
-    const val DATA_DETAIL = "DATA_DETAIL"
     const val DATA_KEYWORD = "DATA_KEYWORD"
     const val DATA_TIMESTAMP = "DATA_TIMESTAMP"
     const val DATA_IMG = "DATA_IMG"

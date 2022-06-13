@@ -372,20 +372,43 @@ class DataUploadActivity : BaseActivity() {
         val textimg : MutableList<MultipartBody.Part?> = ArrayList()
         for (uri:Uri in files4) {
             uri.path?.let {
-                Log.i("textimgs", it)
+                Log.i("textImg", it)
             }
-            textimg.add(prepareFilePart("textimg", uri))
-            Log.e("textimg", uri.toString())
+            textimg.add(prepareFilePart("textImg", uri))
+            Log.e("textImg", uri.toString())
+        }
+
+        for (imguri:Uri in files5) {
+            imguri.path?.let {
+                Log.i("Img", it)
+            }
+            textimg.add(prepareFilePart("Img", imguri))
+            Log.e("Img", imguri.toString())
+        }
+
+        for (videouri:Uri in files6) {
+            videouri.path?.let {
+                Log.i("video", it)
+            }
+            textimg.add(prepareFilePart("video", videouri))
+            Log.e("video", videouri.toString())
         }
 
         val title = mBinding.etTitle.text.toString()
         val keyword =mBinding.etKeyword.text.toString()
         val timestamp = mBinding.tvTodayData.text.toString()
         val requestHashMap : HashMap<String, RequestBody> = HashMap()
+        val defaultcode = "0"
+        val sensitivity = "0"
+        val sendcode = "0"
 
         requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["defaultcode"] = defaultcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["sensitivity"] = sensitivity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["sendcode"] = sendcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
 
         LLog.d("데이터 업로드_첫번째 API")
         apiServices.getCreate(prefs.myaccesstoken,textimg,requestHashMap).enqueue(object :
@@ -394,14 +417,14 @@ class DataUploadActivity : BaseActivity() {
                 val result = response.body()
                 if(response.isSuccessful&& result!= null) {
                     Log.d(TAG,"getCreate API SUCCESS -> $result")
-                    Thread{
-                        try {
-                            normalAPI()
-                        }
-                        catch (e: Exception) {
-                            LLog.e(e.toString())
-                        }
-                    }.start()
+//                    Thread{
+//                        try {
+//                            normalAPI()
+//                        }
+//                        catch (e: Exception) {
+//                            LLog.e(e.toString())
+//                        }
+//                    }.start()
                 }
                 else {
                     Log.d(TAG,"getCreate API ERROR -> ${response.errorBody()}")
@@ -422,20 +445,42 @@ class DataUploadActivity : BaseActivity() {
         val textimg : MutableList<MultipartBody.Part?> = ArrayList()
         for (uri:Uri in files4) {
             uri.path?.let {
-                Log.i("textimgs", it)
+                Log.i("textImg", it)
             }
-            textimg.add(prepareFilePart("textimg", uri))
-            Log.e("textimg", uri.toString())
+            textimg.add(prepareFilePart("textImg", uri))
+            Log.e("textImg", uri.toString())
+        }
+
+        for (imguri:Uri in files5) {
+            imguri.path?.let {
+                Log.i("Img", it)
+            }
+            textimg.add(prepareFilePart("Img", imguri))
+            Log.e("Img", imguri.toString())
+        }
+
+        for (videouri:Uri in files6) {
+            videouri.path?.let {
+                Log.i("video", it)
+            }
+            textimg.add(prepareFilePart("video", videouri))
+            Log.e("video", videouri.toString())
         }
 
         val title = mBinding.etTitle.text.toString()
         val keyword =mBinding.etKeyword.text.toString()
         val timestamp = mBinding.tvTodayData.text.toString()
         val requestHashMap : HashMap<String, RequestBody> = HashMap()
+        val defaultcode = "0"
+        val sensitivity = "0"
+        val sendcode = "0"
 
         requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["defaultcode"] = defaultcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["sensitivity"] = sensitivity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["sendcode"] = sendcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         LLog.d("데이터 업로드_두번째 API")
         apiServices.getCreate(prefs.newaccesstoken,textimg, requestHashMap).enqueue(object :
@@ -446,7 +491,7 @@ class DataUploadActivity : BaseActivity() {
                     Log.d(TAG,"getCreate Second API SUCCESS -> $result")
                     Thread{
                         try {
-                            normalAPI()
+                            moveSave()
                         }
                         catch (e: Exception) {
                             LLog.e(e.toString())
@@ -460,178 +505,6 @@ class DataUploadActivity : BaseActivity() {
 
             override fun onFailure(call: Call<CreateMedical>, t: Throwable) {
                 Log.d(TAG,"getCreate Second Fail -> $t")
-                serverDialog()
-            }
-        })
-    }
-
-    private fun normalAPI() {
-        val normalImg : MutableList<MultipartBody.Part?> = ArrayList()
-        for (uri:Uri in files5) {
-            uri.path?.let {
-                Log.i("Img", it)
-            }
-            normalImg.add(prepareFilePart("Img", uri))
-            Log.e("Img", uri.toString())
-        }
-
-        val title = mBinding.etTitle.text.toString()
-        val keyword =mBinding.etKeyword.text.toString()
-        val timestamp = mBinding.tvTodayData.text.toString()
-        val requestHashMap : HashMap<String, RequestBody> = HashMap()
-
-        requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-        LLog.d("일반 이미지 업로드_첫번째 API")
-        apiServices.getNormal(prefs.myaccesstoken,normalImg,requestHashMap).enqueue(object : Callback<NormalModel> {
-            override fun onResponse(call: Call<NormalModel>, response: Response<NormalModel>) {
-                val result = response.body()
-                if(response.isSuccessful&& result!= null) {
-                    Log.d(TAG,"getNormal API SUCCESS -> $result")
-                    moveSave()
-                }
-                else {
-                    Log.d(TAG,"getNormal API ERROR -> ${response.errorBody()}")
-                    Thread{
-                        try {
-                            otherNormal()
-                        }
-                        catch (e: Exception) {
-                            LLog.e(e.toString())
-                        }
-                    }.start()
-                }
-            }
-
-            override fun onFailure(call: Call<NormalModel>, t: Throwable) {
-                Log.d(TAG,"getNormal Fail -> $t")
-                serverDialog()
-            }
-        })
-    }
-
-    private fun otherNormal() {
-        val normalImg : MutableList<MultipartBody.Part?> = ArrayList()
-        for (uri:Uri in files5) {
-            uri.path?.let {
-                Log.i("Img", it)
-            }
-            normalImg.add(prepareFilePart("Img", uri))
-            Log.e("Img", uri.toString())
-        }
-
-        val title = mBinding.etTitle.text.toString()
-        val keyword =mBinding.etKeyword.text.toString()
-        val timestamp = mBinding.tvTodayData.text.toString()
-        val requestHashMap : HashMap<String, RequestBody> = HashMap()
-
-        requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-        LLog.d("일반 이미지 업로드_두번째 API")
-        apiServices.getNormal(prefs.newaccesstoken,normalImg,requestHashMap).enqueue(object : Callback<NormalModel> {
-            override fun onResponse(call: Call<NormalModel>, response: Response<NormalModel>) {
-                val result = response.body()
-                if(response.isSuccessful&& result!= null) {
-                    Log.d(TAG,"getNormal second API SUCCESS -> $result")
-                    Thread{
-                        try {
-                            videoAPI()
-                        }
-                        catch (e: Exception) {
-                            LLog.e(e.toString())
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(TAG,"getNormal second API ERROR -> ${response.errorBody()}")
-                }
-            }
-
-            override fun onFailure(call: Call<NormalModel>, t: Throwable) {
-                Log.d(TAG,"getNormal second Fail -> $t")
-                serverDialog()
-            }
-        })
-    }
-
-    private fun videoAPI() {
-        val video : MutableList<MultipartBody.Part?> = ArrayList()
-        for (uri:Uri in files6) {
-            uri.path?.let {
-                Log.i("video", it)
-            }
-            video.add(videoFilePart("video", uri))
-            Log.e("video", uri.toString())
-        }
-
-        val title = mBinding.etTitle.text.toString()
-        val keyword =mBinding.etKeyword.text.toString()
-        val timestamp = mBinding.tvTodayData.text.toString()
-        val requestHashMap : HashMap<String, RequestBody> = HashMap()
-
-        requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-        LLog.d("영상 업로드_두번째 API")
-        apiServices.getVideo(prefs.myaccesstoken,video,requestHashMap).enqueue(object : Callback<VideoModel> {
-            override fun onResponse(call: Call<VideoModel>, response: Response<VideoModel>) {
-                val result = response.body()
-                if(response.isSuccessful&& result!= null) {
-                    Log.d(TAG,"getVideo API SUCCESS -> $result")
-                    moveSave()
-                }
-                else {
-                    Log.d(TAG,"getVideo API ERROR -> ${response.errorBody()}")
-                    otherVideoAPI()
-                }
-            }
-
-            override fun onFailure(call: Call<VideoModel>, t: Throwable) {
-                Log.d(TAG,"getVideo Fail -> $t")
-                serverDialog()
-            }
-        })
-    }
-
-    private fun otherVideoAPI() {
-        val video : MutableList<MultipartBody.Part?> = ArrayList()
-        for (uri:Uri in files6) {
-            uri.path?.let {
-                Log.i("video", it)
-            }
-            video.add(videoFilePart("video", uri))
-            Log.e("video", uri.toString())
-        }
-
-        val title = mBinding.etTitle.text.toString()
-        val keyword =mBinding.etKeyword.text.toString()
-        val timestamp = mBinding.tvTodayData.text.toString()
-        val requestHashMap : HashMap<String, RequestBody> = HashMap()
-
-        requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-        LLog.d("영상 업로드_두번째 API")
-        apiServices.getVideo(prefs.newaccesstoken,video,requestHashMap).enqueue(object : Callback<VideoModel> {
-            override fun onResponse(call: Call<VideoModel>, response: Response<VideoModel>) {
-                val result = response.body()
-                if(response.isSuccessful&& result!= null) {
-                    Log.d(TAG,"getVideo second API SUCCESS -> $result")
-                    moveSave()
-                }
-                else {
-                    Log.d(TAG,"getVideo second API ERROR -> ${response.errorBody()}")
-                }
-            }
-
-            override fun onFailure(call: Call<VideoModel>, t: Throwable) {
-                Log.d(TAG,"getVideo second Fail -> $t")
                 serverDialog()
             }
         })

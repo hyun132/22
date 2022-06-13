@@ -169,7 +169,7 @@ class ProfileModifyActivity : BaseActivity() {
     }
 
     fun onBackPressed(v: View) {
-        moveSetting()
+        moveMain()
     }
 
     fun onNickClick(v: View) {

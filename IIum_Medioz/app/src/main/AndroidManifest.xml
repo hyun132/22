@@ -37,6 +37,9 @@
         tools:replace="android:theme"
         tools:targetApi="s">
         <activity
+            android:name=".view.main.bottom.data.search.SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.main.bottom.mypage.point.PointActivity"
             android:exported="false" />
         <activity

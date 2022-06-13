@@ -62,24 +62,10 @@ interface APIService {
 
     // 나의 의료데이터 작성
     @Multipart
-    @POST("v1/datalist/textImg")
+    @POST("v1/datalist/datalist")
     fun getCreate(@Header("Accesstoken")accesstoken: String?,
-                  @Part textimg : MutableList<MultipartBody.Part?>,
+                  @Part datalist : MutableList<MultipartBody.Part?>,
                   @PartMap data: HashMap<String, RequestBody>): Call<CreateMedical>
-
-    // 나의 의료데이터 작성(일반 이미지)
-    @Multipart
-    @POST("v1/datalist/Img")
-    fun getNormal(@Header("Accesstoken")accesstoken: String?,
-                  @Part Img : MutableList<MultipartBody.Part?>,
-                  @PartMap data: HashMap<String, RequestBody>): Call<NormalModel>
-
-    // 나의 의료데이터 작성(영상)
-    @Multipart
-    @POST("v1/datalist/video")
-    fun getVideo(@Header("Accesstoken")accesstoken: String?,
-                 @Part video : MutableList<MultipartBody.Part?>,
-                 @PartMap data: HashMap<String, RequestBody>): Call<VideoModel>
 
     // 나의 의료데이터 조회
     @GET("v1/datalist/my")
@@ -87,19 +73,8 @@ interface APIService {
 
 
     //나의 의료데이터 텍스트 이미지 받기API
-    @GET("v1/datalist/textImg")
+    @GET("v1/datalist/datalist")
     fun getImg(@Query("textimg") textimg: String?,
-               @Header("Accesstoken") accesstoken: String?) : Call<ResponseBody>
-
-
-    //나의 의료데이터 일반 이미지 받기API
-    @GET("v1/datalist/normalImg")
-    fun getCallNorImg(@Query("norImg") norImg: String?,
-               @Header("Accesstoken") accesstoken: String?) : Call<ResponseBody>
-
-    //나의 의료데이터 영상 받기API
-    @GET("v1/datalist/video")
-    fun getCallVideo(@Query("video") video: String?,
                @Header("Accesstoken") accesstoken: String?) : Call<ResponseBody>
 
     //나의 의료데이터 수정
