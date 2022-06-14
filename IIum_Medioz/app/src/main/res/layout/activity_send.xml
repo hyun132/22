@@ -5,7 +5,7 @@
     <data>
         <variable
             name="activity"
-            type="com.iium.iium_medioz.view.main.bottom.data.DataDetyailActivity" />
+            type="com.iium.iium_medioz.view.main.bottom.data.send.SendActivity" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -42,17 +42,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/img_medical_detail" />
-
-                <ImageView
-                    android:id="@+id/imageView26"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginEnd="30dp"
-                    android:onClick='@{activity::onDataSend}'
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/send_img" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -449,23 +438,23 @@
                                 style="@style/CommonButtonCardStyle"
                                 android:layout_width="wrap_content"
                                 android:visibility="visible"
-                                android:layout_marginStart="40dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
 
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="150dp"
                                     android:layout_height="match_parent"
-                                    android:onClick='@{activity::onPutClick}'
-                                    android:background="@color/text_black">
+                                    android:background="@color/text_black"
+                                    android:onClick='@{activity::onSendClick}'>
 
                                     <TextView
                                         android:id="@+id/textView26"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="수정"
                                         android:fontFamily="@font/gyeonggititle_medium"
+                                        android:text="판매 신청"
                                         android:textColor="@color/white"
                                         android:textSize="15dp"
                                         app:layout_constraintBottom_toBottomOf="parent"
@@ -475,36 +464,6 @@
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                             </androidx.cardview.widget.CardView>
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/cv_delete"
-                                style="@style/CommonButtonCardStyle"
-                                android:layout_width="wrap_content"
-                                android:visibility="visible"
-                                android:layout_marginEnd="40dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:layout_width="150dp"
-                                    android:layout_height="match_parent"
-                                    android:onClick='@{activity::onDeleteClick}'
-                                    android:background="@color/black_trans">
-
-                                    <TextView
-                                        android:id="@+id/textView27"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="삭제"
-                                        android:fontFamily="@font/gyeonggititle_medium"
-                                        android:textColor="@color/white"
-                                        android:textSize="15dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
-                                </androidx.constraintlayout.widget.ConstraintLayout>
-                            </androidx.cardview.widget.CardView>
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
                     <LinearLayout

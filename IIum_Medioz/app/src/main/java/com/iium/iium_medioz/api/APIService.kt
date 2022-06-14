@@ -9,10 +9,7 @@ import com.iium.iium_medioz.model.rest.login.*
 import com.iium.iium_medioz.model.ui.CounGet
 import com.iium.iium_medioz.model.ui.CounPost
 import com.iium.iium_medioz.model.ui.NoticeModel
-import com.iium.iium_medioz.model.upload.ChangeModel
-import com.iium.iium_medioz.model.upload.CreateMedical
-import com.iium.iium_medioz.model.upload.NormalModel
-import com.iium.iium_medioz.model.upload.VideoModel
+import com.iium.iium_medioz.model.upload.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -79,13 +76,18 @@ interface APIService {
 
     //나의 의료데이터 수정
     @PUT("v1/datalist")
-    fun getChange(@Body changeModel: ChangeModel,
-                  @Header("Accesstoken") accesstoken: String?) : Call<ChangeModel>
+    fun getChange(@Header("Accesstoken") accesstoken: String?,
+                  @Body changeModel: ChangeModel) : Call<ChangeModel>
+
+    // 나의 의료데이터 삭제
+    @DELETE("v1/datalist")
+    fun getDataDelete(@Header("Accesstoken")accesstoken: String?,
+                      @Query("id")id : String?) : Call<DeleteModel>
 
     // 나의 의료데이터 검색
     @GET("v1/datalist")
     fun getSearch(@Query("name")name: String?,
-                      @Header("Accesstoken")accesstoken: String?) : Call<CreateName>
+                  @Header("Accesstoken")accesstoken: String?) : Call<CreateName>
 
     // 공지사항 모두조회 API
     @GET("v1/center/announcement")

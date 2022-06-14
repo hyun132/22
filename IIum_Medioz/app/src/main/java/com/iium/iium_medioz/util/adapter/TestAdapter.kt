@@ -12,7 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.model.recycler.*
 import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.`object`.Constant.DATA_DEFAULT_CODE
+import com.iium.iium_medioz.util.`object`.Constant.DATA_ID
 import com.iium.iium_medioz.util.`object`.Constant.DATA_NORMAL
+import com.iium.iium_medioz.util.`object`.Constant.DATA_SEND_CODE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_TEXTIMG
 import com.iium.iium_medioz.util.`object`.Constant.DATA_VIDEOFILE
 import com.iium.iium_medioz.view.main.bottom.data.DataDetyailActivity
@@ -30,7 +33,6 @@ class TestAdapter (private val datalist : List<DataList>, val context: Context)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(datalist[position], context)
-
     }
 
     override fun getItemCount(): Int {
@@ -42,7 +44,7 @@ class TestAdapter (private val datalist : List<DataList>, val context: Context)
         val title = itemView?.findViewById<TextView>(R.id.tv_list_title)
         val keyword = itemView?.findViewById<TextView>(R.id.tv_data_keyword)
         val timestamp = itemView?.findViewById<TextView>(R.id.tv_data_data)
-        val cl_body = itemView?.findViewById<ConstraintLayout>(R.id.cl_data_body)
+        val cl_body = itemView?.findViewById<ConstraintLayout>(R.id.cl_data_nor_list)
 
         fun bind(itemData: DataList, context: Context){
             title?.text = itemData.title.toString()
@@ -75,6 +77,9 @@ class TestAdapter (private val datalist : List<DataList>, val context: Context)
                 intent.putExtra(DATA_TEXTIMG, textlist.toString())
                 intent.putExtra(DATA_NORMAL, normallist.toString())
 //                intent.putExtra(DATA_VIDEOFILE, video.toString())
+                intent.putExtra(DATA_ID, itemData.id.toString())
+                intent.putExtra(DATA_SEND_CODE, itemData.sendcode.toString())
+                intent.putExtra(DATA_DEFAULT_CODE, itemData.defaultcode.toString())
 
                 ContextCompat.startActivity(itemView.context, intent, null)
             }

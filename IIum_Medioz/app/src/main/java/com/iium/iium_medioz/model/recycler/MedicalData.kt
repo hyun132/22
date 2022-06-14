@@ -1,5 +1,7 @@
 package com.iium.iium_medioz.model.recycler
 
+import com.google.gson.annotations.SerializedName
+
 
 data class MedicalData(
     val datalist : List<DataList>? =null
