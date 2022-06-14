@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.model.recycler.*
 import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.`object`.Constant.DATA_NORMAL
 import com.iium.iium_medioz.util.`object`.Constant.DATA_TEXTIMG
+import com.iium.iium_medioz.util.`object`.Constant.DATA_VIDEOFILE
 import com.iium.iium_medioz.view.main.bottom.data.DataDetyailActivity
 
 
@@ -53,12 +55,26 @@ class TestAdapter (private val datalist : List<DataList>, val context: Context)
                 }
             }
 
+            val normallist = itemData.DataList?.map { it ->
+                it.Img.map {
+                    it.filename
+                }
+            }
+
+//            val video = itemData.DataList?.map { it ->
+//                it.video.map {
+//                    it.filename
+//                }
+//            }
+
             cl_body?.setOnClickListener {
                 val intent = Intent(context, DataDetyailActivity::class.java)
                 intent.putExtra(Constant.DATA_TITLE, itemData.title.toString())
                 intent.putExtra(Constant.DATA_KEYWORD, itemData.keyword.toString())
                 intent.putExtra(Constant.DATA_TIMESTAMP, itemData.timestamp.toString())
                 intent.putExtra(DATA_TEXTIMG, textlist.toString())
+                intent.putExtra(DATA_NORMAL, normallist.toString())
+//                intent.putExtra(DATA_VIDEOFILE, video.toString())
 
                 ContextCompat.startActivity(itemView.context, intent, null)
             }
