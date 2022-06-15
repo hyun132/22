@@ -35,7 +35,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/medical_recyclerView"
+            android:id="@+id/SendList_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:nestedScrollingEnabled="false"

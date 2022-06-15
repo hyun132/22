@@ -27,10 +27,7 @@ import com.iium.iium_medioz.util.log.LLog.e
 import com.iium.iium_medioz.view.login.LoginActivity
 import com.iium.iium_medioz.view.login.StartLoginActivity
 import com.iium.iium_medioz.view.login.sign.SignUpActivity
-import com.iium.iium_medioz.view.main.bottom.data.DataDetyailActivity
-import com.iium.iium_medioz.view.main.bottom.data.DataFragment
-import com.iium.iium_medioz.view.main.bottom.data.DataUploadActivity
-import com.iium.iium_medioz.view.main.bottom.data.SaveActivity
+import com.iium.iium_medioz.view.main.bottom.data.*
 import com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity
 import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsActivity
@@ -208,6 +205,13 @@ open class BaseActivity : AppCompatActivity() {
 
     internal fun moveSave() {
         val intent = Intent(this, SaveActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    internal fun moveSaveSend() {
+        val intent = Intent(this, SaveSendActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0)
         finish()

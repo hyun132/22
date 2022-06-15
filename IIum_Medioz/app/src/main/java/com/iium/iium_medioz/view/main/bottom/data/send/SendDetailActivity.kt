@@ -2,9 +2,8 @@ package com.iium.iium_medioz.view.main.bottom.data.send
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -12,42 +11,34 @@ import androidx.databinding.DataBindingUtil
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
-import com.iium.iium_medioz.databinding.ActivitySendBinding
-import com.iium.iium_medioz.model.send.DataList
-import com.iium.iium_medioz.model.send.SendModel
+import com.iium.iium_medioz.databinding.ActivitySaveBinding
+import com.iium.iium_medioz.databinding.ActivitySendDetailBinding
+import com.iium.iium_medioz.model.upload.DeleteModel
 import com.iium.iium_medioz.util.`object`.Constant
-import com.iium.iium_medioz.util.`object`.Constant.DATA_DEFAULT_CODE
-import com.iium.iium_medioz.util.`object`.Constant.DATA_SEND_CODE
-import com.iium.iium_medioz.util.`object`.Constant.DEFAULT_CODE_FALSE
-import com.iium.iium_medioz.util.`object`.Constant.SEND_CODE_TRUE
-import com.iium.iium_medioz.util.`object`.Constant.SEND_ID
-import com.iium.iium_medioz.util.`object`.Constant.SEND_KEYWORD
-import com.iium.iium_medioz.util.`object`.Constant.SEND_NORMAL
-import com.iium.iium_medioz.util.`object`.Constant.SEND_TEXTIMG
-import com.iium.iium_medioz.util.`object`.Constant.SEND_TIME_STAMP
-import com.iium.iium_medioz.util.`object`.Constant.SEND_TITLE
-import com.iium.iium_medioz.util.`object`.Constant.SEND_VIDEO
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_ID
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_KEYWORD
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_NORMAL
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_TEXTIMG
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_TIME_STAMP
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_TITLE
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_VIDEO
 import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication
-import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
-import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SendActivity : BaseActivity() {
+class SendDetailActivity : BaseActivity() {
 
-    private lateinit var mBinding : ActivitySendBinding
+    private lateinit var mBinding : ActivitySendDetailBinding
     private lateinit var apiServices: APIService
-    private var doubleBackToExit = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_send)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_send_detail)
         mBinding.activity = this
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
@@ -55,19 +46,23 @@ class SendActivity : BaseActivity() {
         initView()
     }
 
-    private fun initView() {
-        val title = intent.getStringExtra(SEND_TITLE)
-        val keyword = intent.getStringExtra(SEND_KEYWORD)
-        val timestamp = intent.getStringExtra(SEND_TIME_STAMP)
-        val textList = intent.getStringExtra(SEND_TEXTIMG)
-        val normalList = intent.getStringExtra(SEND_NORMAL)
-        val videoList = intent.getStringExtra(SEND_VIDEO)
-        val id = intent.getStringExtra(SEND_ID)
+    private fun inStatusBar() {
+        setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
+        window.statusBarColor = getColor(R.color.colorPrimary)
+    }
 
-        Log.d(TAG,"아이디 -> $id")
-        mBinding.tvMedicalDetailTitle.text = title.toString()
-        mBinding.tvMedicalDetailData.text = timestamp.toString()
-        mBinding.tvMyKeyword.text = keyword.toString()
+    private fun initView() {
+        val title = intent.getStringExtra(SEND_DETAIL_TITLE)
+        val keyword = intent.getStringExtra(SEND_DETAIL_KEYWORD)
+        val timestamp = intent.getStringExtra(SEND_DETAIL_TIME_STAMP)
+        val textList = intent.getStringExtra(SEND_DETAIL_TEXTIMG)
+        val normalList = intent.getStringExtra(SEND_DETAIL_NORMAL)
+        val videoList = intent.getStringExtra(SEND_DETAIL_VIDEO)
+
+        Log.d(TAG,"텍스트 이미지 ->$textList")
+        Log.d(TAG,"일반 이미지 ->$normalList")
+        Log.d(TAG,"비디오 이미지 ->$videoList")
+
 
         val img =  textList?.substring(2)
         val imgtest = img?.substring(0, img.length - 2)
@@ -114,6 +109,26 @@ class SendActivity : BaseActivity() {
                 }
             }.start()
         }
+
+//        val video =  videoList?.substring(2)
+//        val videotest = video?.substring(0, img.length - 2)
+//        val videostart = videotest?.split(",")
+//
+//        for(i in 0 until videostart?.size!! step(1)) {
+//            val str_idx = i.toString()
+//            when (str_idx) {
+//                "0" -> video_first(videostart[i].trim())
+//                "1" -> video_second(videostart[i].trim())
+//                "2" -> video_third(videostart[i].trim())
+//                else -> Log.d(TAG,"실패")
+//            }
+//        }
+
+
+        mBinding.tvMedicalDetailTitle.text = title.toString()
+        mBinding.tvMedicalDetailData.text = timestamp.toString()
+        mBinding.tvMyKeyword.text = keyword.toString()
+
     }
 
     //////////////////////텍스트 이미지 추출 API////////////////////////////
@@ -434,66 +449,33 @@ class SendActivity : BaseActivity() {
 
     }
 
-    private fun inStatusBar() {
-        setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
-        window.statusBarColor = getColor(R.color.colorPrimary)
-    }
+    ////////////////판매 데이터 해제 API/////////////////////
+    fun onDeleteClick(v: View) {
+        val id = intent.getStringExtra(SEND_DETAIL_ID)
 
-    private fun sendAPI() {
-        val title = intent.getStringExtra(SEND_TITLE)
-        val keyword = intent.getStringExtra(SEND_KEYWORD)
-        val timestamp = intent.getStringExtra(SEND_TIME_STAMP)
-        val id = intent.getStringExtra(SEND_ID)
-
-        val send_title = title
-        val send_keyword = keyword
-        val send_timestamp = timestamp
-        val send_sendcode = SEND_CODE_TRUE
-        val send_default = DEFAULT_CODE_FALSE
-        val send_sensitivity = "0"
-
-        val send = DataList(id,title, keyword, timestamp,send_sendcode,send_default,send_sensitivity,id)
-
-        LLog.e("판매 데이터 API")
-        val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,id,send)
-        vercall.enqueue(object : Callback<SendModel> {
-            override fun onResponse(call: Call<SendModel>, response: Response<SendModel>) {
+        LLog.e("판매 데이터 해제 API")
+        val vercall: Call<DeleteModel> = apiServices.getSendDelete(MyApplication.prefs.newaccesstoken,id)
+        vercall.enqueue(object : Callback<DeleteModel> {
+            override fun onResponse(call: Call<DeleteModel>, response: Response<DeleteModel>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"판매 데이터 response SUCCESS -> $result")
-                    moveSaveSend()
+                    Log.d(LLog.TAG,"판매 데이터 해제 response SUCCESS -> $result")
+                    moveMain()
                 }
                 else {
-                    Log.d(LLog.TAG,"판매 데이터 response ERROR -> $result")
+                    Log.d(LLog.TAG,"판매 데이터 해제  response ERROR -> $id")
+                    moveMain()
                 }
             }
-            override fun onFailure(call: Call<SendModel>, t: Throwable) {
-                Log.d(LLog.TAG, "판매 데이터 Fail -> ${t.localizedMessage}")
+            override fun onFailure(call: Call<DeleteModel>, t: Throwable) {
+                Log.d(LLog.TAG, "판매 데이터 해제 Fail -> ${t.localizedMessage}")
+                serverDialog()
             }
         })
     }
 
-    fun onBackPressed(v: View?) {
-        moveDetail()
-    }
-
-    fun onSendClick(v: View?) {
-        sendAPI()
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
-        if (doubleBackToExit) {
-            finishAffinity()
-        } else {
-            doubleBackToExit = true
-            runDelayed(1500L) {
-                doubleBackToExit = false
-            }
-        }
-    }
-
-    private fun runDelayed(millis: Long, function: () -> Unit) {
-        Handler(Looper.getMainLooper()).postDelayed(function, millis)
+        moveMain()
     }
 }

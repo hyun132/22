@@ -24,8 +24,10 @@ import com.iium.iium_medioz.databinding.ActivityDataUploadBinding
 import com.iium.iium_medioz.model.upload.CreateMedical
 import com.iium.iium_medioz.model.upload.NormalModel
 import com.iium.iium_medioz.model.upload.VideoModel
+import com.iium.iium_medioz.util.`object`.Constant.DEFAULT_CODE_TRUE
 import com.iium.iium_medioz.util.`object`.Constant.ONE_PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.SECOND_PERMISSION_REQUEST_CODE
+import com.iium.iium_medioz.util.`object`.Constant.SEND_CODE_FALSE
 import com.iium.iium_medioz.util.`object`.Constant.THRID_PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.adapter.upload.MultiImageAdapter
 import com.iium.iium_medioz.util.adapter.upload.NormalImgAdapter
@@ -398,17 +400,16 @@ class DataUploadActivity : BaseActivity() {
         val keyword =mBinding.etKeyword.text.toString()
         val timestamp = mBinding.tvTodayData.text.toString()
         val requestHashMap : HashMap<String, RequestBody> = HashMap()
-        val defaultcode = "0"
-        val sensitivity = "0"
-        val sendcode = "0"
+        val sendcode = SEND_CODE_FALSE
+        val defaultcode = DEFAULT_CODE_TRUE
+        val sensitivity = ""
 
         requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["sendcode"] = sendcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["defaultcode"] = defaultcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["sensitivity"] = sensitivity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["sendcode"] = sendcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
 
         LLog.d("데이터 업로드_첫번째 API")
         apiServices.getCreate(prefs.myaccesstoken,textimg,requestHashMap).enqueue(object :
@@ -471,16 +472,16 @@ class DataUploadActivity : BaseActivity() {
         val keyword =mBinding.etKeyword.text.toString()
         val timestamp = mBinding.tvTodayData.text.toString()
         val requestHashMap : HashMap<String, RequestBody> = HashMap()
-        val defaultcode = "0"
-        val sensitivity = "0"
-        val sendcode = "0"
+        val sendcode = SEND_CODE_FALSE
+        val defaultcode = DEFAULT_CODE_TRUE
+        val sensitivity = ""
 
         requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["sendcode"] = sendcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["defaultcode"] = defaultcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["sensitivity"] = sensitivity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["sendcode"] = sendcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         LLog.d("데이터 업로드_두번째 API")
         apiServices.getCreate(prefs.newaccesstoken,textimg, requestHashMap).enqueue(object :

@@ -54,6 +54,7 @@ object  Constant {
     const val DATA_ID = "DATA_ID"
     const val DATA_SEND_CODE = "DATA_SEND_CODE"
     const val DATA_DEFAULT_CODE = "DATA_DEFAULT_CODE"
+    const val DATA_TEST = "DATA_TEST"
 
     //Search 데이터
     const val SEARCH_TITLE = "SEARCH_TITLE"
@@ -72,6 +73,20 @@ object  Constant {
     const val SEND_NORMAL = "SEND_NORMAL"
     const val SEND_VIDEO = "SEND_VIDEO"
     const val SEND_ID = "SEND_ID"
+
+    const val SEND_DETAIL_TITLE = "SEND_DETAIL_TITLE"
+    const val SEND_DETAIL_KEYWORD = "SEND_DETAIL_KEYWORD"
+    const val SEND_DETAIL_TIME_STAMP = "SEND_DETAIL_TIME_STAMP"
+    const val SEND_DETAIL_TEXTIMG = "SEND_DETAIL_TEXTIMG"
+    const val SEND_DETAIL_NORMAL = "SEND_DETAIL_NORMAL"
+    const val SEND_DETAIL_VIDEO = "SEND_DETAIL_VIDEO"
+    const val SEND_DETAIL_ID = "SEND_DETAIL_ID"
+
+    const val SEND_CODE_TRUE = "true"
+    const val SEND_CODE_FALSE = "false"
+
+    const val DEFAULT_CODE_TRUE = "true"
+    const val DEFAULT_CODE_FALSE = "false"
 
     //Notice
     const val NOTICE_TITLE = "NOTICE_TITLE"

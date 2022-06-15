@@ -30,7 +30,6 @@ class AllFragment : Fragment() {
     private lateinit var apiServices: APIService
     private var readapter: TestAdapter?=null
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

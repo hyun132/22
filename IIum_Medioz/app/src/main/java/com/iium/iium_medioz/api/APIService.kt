@@ -6,6 +6,9 @@ import com.iium.iium_medioz.model.rest.base.AutoLogin
 import com.iium.iium_medioz.model.rest.base.CreateName
 import com.iium.iium_medioz.model.rest.base.Verification
 import com.iium.iium_medioz.model.rest.login.*
+import com.iium.iium_medioz.model.send.DataList
+import com.iium.iium_medioz.model.send.SendModel
+import com.iium.iium_medioz.model.send.SendTestModel
 import com.iium.iium_medioz.model.ui.CounGet
 import com.iium.iium_medioz.model.ui.CounPost
 import com.iium.iium_medioz.model.ui.NoticeModel
@@ -75,14 +78,25 @@ interface APIService {
                @Header("Accesstoken") accesstoken: String?) : Call<ResponseBody>
 
     //나의 의료데이터 수정
+
     @PUT("v1/datalist")
     fun getChange(@Header("Accesstoken") accesstoken: String?,
-                  @Body changeModel: ChangeModel) : Call<ChangeModel>
+                  @Query("id") id: String?,
+                  @Body dataList: DataList) : Call<SendModel>
+
+    //나의 의료데이터 판매 조회
+    @GET("v1/datasend/my")
+    fun getSend(@Header("Accesstoken") accesstoken: String?) : Call<SendTestModel>
 
     // 나의 의료데이터 삭제
     @DELETE("v1/datalist")
     fun getDataDelete(@Header("Accesstoken")accesstoken: String?,
-                      @Query("id")id : String?) : Call<DeleteModel>
+                      @Query("id") id : String?) : Call<DeleteModel>
+
+    // 나의 판매 데이터 해제
+    @DELETE("v1/datasend")
+    fun getSendDelete(@Header("Accesstoken")accesstoken: String?,
+                      @Query("id") id : String?) : Call<DeleteModel>
 
     // 나의 의료데이터 검색
     @GET("v1/datalist")
