@@ -46,14 +46,47 @@ object  Constant {
 
     //DATA 데이터
     const val DATA_TITLE = "DATA_TITLE"
-    const val DATA_DETAIL = "DATA_DETAIL"
     const val DATA_KEYWORD = "DATA_KEYWORD"
     const val DATA_TIMESTAMP = "DATA_TIMESTAMP"
-    const val DATA_IMG = "DATA_IMG"
-
     const val DATA_TEXTIMG = "DATA_TEXTIMG"
     const val DATA_NORMAL = "DATA_NORMAL"
     const val DATA_VIDEOFILE = "DATA_VIDEOFILE"
+    const val DATA_ID = "DATA_ID"
+    const val DATA_SEND_CODE = "DATA_SEND_CODE"
+    const val DATA_DEFAULT_CODE = "DATA_DEFAULT_CODE"
+    const val DATA_TEST = "DATA_TEST"
+
+    //Search 데이터
+    const val SEARCH_TITLE = "SEARCH_TITLE"
+    const val SEARCH_KEYWORD = "SEARCH_KEYWORD"
+    const val SEARCH_TIME_STAMP = "SEARCH_TIME_STAMP"
+    const val SEARCH_TEXTIMG = "SEARCH_TEXTIMG"
+    const val SEARCH_NORMAL = "SEARCH_NORMAL"
+    const val SEARCH_VIDEO = "SEARCH_VIDEO"
+    const val SEARCH_ID = "SEARCH_ID"
+
+    //판매 데이터
+    const val SEND_TITLE = "SEND_TITLE"
+    const val SEND_KEYWORD = "SEND_KEYWORD"
+    const val SEND_TIME_STAMP = "SEND_TIME_STAMP"
+    const val SEND_TEXTIMG = "SEND_TEXTIMG"
+    const val SEND_NORMAL = "SEND_NORMAL"
+    const val SEND_VIDEO = "SEND_VIDEO"
+    const val SEND_ID = "SEND_ID"
+
+    const val SEND_DETAIL_TITLE = "SEND_DETAIL_TITLE"
+    const val SEND_DETAIL_KEYWORD = "SEND_DETAIL_KEYWORD"
+    const val SEND_DETAIL_TIME_STAMP = "SEND_DETAIL_TIME_STAMP"
+    const val SEND_DETAIL_TEXTIMG = "SEND_DETAIL_TEXTIMG"
+    const val SEND_DETAIL_NORMAL = "SEND_DETAIL_NORMAL"
+    const val SEND_DETAIL_VIDEO = "SEND_DETAIL_VIDEO"
+    const val SEND_DETAIL_ID = "SEND_DETAIL_ID"
+
+    const val SEND_CODE_TRUE = "true"
+    const val SEND_CODE_FALSE = "false"
+
+    const val DEFAULT_CODE_TRUE = "true"
+    const val DEFAULT_CODE_FALSE = "false"
 
     //Notice
     const val NOTICE_TITLE = "NOTICE_TITLE"
@@ -65,13 +98,6 @@ object  Constant {
     const val COUN_TITLE = "COUN_TITLE"
     const val COUN_CONTENT = "COUN_CONTENT"
     const val COUN_CREATED = "COUN_CREATED"
-
-    //Search
-    const val SEARCH_IMG = "SEARCH_IMG"
-    const val SEARCH_TITLE = "SEARCH_TITLE"
-    const val SEARCH_KEYWORD = "SEARCH_KEYWORD"
-    const val SEARCH_DETAIL = "SEARCH_DETAIL"
-    const val SEARCH_TIME_STAMP = "SEARCH_TIME_STAMP"
 
     //뷰페이저
     const val NUM_TABS = 2
@@ -102,8 +128,5 @@ object  Constant {
             handler.postDelayed(r!!, delay.toLong())
         }
     }
-
-
-
 
 }

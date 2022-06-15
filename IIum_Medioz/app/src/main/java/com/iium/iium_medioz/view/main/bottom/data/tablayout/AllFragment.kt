@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.FragmentAllBinding
 import com.iium.iium_medioz.model.recycler.*
+import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.adapter.TestAdapter
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
@@ -27,7 +29,6 @@ class AllFragment : Fragment() {
     private lateinit var mBinding : FragmentAllBinding
     private lateinit var apiServices: APIService
     private var readapter: TestAdapter?=null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,7 +72,6 @@ class AllFragment : Fragment() {
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"List Second response SUCCESS -> $result")
                     setAdapter(result.datalist)
-
                 }
                 else {
                     Log.d(LLog.TAG,"List Second response ERROR -> $result")

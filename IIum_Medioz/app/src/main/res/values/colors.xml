@@ -16,6 +16,9 @@
     <color name="transparent">#00000000</color>
 
     <color name="profile_modify">#333333</color>
+    <color name="data_list_normal">#2e28ad</color>
+    <color name="data_search">#E08700</color>
+    <color name="data_send">#d01414</color>
 
     <color name="gray1">#AAAAAA</color>
     <color name="gray2">#888888</color>

@@ -37,6 +37,21 @@
         tools:replace="android:theme"
         tools:targetApi="s">
         <activity
+            android:name=".view.main.bottom.data.send.SendDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.data.SaveSendActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.data.send.SendActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.data.search.SearchDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.data.search.SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.main.bottom.mypage.point.PointActivity"
             android:exported="false" />
         <activity

@@ -1,67 +1,68 @@
-package com.iium.iium_medioz.view.main.bottom.data
+package com.iium.iium_medioz.view.main.bottom.data.send
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import androidx.core.graphics.get
 import androidx.databinding.DataBindingUtil
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
-import com.iium.iium_medioz.databinding.ActivityDataDetyailBinding
+import com.iium.iium_medioz.databinding.ActivitySaveBinding
+import com.iium.iium_medioz.databinding.ActivitySendDetailBinding
 import com.iium.iium_medioz.model.upload.DeleteModel
 import com.iium.iium_medioz.util.`object`.Constant
-import com.iium.iium_medioz.util.`object`.Constant.DATA_ID
-import com.iium.iium_medioz.util.`object`.Constant.DATA_KEYWORD
-import com.iium.iium_medioz.util.`object`.Constant.DATA_NORMAL
-import com.iium.iium_medioz.util.`object`.Constant.DATA_TEXTIMG
-import com.iium.iium_medioz.util.`object`.Constant.DATA_TIMESTAMP
-import com.iium.iium_medioz.util.`object`.Constant.DATA_TITLE
-import com.iium.iium_medioz.util.`object`.Constant.DATA_VIDEOFILE
-import com.iium.iium_medioz.util.`object`.Constant.SEND_ID
-import com.iium.iium_medioz.util.`object`.Constant.SEND_KEYWORD
-import com.iium.iium_medioz.util.`object`.Constant.SEND_NORMAL
-import com.iium.iium_medioz.util.`object`.Constant.SEND_TEXTIMG
-import com.iium.iium_medioz.util.`object`.Constant.SEND_TIME_STAMP
-import com.iium.iium_medioz.util.`object`.Constant.SEND_TITLE
-import com.iium.iium_medioz.util.`object`.Constant.SEND_VIDEO
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_ID
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_KEYWORD
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_NORMAL
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_TEXTIMG
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_TIME_STAMP
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_TITLE
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_VIDEO
+import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.base.BaseActivity
-import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
+import com.iium.iium_medioz.util.base.MyApplication
 import com.iium.iium_medioz.util.log.LLog
-import com.iium.iium_medioz.util.log.LLog.TAG
-import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
 import okhttp3.ResponseBody
-import okio.utf8Size
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DataDetyailActivity : BaseActivity() {
+class SendDetailActivity : BaseActivity() {
 
-    private lateinit var mBinding : ActivityDataDetyailBinding
+    private lateinit var mBinding : ActivitySendDetailBinding
     private lateinit var apiServices: APIService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_data_detyail)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_send_detail)
         mBinding.activity = this
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
-        initView()
         inStatusBar()
+        initView()
+    }
+
+    private fun inStatusBar() {
+        setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
+        window.statusBarColor = getColor(R.color.colorPrimary)
     }
 
     private fun initView() {
-        val title = intent.getStringExtra(DATA_TITLE)
-        val keyword = intent.getStringExtra(DATA_KEYWORD)
-        val timestamp = intent.getStringExtra(DATA_TIMESTAMP)
-        val textList = intent.getStringExtra(DATA_TEXTIMG)
-        val normalList = intent.getStringExtra(DATA_NORMAL)
-        val videoList = intent.getStringExtra(DATA_VIDEOFILE)
+        val title = intent.getStringExtra(SEND_DETAIL_TITLE)
+        val keyword = intent.getStringExtra(SEND_DETAIL_KEYWORD)
+        val timestamp = intent.getStringExtra(SEND_DETAIL_TIME_STAMP)
+        val textList = intent.getStringExtra(SEND_DETAIL_TEXTIMG)
+        val normalList = intent.getStringExtra(SEND_DETAIL_NORMAL)
+        val videoList = intent.getStringExtra(SEND_DETAIL_VIDEO)
+
+        Log.d(TAG,"텍스트 이미지 ->$textList")
+        Log.d(TAG,"일반 이미지 ->$normalList")
+        Log.d(TAG,"비디오 이미지 ->$videoList")
+
 
         val img =  textList?.substring(2)
         val imgtest = img?.substring(0, img.length - 2)
@@ -77,7 +78,7 @@ class DataDetyailActivity : BaseActivity() {
                         "2" -> third(tnla[i].trim())
                         "3" -> four(tnla[i].trim())
                         "4" -> five(tnla[i].trim())
-                        else -> Log.d(TAG, "실패")
+                        else -> Log.d(LLog.TAG, "실패")
                     }
                 }
                 catch (e: Exception) {
@@ -100,7 +101,7 @@ class DataDetyailActivity : BaseActivity() {
                         "2" -> normal_third(normalstart[i].trim())
                         "3" -> normal_four(normalstart[i].trim())
                         "4" -> normal_five(normalstart[i].trim())
-                        else -> Log.d(TAG, "실패")
+                        else -> Log.d(LLog.TAG, "실패")
                     }
                 }
                 catch (e: Exception) {
@@ -133,12 +134,12 @@ class DataDetyailActivity : BaseActivity() {
     //////////////////////텍스트 이미지 추출 API////////////////////////////
     private fun first(textFirst: String) {
         LLog.e("텍스트 첫번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(textFirst,prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(textFirst, MyApplication.prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"텍스트 첫번째 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"텍스트 첫번째 response SUCCESS -> $result")
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -147,28 +148,28 @@ class DataDetyailActivity : BaseActivity() {
                             mBinding.image1.setImageBitmap(bitimage)
                         }
                         catch (e: Exception) {
-                            Log.d(TAG,"텍스트 첫번째 이미지 다운 실패 -> $e")
+                            Log.d(LLog.TAG,"텍스트 첫번째 이미지 다운 실패 -> $e")
                         }
                     }.start()
                 }
                 else {
-                    Log.d(TAG,"텍스트 첫번째 response ERROR -> $result")
+                    Log.d(LLog.TAG,"텍스트 첫번째 response ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "텍스트 첫번째 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "텍스트 첫번째 Fail -> ${t.localizedMessage}")
             }
         })
     }
 
     private fun second(second: String) {
         LLog.e("텍스트 두번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(second,prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(second, MyApplication.prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"텍스트 두번째 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"텍스트 두번째 response SUCCESS -> $result")
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -177,28 +178,28 @@ class DataDetyailActivity : BaseActivity() {
                             mBinding.image2.setImageBitmap(bitimage)
                         }
                         catch (e: Exception) {
-                            Log.d(TAG,"텍스트 두번째 이미지 다운 실패 -> $e")
+                            Log.d(LLog.TAG,"텍스트 두번째 이미지 다운 실패 -> $e")
                         }
                     }.start()
                 }
                 else {
-                    Log.d(TAG,"텍스트 두번째 response ERROR -> $result")
+                    Log.d(LLog.TAG,"텍스트 두번째 response ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "텍스트 두번째 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "텍스트 두번째 Fail -> ${t.localizedMessage}")
             }
         })
     }
 
     private fun third(third: String) {
         LLog.e("텍스트 세번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(third,prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(third, MyApplication.prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"텍스트 세번째 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"텍스트 세번째 response SUCCESS -> $result")
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -207,28 +208,28 @@ class DataDetyailActivity : BaseActivity() {
                             mBinding.image3.setImageBitmap(bitimage)
                         }
                         catch (e: Exception) {
-                            Log.d(TAG,"텍스트 세번째 이미지 다운 실패 -> $e")
+                            Log.d(LLog.TAG,"텍스트 세번째 이미지 다운 실패 -> $e")
                         }
                     }.start()
                 }
                 else {
-                    Log.d(TAG,"텍스트 세번째 response ERROR -> $result")
+                    Log.d(LLog.TAG,"텍스트 세번째 response ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "텍스트 세번째 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "텍스트 세번째 Fail -> ${t.localizedMessage}")
             }
         })
     }
 
     private fun four(four: String) {
         LLog.e("텍스트 네번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(four,prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(four, MyApplication.prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"텍스트 네번째 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"텍스트 네번째 response SUCCESS -> $result")
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -237,28 +238,28 @@ class DataDetyailActivity : BaseActivity() {
                             mBinding.image4.setImageBitmap(bitimage)
                         }
                         catch (e: Exception) {
-                            Log.d(TAG,"텍스트 네번째 이미지 다운 실패 -> $e")
+                            Log.d(LLog.TAG,"텍스트 네번째 이미지 다운 실패 -> $e")
                         }
                     }.start()
                 }
                 else {
-                    Log.d(TAG,"텍스트 네번째 response ERROR -> $result")
+                    Log.d(LLog.TAG,"텍스트 네번째 response ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "텍스트 네번째 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "텍스트 네번째 Fail -> ${t.localizedMessage}")
             }
         })
     }
 
     private fun five(five: String) {
         LLog.e("텍스트 다섯번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(five,prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(five, MyApplication.prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"텍스트 다섯번째 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"텍스트 다섯번째 response SUCCESS -> $result")
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -267,16 +268,16 @@ class DataDetyailActivity : BaseActivity() {
                             mBinding.image5.setImageBitmap(bitimage)
                         }
                         catch (e: Exception) {
-                            Log.d(TAG,"텍스트 다섯번째 이미지 다운 실패 -> $e")
+                            Log.d(LLog.TAG,"텍스트 다섯번째 이미지 다운 실패 -> $e")
                         }
                     }.start()
                 }
                 else {
-                    Log.d(TAG,"텍스트 다섯번째 response ERROR -> $result")
+                    Log.d(LLog.TAG,"텍스트 다섯번째 response ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "텍스트 다섯번째 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "텍스트 다섯번째 Fail -> ${t.localizedMessage}")
             }
         })
     }
@@ -285,12 +286,12 @@ class DataDetyailActivity : BaseActivity() {
     //////////////////////일반 이미지 추출 API////////////////////////////
     private fun normal_first(nm_first: String) {
         LLog.e("일반 첫번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_first,prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(nm_first, MyApplication.prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"일반 첫번째 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"일반 첫번째 response SUCCESS -> $result")
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -299,28 +300,28 @@ class DataDetyailActivity : BaseActivity() {
                             mBinding.nImage1.setImageBitmap(bitimage)
                         }
                         catch (e: Exception) {
-                            Log.d(TAG,"일반 첫번째 이미지 다운 실패 -> $e")
+                            Log.d(LLog.TAG,"일반 첫번째 이미지 다운 실패 -> $e")
                         }
                     }.start()
                 }
                 else {
-                    Log.d(TAG,"일반 첫번째 response ERROR -> $result")
+                    Log.d(LLog.TAG,"일반 첫번째 response ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "일반 첫번째 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "일반 첫번째 Fail -> ${t.localizedMessage}")
             }
         })
     }
 
     private fun normal_second(nm_second: String) {
         LLog.e("일반 두번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_second,prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(nm_second, MyApplication.prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"일반 두번째 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"일반 두번째 response SUCCESS -> $result")
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -329,28 +330,28 @@ class DataDetyailActivity : BaseActivity() {
                             mBinding.nImage2.setImageBitmap(bitimage)
                         }
                         catch (e: Exception) {
-                            Log.d(TAG,"일반 두번째 이미지 다운 실패 -> $e")
+                            Log.d(LLog.TAG,"일반 두번째 이미지 다운 실패 -> $e")
                         }
                     }.start()
                 }
                 else {
-                    Log.d(TAG,"일반 두번째 response ERROR -> $result")
+                    Log.d(LLog.TAG,"일반 두번째 response ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "일반 두번째 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "일반 두번째 Fail -> ${t.localizedMessage}")
             }
         })
     }
 
     private fun normal_third(nm_third: String) {
         LLog.e("일반 세번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_third,prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(nm_third, MyApplication.prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"일반 세번째 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"일반 세번째 response SUCCESS -> $result")
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -359,28 +360,28 @@ class DataDetyailActivity : BaseActivity() {
                             mBinding.nImage3.setImageBitmap(bitimage)
                         }
                         catch (e: Exception) {
-                            Log.d(TAG,"일반 세번째 이미지 다운 실패 -> $e")
+                            Log.d(LLog.TAG,"일반 세번째 이미지 다운 실패 -> $e")
                         }
                     }.start()
                 }
                 else {
-                    Log.d(TAG,"일반 세번째 response ERROR -> $result")
+                    Log.d(LLog.TAG,"일반 세번째 response ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "일반 세번째 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "일반 세번째 Fail -> ${t.localizedMessage}")
             }
         })
     }
 
     private fun normal_four(nm_four: String) {
         LLog.e("일반 네번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_four,prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(nm_four, MyApplication.prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"일반 네번째 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"일반 네번째 response SUCCESS -> $result")
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -389,28 +390,28 @@ class DataDetyailActivity : BaseActivity() {
                             mBinding.nImage4.setImageBitmap(bitimage)
                         }
                         catch (e: Exception) {
-                            Log.d(TAG,"일반 네번째 이미지 다운 실패 -> $e")
+                            Log.d(LLog.TAG,"일반 네번째 이미지 다운 실패 -> $e")
                         }
                     }.start()
                 }
                 else {
-                    Log.d(TAG,"일반 네번째 response ERROR -> $result")
+                    Log.d(LLog.TAG,"일반 네번째 response ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "일반 네번째 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "일반 네번째 Fail -> ${t.localizedMessage}")
             }
         })
     }
 
     private fun normal_five(nm_five: String) {
         LLog.e("일반 다섯번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_five,prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(nm_five, MyApplication.prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"일반 다섯번째 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"일반 다섯번째 response SUCCESS -> $result")
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -419,16 +420,16 @@ class DataDetyailActivity : BaseActivity() {
                             mBinding.nImage5.setImageBitmap(bitimage)
                         }
                         catch (e: Exception) {
-                            Log.d(TAG,"일반 다섯번째 이미지 다운 실패 -> $e")
+                            Log.d(LLog.TAG,"일반 다섯번째 이미지 다운 실패 -> $e")
                         }
                     }.start()
                 }
                 else {
-                    Log.d(TAG,"일반 다섯번째  response ERROR -> $result")
+                    Log.d(LLog.TAG,"일반 다섯번째  response ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(TAG, "일반 다섯번째 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "일반 다섯번째 Fail -> ${t.localizedMessage}")
 
             }
         })
@@ -448,69 +449,33 @@ class DataDetyailActivity : BaseActivity() {
 
     }
 
+    ////////////////판매 데이터 해제 API/////////////////////
+    fun onDeleteClick(v: View) {
+        val id = intent.getStringExtra(SEND_DETAIL_ID)
 
-    private fun inStatusBar() {
-        setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
-        window.statusBarColor = getColor(R.color.main_status)
-    }
-
-    fun onBackPressed(v: View?){
-        moveMain()
-    }
-
-    fun onDataSend(v: View?) {
-        val title = intent.getStringExtra(DATA_TITLE)
-        val keyword = intent.getStringExtra(DATA_KEYWORD)
-        val timestamp = intent.getStringExtra(DATA_TIMESTAMP)
-        val textList = intent.getStringExtra(DATA_TEXTIMG)
-        val normalList = intent.getStringExtra(DATA_NORMAL)
-        val videoList = intent.getStringExtra(DATA_VIDEOFILE)
-        val id = intent.getStringExtra(DATA_ID)
-
-        val intent = Intent(this, SendActivity::class.java)
-        intent.putExtra(SEND_TITLE, title.toString())
-        intent.putExtra(SEND_KEYWORD, keyword.toString())
-        intent.putExtra(SEND_TIME_STAMP, timestamp.toString())
-        intent.putExtra(SEND_TEXTIMG, textList.toString())
-        intent.putExtra(SEND_NORMAL, normalList.toString())
-        intent.putExtra(SEND_VIDEO, videoList.toString())
-        intent.putExtra(SEND_ID, id.toString())
-        startActivity(intent)
-    }
-
-    fun onPutClick(v: View?) {
-
-    }
-
-
-    ////////////////데이터 삭제 API/////////////////////
-    fun onDeleteClick(v: View?) {
-        val id = intent.getStringExtra(DATA_ID)
-        LLog.e("데이터 삭제 API")
-        val vercall: Call<DeleteModel> = apiServices.getDataDelete(prefs.newaccesstoken,id)
+        LLog.e("판매 데이터 해제 API")
+        val vercall: Call<DeleteModel> = apiServices.getSendDelete(MyApplication.prefs.newaccesstoken,id)
         vercall.enqueue(object : Callback<DeleteModel> {
             override fun onResponse(call: Call<DeleteModel>, response: Response<DeleteModel>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"데이터 삭제 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"판매 데이터 해제 response SUCCESS -> $result")
                     moveMain()
                 }
                 else {
-                    Log.d(TAG,"데이터 삭제  response ERROR -> $id")
+                    Log.d(LLog.TAG,"판매 데이터 해제  response ERROR -> $id")
                     moveMain()
                 }
             }
             override fun onFailure(call: Call<DeleteModel>, t: Throwable) {
-                Log.d(TAG, "데이터 삭제 Fail -> ${t.localizedMessage}")
+                Log.d(LLog.TAG, "판매 데이터 해제 Fail -> ${t.localizedMessage}")
                 serverDialog()
             }
         })
-
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         moveMain()
     }
-
 }

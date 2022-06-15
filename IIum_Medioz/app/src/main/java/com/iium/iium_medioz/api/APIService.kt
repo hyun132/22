@@ -6,13 +6,13 @@ import com.iium.iium_medioz.model.rest.base.AutoLogin
 import com.iium.iium_medioz.model.rest.base.CreateName
 import com.iium.iium_medioz.model.rest.base.Verification
 import com.iium.iium_medioz.model.rest.login.*
+import com.iium.iium_medioz.model.send.DataList
+import com.iium.iium_medioz.model.send.SendModel
+import com.iium.iium_medioz.model.send.SendTestModel
 import com.iium.iium_medioz.model.ui.CounGet
 import com.iium.iium_medioz.model.ui.CounPost
 import com.iium.iium_medioz.model.ui.NoticeModel
-import com.iium.iium_medioz.model.upload.ChangeModel
-import com.iium.iium_medioz.model.upload.CreateMedical
-import com.iium.iium_medioz.model.upload.NormalModel
-import com.iium.iium_medioz.model.upload.VideoModel
+import com.iium.iium_medioz.model.upload.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -62,24 +62,10 @@ interface APIService {
 
     // 나의 의료데이터 작성
     @Multipart
-    @POST("v1/datalist/textImg")
+    @POST("v1/datalist/datalist")
     fun getCreate(@Header("Accesstoken")accesstoken: String?,
-                  @Part textimg : MutableList<MultipartBody.Part?>,
+                  @Part datalist : MutableList<MultipartBody.Part?>,
                   @PartMap data: HashMap<String, RequestBody>): Call<CreateMedical>
-
-    // 나의 의료데이터 작성(일반 이미지)
-    @Multipart
-    @POST("v1/datalist/Img")
-    fun getNormal(@Header("Accesstoken")accesstoken: String?,
-                  @Part Img : MutableList<MultipartBody.Part?>,
-                  @PartMap data: HashMap<String, RequestBody>): Call<NormalModel>
-
-    // 나의 의료데이터 작성(영상)
-    @Multipart
-    @POST("v1/datalist/video")
-    fun getVideo(@Header("Accesstoken")accesstoken: String?,
-                 @Part video : MutableList<MultipartBody.Part?>,
-                 @PartMap data: HashMap<String, RequestBody>): Call<VideoModel>
 
     // 나의 의료데이터 조회
     @GET("v1/datalist/my")
@@ -87,30 +73,35 @@ interface APIService {
 
 
     //나의 의료데이터 텍스트 이미지 받기API
-    @GET("v1/datalist/textImg")
+    @GET("v1/datalist/datalist")
     fun getImg(@Query("textimg") textimg: String?,
                @Header("Accesstoken") accesstoken: String?) : Call<ResponseBody>
 
-
-    //나의 의료데이터 일반 이미지 받기API
-    @GET("v1/datalist/normalImg")
-    fun getCallNorImg(@Query("norImg") norImg: String?,
-               @Header("Accesstoken") accesstoken: String?) : Call<ResponseBody>
-
-    //나의 의료데이터 영상 받기API
-    @GET("v1/datalist/video")
-    fun getCallVideo(@Query("video") video: String?,
-               @Header("Accesstoken") accesstoken: String?) : Call<ResponseBody>
-
     //나의 의료데이터 수정
+
     @PUT("v1/datalist")
-    fun getChange(@Body changeModel: ChangeModel,
-                  @Header("Accesstoken") accesstoken: String?) : Call<ChangeModel>
+    fun getChange(@Header("Accesstoken") accesstoken: String?,
+                  @Query("id") id: String?,
+                  @Body dataList: DataList) : Call<SendModel>
+
+    //나의 의료데이터 판매 조회
+    @GET("v1/datasend/my")
+    fun getSend(@Header("Accesstoken") accesstoken: String?) : Call<SendTestModel>
+
+    // 나의 의료데이터 삭제
+    @DELETE("v1/datalist")
+    fun getDataDelete(@Header("Accesstoken")accesstoken: String?,
+                      @Query("id") id : String?) : Call<DeleteModel>
+
+    // 나의 판매 데이터 해제
+    @DELETE("v1/datasend")
+    fun getSendDelete(@Header("Accesstoken")accesstoken: String?,
+                      @Query("id") id : String?) : Call<DeleteModel>
 
     // 나의 의료데이터 검색
     @GET("v1/datalist")
     fun getSearch(@Query("name")name: String?,
-                      @Header("Accesstoken")accesstoken: String?) : Call<CreateName>
+                  @Header("Accesstoken")accesstoken: String?) : Call<CreateName>
 
     // 공지사항 모두조회 API
     @GET("v1/center/announcement")

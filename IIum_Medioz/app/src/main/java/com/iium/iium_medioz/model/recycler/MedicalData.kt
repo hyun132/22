@@ -1,22 +1,28 @@
 package com.iium.iium_medioz.model.recycler
 
+import com.google.gson.annotations.SerializedName
+
 
 data class MedicalData(
     val datalist : List<DataList>? =null
 )
 
 data class DataList(
-    val textImg : List<TextList>? = null,
-    val normalImg : List<NormalList>? = null,
-    val video : List<VideoList>? = null,
+    val DataList : List<DataListSecond>? = null,
     val title : String? = null,
     val keyword  : String? = null,
     val timestamp : String? =null,
+    val sendcode : String? = null,
     val defaultcode : String? = null,
     val sensitivity : String? = null,
-    val sendcode : String? = null,
     val userId : String? =null,
     val id : String? =null
+)
+
+data class DataListSecond(
+    val textImg : List<TextList>,
+    val Img : List<NormalList>,
+    val video : List<VideoList>
 )
 
 data class TextList(

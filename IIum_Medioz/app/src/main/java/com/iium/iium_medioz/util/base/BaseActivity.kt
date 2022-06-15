@@ -27,9 +27,9 @@ import com.iium.iium_medioz.util.log.LLog.e
 import com.iium.iium_medioz.view.login.LoginActivity
 import com.iium.iium_medioz.view.login.StartLoginActivity
 import com.iium.iium_medioz.view.login.sign.SignUpActivity
-import com.iium.iium_medioz.view.main.bottom.data.DataFragment
-import com.iium.iium_medioz.view.main.bottom.data.DataUploadActivity
-import com.iium.iium_medioz.view.main.bottom.data.SaveActivity
+import com.iium.iium_medioz.view.main.bottom.data.*
+import com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity
+import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsUploadActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.notice.NoticeActivity
@@ -210,6 +210,13 @@ open class BaseActivity : AppCompatActivity() {
         finish()
     }
 
+    internal fun moveSaveSend() {
+        val intent = Intent(this, SaveSendActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
     internal fun moveSetting() {
         val intent = Intent(this, SettingActivity::class.java)
         startActivity(intent)
@@ -233,6 +240,27 @@ open class BaseActivity : AppCompatActivity() {
 
     internal fun moveUploadCs() {
         val intent = Intent(this, CsUploadActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    internal fun moveSearch() {
+        val intent = Intent(this, SearchActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    internal fun moveDetail() {
+        val intent = Intent(this, DataDetyailActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    internal fun movesend() {
+        val intent = Intent(this, SendActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0)
         finish()
