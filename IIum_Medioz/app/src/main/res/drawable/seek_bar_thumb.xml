@@ -4,10 +4,10 @@
     android:useLevel="false" >
 
     <!-- 배경 -->
-    <solid android:color="@color/white"/>
+    <solid android:color="@color/colorPrimary"/>
 
     <!-- 크기 -->
-    <size android:width="16dp" android:height="16dp"/>
+    <size android:width="20dp" android:height="20dp"/>
 
 </shape>
 

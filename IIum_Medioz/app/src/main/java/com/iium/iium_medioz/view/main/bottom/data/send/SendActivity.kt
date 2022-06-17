@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.view.main.bottom.data.send
 
+import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -8,18 +9,13 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivitySendBinding
-import com.iium.iium_medioz.model.send.DataList
-import com.iium.iium_medioz.model.send.SendModel
-import com.iium.iium_medioz.util.`object`.Constant
-import com.iium.iium_medioz.util.`object`.Constant.DATA_DEFAULT_CODE
-import com.iium.iium_medioz.util.`object`.Constant.DATA_SEND_CODE
-import com.iium.iium_medioz.util.`object`.Constant.DEFAULT_CODE_FALSE
-import com.iium.iium_medioz.util.`object`.Constant.SEND_CODE_TRUE
 import com.iium.iium_medioz.util.`object`.Constant.SEND_ID
 import com.iium.iium_medioz.util.`object`.Constant.SEND_KEYWORD
 import com.iium.iium_medioz.util.`object`.Constant.SEND_NORMAL
@@ -29,10 +25,9 @@ import com.iium.iium_medioz.util.`object`.Constant.SEND_TITLE
 import com.iium.iium_medioz.util.`object`.Constant.SEND_VIDEO
 import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.base.BaseActivity
-import com.iium.iium_medioz.util.base.MyApplication
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
-import okhttp3.MultipartBody
+import kotlinx.android.synthetic.main.view_item_img.view.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -122,26 +117,96 @@ class SendActivity : BaseActivity() {
             if (mBinding.llFirst.visibility == View.GONE) {
                 mBinding.llFirst.visibility = View.VISIBLE
             }
+            mBinding.sbFirst.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                   mBinding.tvSkFirst.text = p1.toString()
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
+
+            })
         }
         if(strIdx == "1") {
             if (mBinding.llSecond.visibility == View.GONE) {
                 mBinding.llSecond.visibility = View.VISIBLE
             }
+            mBinding.sbSecond.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    mBinding.tvSkSecond.text = p1.toString()
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
+
+            })
         }
         if(strIdx == "2") {
             if (mBinding.llThird.visibility == View.GONE) {
                 mBinding.llThird.visibility = View.VISIBLE
             }
+            mBinding.sbThird.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    mBinding.tvSkThird.text = p1.toString()
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
+
+            })
         }
         if(strIdx == "3") {
             if (mBinding.llFour.visibility == View.GONE) {
                 mBinding.llFour.visibility = View.VISIBLE
             }
+            mBinding.sbFour.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    mBinding.tvSkFour.text = p1.toString()
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
+
+            })
         }
         if(strIdx == "4") {
             if (mBinding.llFive.visibility == View.GONE) {
                 mBinding.llFive.visibility = View.VISIBLE
             }
+            mBinding.sbFive.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    mBinding.tvSkFive.text = p1.toString()
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
+
+            })
         }
     }
 
@@ -154,7 +219,6 @@ class SendActivity : BaseActivity() {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"텍스트 첫번째 response SUCCESS -> $result")
-
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -469,45 +533,52 @@ class SendActivity : BaseActivity() {
         window.statusBarColor = getColor(R.color.colorPrimary)
     }
 
-    private fun sendAPI() {
-        val title = intent.getStringExtra(SEND_TITLE)
-        val keyword = intent.getStringExtra(SEND_KEYWORD)
-        val timestamp = intent.getStringExtra(SEND_TIME_STAMP)
-        val textList = intent.getStringExtra(SEND_TEXTIMG)
-        val normalList = intent.getStringExtra(SEND_NORMAL)
-        val videoList = intent.getStringExtra(SEND_VIDEO)
-        val id = intent.getStringExtra(SEND_ID)
-        val send_sendcode = SEND_CODE_TRUE
-        val send_default = DEFAULT_CODE_FALSE
-        val send_sensitivity = "0"
-
-        val send = DataList(id,title, keyword, timestamp,send_sendcode,send_default,send_sensitivity,id)
-
-        LLog.e("판매 데이터 API")
-        val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,id,send)
-        vercall.enqueue(object : Callback<SendModel> {
-            override fun onResponse(call: Call<SendModel>, response: Response<SendModel>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"판매 데이터 response SUCCESS -> $result")
-                    moveSaveSend()
-                }
-                else {
-                    Log.d(LLog.TAG,"판매 데이터 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<SendModel>, t: Throwable) {
-                Log.d(LLog.TAG, "판매 데이터 Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
+//    private fun sendAPI() {
+//        val title = intent.getStringExtra(SEND_TITLE)
+//        val keyword = intent.getStringExtra(SEND_KEYWORD)
+//        val timestamp = intent.getStringExtra(SEND_TIME_STAMP)
+//        val textList = intent.getStringExtra(SEND_TEXTIMG)
+//        val normalList = intent.getStringExtra(SEND_NORMAL)
+//        val videoList = intent.getStringExtra(SEND_VIDEO)
+//        val id = intent.getStringExtra(SEND_ID)
+//        val send_sendcode = SEND_CODE_TRUE
+//        val send_default = DEFAULT_CODE_FALSE
+//        val send_sensitivity = "0"
+//
+//
+//        val firstList = FirstList(imgpath = imgpath(),send_sendcode,send_default,send_sensitivity,id)
+//        val secondList = SecondList()
+//        val thirdList = ThirdList()
+//        val fourList = FourList()
+//        val fiveList = FiveList()
+//
+//        val send = DataList(id,title, keyword, timestamp,firstList,secondList,thirdList,fourList,fiveList)
+//
+//        LLog.e("판매 데이터 API")
+//        val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,id,send)
+//        vercall.enqueue(object : Callback<SendModel> {
+//            override fun onResponse(call: Call<SendModel>, response: Response<SendModel>) {
+//                val result = response.body()
+//                if (response.isSuccessful && result != null) {
+//                    Log.d(LLog.TAG,"판매 데이터 response SUCCESS -> $result")
+//                    moveSaveSend()
+//                }
+//                else {
+//                    Log.d(LLog.TAG,"판매 데이터 response ERROR -> $result")
+//                }
+//            }
+//            override fun onFailure(call: Call<SendModel>, t: Throwable) {
+//                Log.d(LLog.TAG, "판매 데이터 Fail -> ${t.localizedMessage}")
+//            }
+//        })
+//    }
 
     fun onBackPressed(v: View?) {
         moveDetail()
     }
 
     fun onSendClick(v: View?) {
-        sendAPI()
+//        sendAPI()
     }
 
     override fun onBackPressed() {

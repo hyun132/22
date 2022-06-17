@@ -62,15 +62,68 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:id="@+id/data_detail_img"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/item_image1"
+                            android:layout_width="300dp"
+                            android:layout_height="150dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <SeekBar
+                            android:id="@+id/sb_first"
+                            android:layout_width="300dp"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/pick_album_white"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:max="100"
+                            android:progress="0"
+                            android:layout_weight="1"
+                            android:progressDrawable="@drawable/seek_bar_progress"
+                            android:thumb="@drawable/seek_bar_thumb"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
+                        <TextView
+                            android:id="@+id/textView18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="데이터 민감도"
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/gyeonggititle_medium"
+                            android:layout_marginStart="30dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/image1" />
+
+                        <TextView
+                            android:id="@+id/textView19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="%"
+                            android:textSize="15dp"
+                            android:layout_marginEnd="30dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/gyeonggititle_medium"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/image1" />
+
+                        <TextView
+                            android:id="@+id/tv_sk_first"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="0"
+                            android:textSize="15dp"
+                            android:textColor="@color/colorPrimary"
+                            android:fontFamily="@font/gyeonggititle_medium"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintEnd_toStartOf="@+id/textView19"
+                            app:layout_constraintTop_toBottomOf="@+id/image1" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
