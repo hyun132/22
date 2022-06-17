@@ -90,6 +90,7 @@ class SendActivity : BaseActivity() {
                     LLog.d(e.toString())
                 }
             }.start()
+            initGone(str_idx)
         }
 
         val normal =  normalList?.substring(2)
@@ -116,15 +117,44 @@ class SendActivity : BaseActivity() {
         }
     }
 
+    private fun initGone(strIdx: String) {
+        if(strIdx == "0") {
+            if (mBinding.llFirst.visibility == View.GONE) {
+                mBinding.llFirst.visibility = View.VISIBLE
+            }
+        }
+        if(strIdx == "1") {
+            if (mBinding.llSecond.visibility == View.GONE) {
+                mBinding.llSecond.visibility = View.VISIBLE
+            }
+        }
+        if(strIdx == "2") {
+            if (mBinding.llThird.visibility == View.GONE) {
+                mBinding.llThird.visibility = View.VISIBLE
+            }
+        }
+        if(strIdx == "3") {
+            if (mBinding.llFour.visibility == View.GONE) {
+                mBinding.llFour.visibility = View.VISIBLE
+            }
+        }
+        if(strIdx == "4") {
+            if (mBinding.llFive.visibility == View.GONE) {
+                mBinding.llFive.visibility = View.VISIBLE
+            }
+        }
+    }
+
     //////////////////////텍스트 이미지 추출 API////////////////////////////
     private fun first(textFirst: String) {
         LLog.e("텍스트 첫번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(textFirst, MyApplication.prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(textFirst, prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"텍스트 첫번째 response SUCCESS -> $result")
+
                     Thread {
                         try {
                             val imgs = result.byteStream()
@@ -149,7 +179,7 @@ class SendActivity : BaseActivity() {
 
     private fun second(second: String) {
         LLog.e("텍스트 두번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(second, MyApplication.prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(second, prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
@@ -179,7 +209,7 @@ class SendActivity : BaseActivity() {
 
     private fun third(third: String) {
         LLog.e("텍스트 세번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(third, MyApplication.prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(third, prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
@@ -209,7 +239,7 @@ class SendActivity : BaseActivity() {
 
     private fun four(four: String) {
         LLog.e("텍스트 네번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(four, MyApplication.prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(four, prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
@@ -239,7 +269,7 @@ class SendActivity : BaseActivity() {
 
     private fun five(five: String) {
         LLog.e("텍스트 다섯번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(five, MyApplication.prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(five, prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
@@ -271,7 +301,7 @@ class SendActivity : BaseActivity() {
     //////////////////////일반 이미지 추출 API////////////////////////////
     private fun normal_first(nm_first: String) {
         LLog.e("일반 첫번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_first, MyApplication.prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(nm_first, prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
@@ -301,7 +331,7 @@ class SendActivity : BaseActivity() {
 
     private fun normal_second(nm_second: String) {
         LLog.e("일반 두번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_second, MyApplication.prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(nm_second, prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
@@ -331,7 +361,7 @@ class SendActivity : BaseActivity() {
 
     private fun normal_third(nm_third: String) {
         LLog.e("일반 세번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_third, MyApplication.prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(nm_third, prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
@@ -361,7 +391,7 @@ class SendActivity : BaseActivity() {
 
     private fun normal_four(nm_four: String) {
         LLog.e("일반 네번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_four, MyApplication.prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(nm_four, prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
@@ -391,7 +421,7 @@ class SendActivity : BaseActivity() {
 
     private fun normal_five(nm_five: String) {
         LLog.e("일반 다섯번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_five, MyApplication.prefs.newaccesstoken)
+        val vercall: Call<ResponseBody> = apiServices.getImg(nm_five, prefs.newaccesstoken)
         vercall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val result = response.body()
@@ -443,11 +473,10 @@ class SendActivity : BaseActivity() {
         val title = intent.getStringExtra(SEND_TITLE)
         val keyword = intent.getStringExtra(SEND_KEYWORD)
         val timestamp = intent.getStringExtra(SEND_TIME_STAMP)
+        val textList = intent.getStringExtra(SEND_TEXTIMG)
+        val normalList = intent.getStringExtra(SEND_NORMAL)
+        val videoList = intent.getStringExtra(SEND_VIDEO)
         val id = intent.getStringExtra(SEND_ID)
-
-        val send_title = title
-        val send_keyword = keyword
-        val send_timestamp = timestamp
         val send_sendcode = SEND_CODE_TRUE
         val send_default = DEFAULT_CODE_FALSE
         val send_sensitivity = "0"

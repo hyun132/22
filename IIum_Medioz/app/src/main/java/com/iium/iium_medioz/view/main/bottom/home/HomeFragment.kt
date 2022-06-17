@@ -51,7 +51,8 @@ class HomeFragment : Fragment() {
         val images = intArrayOf(
             R.drawable.main_first,
             R.drawable.main_second,
-            R.drawable.main_third
+            R.drawable.main_third,
+            R.drawable.main_banner_four
         )
         val imageId = (Math.random() * images.size).toInt()
         mBinding.clMain.setBackgroundResource(images[imageId])

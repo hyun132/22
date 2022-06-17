@@ -5,7 +5,7 @@ import android.os.Handler
 import android.os.Looper
 
 object  Constant {
-    const val TAG = "My_Heaven"
+    const val TAG = "MEDIOZ"
     const val BASE_URL="http://49.50.161.198:8080/"
     const val PREF_KEY_USER_TOKEN = "PREF_KEY_USER_TOKEN"
     const val PREF_KEY_APP_TOKEN = "myAppToken"
