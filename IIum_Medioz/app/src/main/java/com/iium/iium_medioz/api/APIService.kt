@@ -1,12 +1,14 @@
 package com.iium.iium_medioz.api
 
+import com.iium.iium_medioz.model.TestDataList
+import com.iium.iium_medioz.model.TestSendModel
 import com.iium.iium_medioz.model.recycler.MedicalData
 import com.iium.iium_medioz.model.rest.base.AppPolicy
 import com.iium.iium_medioz.model.rest.base.AutoLogin
 import com.iium.iium_medioz.model.rest.base.CreateName
 import com.iium.iium_medioz.model.rest.base.Verification
 import com.iium.iium_medioz.model.rest.login.*
-import com.iium.iium_medioz.model.send.DataList
+import com.iium.iium_medioz.model.send.DataSend
 import com.iium.iium_medioz.model.send.SendModel
 import com.iium.iium_medioz.model.send.SendTestModel
 import com.iium.iium_medioz.model.ui.CounGet
@@ -77,12 +79,11 @@ interface APIService {
     fun getImg(@Query("textimg") textimg: String?,
                @Header("Accesstoken") accesstoken: String?) : Call<ResponseBody>
 
-    //나의 의료데이터 수정
-
+    //나의 의료데이터 판매 전환
     @PUT("v1/datalist")
     fun getChange(@Header("Accesstoken") accesstoken: String?,
                   @Query("id") id: String?,
-                  @Body dataList: DataList) : Call<SendModel>
+                  @Body dataSend: DataSend) : Call<SendModel>
 
     //나의 의료데이터 판매 조회
     @GET("v1/datasend/my")

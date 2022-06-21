@@ -1,6 +1,5 @@
 package com.iium.iium_medioz.view.main.bottom.data.send
 
-import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -9,13 +8,30 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
+import com.iium.iium_medioz.OCRGeneralAPIDemo
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
+import com.iium.iium_medioz.api.ApiUtilsOCR
+import com.iium.iium_medioz.api.OCRAPI
 import com.iium.iium_medioz.databinding.ActivitySendBinding
+import com.iium.iium_medioz.model.NaverOcrModel
+import com.iium.iium_medioz.model.OcrImages
+import com.iium.iium_medioz.model.send.*
+import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.`object`.Constant.CONTENT_TYPE
+import com.iium.iium_medioz.util.`object`.Constant.DEFAULT_CODE_FALSE
+import com.iium.iium_medioz.util.`object`.Constant.OCR_FORMAT
+import com.iium.iium_medioz.util.`object`.Constant.OCR_LANG
+import com.iium.iium_medioz.util.`object`.Constant.OCR_NAME
+import com.iium.iium_medioz.util.`object`.Constant.OCR_REQUESTID
+import com.iium.iium_medioz.util.`object`.Constant.OCR_SECRET
+import com.iium.iium_medioz.util.`object`.Constant.OCR_TIMESTAMP
+import com.iium.iium_medioz.util.`object`.Constant.OCR_URL_IMG
+import com.iium.iium_medioz.util.`object`.Constant.OCR_VERSION
+import com.iium.iium_medioz.util.`object`.Constant.SEND_CODE_TRUE
 import com.iium.iium_medioz.util.`object`.Constant.SEND_ID
 import com.iium.iium_medioz.util.`object`.Constant.SEND_KEYWORD
 import com.iium.iium_medioz.util.`object`.Constant.SEND_NORMAL
@@ -27,24 +43,33 @@ import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
-import kotlinx.android.synthetic.main.view_item_img.view.*
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.BufferedReader
+import java.io.DataOutputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.*
 
 class SendActivity : BaseActivity() {
 
     private lateinit var mBinding : ActivitySendBinding
     private lateinit var apiServices: APIService
+    private lateinit var ocrSServices: OCRAPI
     private var doubleBackToExit = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_send)
         mBinding.activity = this
         apiServices = ApiUtils.apiService
+        ocrSServices = ApiUtilsOCR.ocrapi
         mBinding.lifecycleOwner = this
         inStatusBar()
         initView()
@@ -60,6 +85,10 @@ class SendActivity : BaseActivity() {
         val id = intent.getStringExtra(SEND_ID)
 
         Log.d(TAG,"아이디 -> $id")
+        Log.d(TAG,"타이틀 -> $title")
+        Log.d(TAG,"키워드 -> $keyword")
+        Log.d(TAG,"날짜 -> $timestamp")
+
         mBinding.tvMedicalDetailTitle.text = title.toString()
         mBinding.tvMedicalDetailData.text = timestamp.toString()
         mBinding.tvMyKeyword.text = keyword.toString()
@@ -533,51 +562,102 @@ class SendActivity : BaseActivity() {
         window.statusBarColor = getColor(R.color.colorPrimary)
     }
 
-//    private fun sendAPI() {
-//        val title = intent.getStringExtra(SEND_TITLE)
-//        val keyword = intent.getStringExtra(SEND_KEYWORD)
-//        val timestamp = intent.getStringExtra(SEND_TIME_STAMP)
-//        val textList = intent.getStringExtra(SEND_TEXTIMG)
-//        val normalList = intent.getStringExtra(SEND_NORMAL)
-//        val videoList = intent.getStringExtra(SEND_VIDEO)
-//        val id = intent.getStringExtra(SEND_ID)
-//        val send_sendcode = SEND_CODE_TRUE
-//        val send_default = DEFAULT_CODE_FALSE
-//        val send_sensitivity = "0"
-//
-//
-//        val firstList = FirstList(imgpath = imgpath(),send_sendcode,send_default,send_sensitivity,id)
-//        val secondList = SecondList()
-//        val thirdList = ThirdList()
-//        val fourList = FourList()
-//        val fiveList = FiveList()
-//
-//        val send = DataList(id,title, keyword, timestamp,firstList,secondList,thirdList,fourList,fiveList)
-//
-//        LLog.e("판매 데이터 API")
-//        val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,id,send)
-//        vercall.enqueue(object : Callback<SendModel> {
-//            override fun onResponse(call: Call<SendModel>, response: Response<SendModel>) {
-//                val result = response.body()
-//                if (response.isSuccessful && result != null) {
-//                    Log.d(LLog.TAG,"판매 데이터 response SUCCESS -> $result")
-//                    moveSaveSend()
-//                }
-//                else {
-//                    Log.d(LLog.TAG,"판매 데이터 response ERROR -> $result")
-//                }
-//            }
-//            override fun onFailure(call: Call<SendModel>, t: Throwable) {
-//                Log.d(LLog.TAG, "판매 데이터 Fail -> ${t.localizedMessage}")
-//            }
-//        })
-//    }
+    private fun sendAPI() {
+        val requestHashMap : HashMap<String, RequestBody> = HashMap()
+
+        val title = intent.getStringExtra(SEND_TITLE)
+        val keyword = intent.getStringExtra(SEND_KEYWORD)
+        val timestamp = intent.getStringExtra(SEND_TIME_STAMP)
+        val textList = intent.getStringExtra(SEND_TEXTIMG)
+        val normalList = intent.getStringExtra(SEND_NORMAL)
+        val videoList = intent.getStringExtra(SEND_VIDEO)
+        val id = intent.getStringExtra(SEND_ID)
+        val send_sendcode = SEND_CODE_TRUE
+        val send_default = DEFAULT_CODE_FALSE
+        val send_sensitivity = "0"
+
+        val send = DataSend(title, keyword, timestamp, send_sendcode, send_sensitivity,id,send_default)
+
+        LLog.e("판매 데이터 API")
+        val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,id,send)
+        vercall.enqueue(object : Callback<SendModel> {
+            override fun onResponse(call: Call<SendModel>, response: Response<SendModel>) {
+                val result = response.body()
+                if (response.isSuccessful && result != null) {
+                    Log.d(LLog.TAG,"판매 데이터 response SUCCESS -> $result")
+                    naverOCRAPI()
+                    moveSaveSend()
+                }
+                else {
+                    Log.d(LLog.TAG,"판매 데이터 response ERROR -> $result")
+                }
+            }
+            override fun onFailure(call: Call<SendModel>, t: Throwable) {
+                Log.d(LLog.TAG, "판매 데이터 Fail -> ${t.localizedMessage}")
+            }
+        })
+    }
+
+    private fun naverOCRAPI() {
+        Thread {
+            val apiURL = Constant.OCR_URL
+            val secretKey = OCR_SECRET
+            try {
+                val url = URL(apiURL)
+                val con: HttpURLConnection = url.openConnection() as HttpURLConnection
+                con.useCaches = false
+                con.doInput = true
+                con.doOutput = true
+                con.requestMethod = "POST"
+                con.setRequestProperty("Content-Type", "application/json; charset=utf-8")
+                con.setRequestProperty("X-OCR-SECRET", secretKey)
+                val json = JSONObject()
+                json.put("version", "V2")
+                json.put("requestId", UUID.randomUUID().toString())
+                json.put("timestamp", System.currentTimeMillis())
+                json.put("lang","ko")
+                val image = JSONObject()
+                image.put("format", "jpg")
+                image.put(
+                    "url", OCR_URL_IMG
+                )
+                image.put("name", "demo")
+
+                val images = JSONArray()
+                images.put(image)
+                json.put("images", images)
+
+                val postParams: String = json.toString()
+                val wr = DataOutputStream(con.outputStream)
+                wr.writeBytes(postParams)
+                wr.flush()
+                wr.close()
+                val responseCode: Int = con.responseCode
+                val br: BufferedReader = if (responseCode == 200) {
+                    BufferedReader(InputStreamReader(con.inputStream))
+                } else {
+                    BufferedReader(InputStreamReader(con.errorStream))
+                }
+                var inputLine: String?
+                val response = StringBuffer()
+                while (br.readLine().also { inputLine = it } != null) {
+                    response.append(inputLine)
+                }
+                br.close()
+                println(response)
+                Log.d(TAG,"네이버 테스트 OCR -> $response")
+            } catch (e: java.lang.Exception) {
+                println(e)
+            }
+        }.start()
+    }
 
     fun onBackPressed(v: View?) {
         moveDetail()
     }
 
     fun onSendClick(v: View?) {
+        naverOCRAPI()
 //        sendAPI()
     }
 

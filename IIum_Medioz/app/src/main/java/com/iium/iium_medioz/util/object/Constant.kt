@@ -7,6 +7,7 @@ import android.os.Looper
 object  Constant {
     const val TAG = "MEDIOZ"
     const val BASE_URL="http://49.50.161.198:8080/"
+    const val OCR_URL="https://2ihmtg25yc.apigw.ntruss.com/custom/v1/16697/bca7590ad614a464052b8d2bc1fe99f16edeb31677cd0e7e4863c7611d01238b/general"
     const val PREF_KEY_USER_TOKEN = "PREF_KEY_USER_TOKEN"
     const val PREF_KEY_APP_TOKEN = "myAppToken"
     const val PREF_KEY_ENCTYPT_IV = "myEncryptIv"
@@ -103,6 +104,17 @@ object  Constant {
     const val NUM_TABS = 2
 
     const val ONE_PICK_PERMISSION_REQUEST_CODE = 1
+
+    //네이버 OCR
+    const val CONTENT_TYPE = "application/json"
+    const val OCR_SECRET = "UXVwQ05wZU91VG1qTHdQam1ocmpncVhySlRPZ2NwSWQ="
+    const val OCR_VERSION = "V2"
+    const val OCR_REQUESTID = "string"
+    const val OCR_TIMESTAMP = "0"
+    const val OCR_LANG = "ko"
+    const val OCR_FORMAT = "png"
+    const val OCR_NAME = "test 1"
+    const val OCR_URL_IMG = "http://49.50.161.198:8080/v1/datalist/datalist?textimg=1655700097940_20220216_140748.jpg"
 
 
     // Splash
