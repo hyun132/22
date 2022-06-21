@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.api
 
+import com.iium.iium_medioz.model.OCRModel
 import com.iium.iium_medioz.model.TestDataList
 import com.iium.iium_medioz.model.TestSendModel
 import com.iium.iium_medioz.model.recycler.MedicalData
@@ -117,4 +118,8 @@ interface APIService {
     fun getCounPost(@Header("Accesstoken")accesstoken: String?,
                     @Body counPost: CounPost) : Call<CounPost>
 
+    // 네이버 JSON 보내기
+    @POST("v1/dataocr/dataocr")
+    fun postOCR(@Header("Accesstoken")accesstoken: String?,
+                    @Body ocrModel: OCRModel) : Call<OCRModel>
 }

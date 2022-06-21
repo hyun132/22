@@ -10,27 +10,15 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
-import com.iium.iium_medioz.OCRGeneralAPIDemo
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
-import com.iium.iium_medioz.api.ApiUtilsOCR
-import com.iium.iium_medioz.api.OCRAPI
 import com.iium.iium_medioz.databinding.ActivitySendBinding
-import com.iium.iium_medioz.model.NaverOcrModel
-import com.iium.iium_medioz.model.OcrImages
 import com.iium.iium_medioz.model.send.*
 import com.iium.iium_medioz.util.`object`.Constant
-import com.iium.iium_medioz.util.`object`.Constant.CONTENT_TYPE
 import com.iium.iium_medioz.util.`object`.Constant.DEFAULT_CODE_FALSE
-import com.iium.iium_medioz.util.`object`.Constant.OCR_FORMAT
-import com.iium.iium_medioz.util.`object`.Constant.OCR_LANG
-import com.iium.iium_medioz.util.`object`.Constant.OCR_NAME
-import com.iium.iium_medioz.util.`object`.Constant.OCR_REQUESTID
 import com.iium.iium_medioz.util.`object`.Constant.OCR_SECRET
-import com.iium.iium_medioz.util.`object`.Constant.OCR_TIMESTAMP
 import com.iium.iium_medioz.util.`object`.Constant.OCR_URL_IMG
-import com.iium.iium_medioz.util.`object`.Constant.OCR_VERSION
 import com.iium.iium_medioz.util.`object`.Constant.SEND_CODE_TRUE
 import com.iium.iium_medioz.util.`object`.Constant.SEND_ID
 import com.iium.iium_medioz.util.`object`.Constant.SEND_KEYWORD
@@ -61,7 +49,6 @@ class SendActivity : BaseActivity() {
 
     private lateinit var mBinding : ActivitySendBinding
     private lateinit var apiServices: APIService
-    private lateinit var ocrSServices: OCRAPI
     private var doubleBackToExit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +56,6 @@ class SendActivity : BaseActivity() {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_send)
         mBinding.activity = this
         apiServices = ApiUtils.apiService
-        ocrSServices = ApiUtilsOCR.ocrapi
         mBinding.lifecycleOwner = this
         inStatusBar()
         initView()
