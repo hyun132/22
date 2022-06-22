@@ -14,6 +14,7 @@ import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivitySendBinding
+import com.iium.iium_medioz.model.OCRModel
 import com.iium.iium_medioz.model.send.*
 import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.util.`object`.Constant.DEFAULT_CODE_FALSE
@@ -629,14 +630,38 @@ class SendActivity : BaseActivity() {
                 while (br.readLine().also { inputLine = it } != null) {
                     response.append(inputLine)
                 }
+                Thread {
+                    OCRAPI(response)
+                }.start()
                 br.close()
-                println(response)
-                Log.d(TAG,"네이버 테스트 OCR -> $response")
             } catch (e: java.lang.Exception) {
                 println(e)
             }
         }.start()
     }
+
+    private fun OCRAPI(response: StringBuffer) {
+        LLog.e("네이버 OCR API")
+
+        val ocrModel = OCRModel(response)
+        val vercall: Call<OCRModel> = apiServices.postOCR(prefs.newaccesstoken,ocrModel)
+        vercall.enqueue(object : Callback<OCRModel> {
+            override fun onResponse(call: Call<OCRModel>, response: Response<OCRModel>) {
+                val result = response.body()
+                if (response.isSuccessful && result != null) {
+                    Log.d(LLog.TAG,"네이버 OCR response SUCCESS -> $result")
+                    moveSaveSend()
+                }
+                else {
+                    Log.d(LLog.TAG,"네이버 OCR response ERROR -> $result")
+                }
+            }
+            override fun onFailure(call: Call<OCRModel>, t: Throwable) {
+                Log.d(LLog.TAG, "네이버 OCR Fail -> ${t.localizedMessage}")
+            }
+        })
+    }
+
 
     fun onBackPressed(v: View?) {
         moveDetail()
@@ -663,3 +688,4 @@ class SendActivity : BaseActivity() {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
 }
+

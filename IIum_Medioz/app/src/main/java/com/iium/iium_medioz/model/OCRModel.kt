@@ -1,10 +1,9 @@
 package com.iium.iium_medioz.model
 
 import java.lang.reflect.Array
+import java.nio.Buffer
 
 data class OCRModel (
-    val version: String? = null,
-    val requestId: String? = null,
-    val timestamp: String? = null,
-    val images: Array? = null,
+    val ocr: StringBuffer? = null,
 )
+
