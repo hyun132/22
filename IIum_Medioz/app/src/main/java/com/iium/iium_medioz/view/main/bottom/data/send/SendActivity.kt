@@ -564,7 +564,6 @@ class SendActivity : BaseActivity() {
         val send_sensitivity = "0"
 
         val send = DataSend(title, keyword, timestamp, send_sendcode, send_sensitivity,id,send_default)
-
         LLog.e("판매 데이터 API")
         val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,id,send)
         vercall.enqueue(object : Callback<SendModel> {
@@ -650,7 +649,8 @@ class SendActivity : BaseActivity() {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"네이버 OCR response SUCCESS -> $result")
-                    moveSaveSend()
+//                    moveSaveSend()
+                    movePDF()
                 }
                 else {
                     Log.d(LLog.TAG,"네이버 OCR response ERROR -> $result")

@@ -28,6 +28,7 @@ import com.iium.iium_medioz.view.login.LoginActivity
 import com.iium.iium_medioz.view.login.StartLoginActivity
 import com.iium.iium_medioz.view.login.sign.SignUpActivity
 import com.iium.iium_medioz.view.main.bottom.data.*
+import com.iium.iium_medioz.view.main.bottom.data.pdf.MakePDFActivity
 import com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity
 import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsActivity
@@ -261,6 +262,13 @@ open class BaseActivity : AppCompatActivity() {
 
     internal fun movesend() {
         val intent = Intent(this, SendActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    internal fun movePDF() {
+        val intent = Intent(this, MakePDFActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0)
         finish()

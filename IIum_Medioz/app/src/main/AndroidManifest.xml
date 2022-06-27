@@ -37,6 +37,9 @@
         tools:replace="android:theme"
         tools:targetApi="s">
         <activity
+            android:name=".view.main.bottom.data.pdf.MakePDFActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.main.bottom.data.send.SendDetailActivity"
             android:exported="false" />
         <activity
@@ -126,6 +129,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+<!--        <provider-->
+<!--            android:name="androidx.core.content.FileProvider"-->
+<!--            android:authorities="com.iium.iium_medioz"-->
+<!--            android:exported="false"-->
+<!--            android:grantUriPermissions="true">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--                android:resource="@xml/provider_paths" />-->
+<!--        </provider>-->
+
     </application>
 
 </manifest>
