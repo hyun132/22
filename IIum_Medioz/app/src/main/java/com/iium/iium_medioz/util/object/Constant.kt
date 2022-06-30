@@ -116,6 +116,8 @@ object  Constant {
     const val OCR_NAME = "test 1"
     const val OCR_URL_IMG = "http://49.50.161.198:8080/v1/datalist/datalist?textimg=1655700097940_20220216_140748.jpg"
 
+    //PDF
+    const val PDF_HEADER = "생성일자"
 
     // Splash
     const val SPLASH_WAIT = 3500

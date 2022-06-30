@@ -52,7 +52,7 @@ class MakePDFActivity : BaseActivity() {
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        createPdf(false) //just ask permission for first time
+        createPdf(false)
 
         mBinding.createPdfButton.setOnClickListener {
 
@@ -117,11 +117,11 @@ class MakePDFActivity : BaseActivity() {
         list.add(i1)
 
         val i2 = RTransaction()
-        i1.pdf_index = "서울 세브란스 병원"
-        i1.pdf_name = "홍길동"
-        i1.pdf_address = "남자"
+        i1.pdf_index = "seoul"
+        i1.pdf_name = "Hong"
+        i1.pdf_address = "man"
         i1.pdf_gender = "2022.02.01"
-        i1.pdf_data = "입원"
+        i1.pdf_data = "sss"
         i1.pdf_sortation = "10 Sep, 20"
         i1.transType = RTransactionType.plus
         list.add(i2)

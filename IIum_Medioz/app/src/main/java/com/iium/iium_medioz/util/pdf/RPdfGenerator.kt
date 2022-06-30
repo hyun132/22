@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.model.pdf.RPdfGeneratorModel
 import com.iium.iium_medioz.model.pdf.RTransaction
+import com.iium.iium_medioz.util.`object`.Constant.PDF_HEADER
 import com.itextpdf.io.font.constants.StandardFonts
 import com.itextpdf.kernel.colors.ColorConstants
 import com.itextpdf.kernel.font.PdfFontFactory
@@ -48,7 +49,7 @@ object RPdfGenerator {
 
         //Add sub heading
         val onlyDate: LocalDate = LocalDate.now()
-        addSubHeading(layoutDocument, "Date: $onlyDate")
+        addSubHeading(layoutDocument, "Data: $onlyDate")
 
         //add empty line
         addEmptyLine(layoutDocument,1)
