@@ -41,6 +41,11 @@ object  Constant {
     const val ALBUM_REQUEST_CODE = 302
     const val PERM_STROAGE = 100
 
+    const val GPS_ENABLE_REQUEST_CODE = 2001
+    const val PERMISSION_REQUEST_CODE = 1000
+
+
+
     //로그인 정보
     const val LOGIN_PHONE = "LOGIN_PHONE"
     const val LOGIN_SEX = "LOGIN_SEX"
@@ -142,5 +147,10 @@ object  Constant {
             handler.postDelayed(r!!, delay.toLong())
         }
     }
+
+    val PERMISSIONS = arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION
+        , Manifest.permission.ACCESS_COARSE_LOCATION
+    )
 
 }

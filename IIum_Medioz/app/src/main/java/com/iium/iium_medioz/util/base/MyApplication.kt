@@ -12,6 +12,13 @@ import io.realm.RealmConfiguration
 class MyApplication : Application() {
     companion object {
         lateinit var prefs: PreferenceManager
+        private var isMainNoticeViewed = false
+
+
+        @Synchronized
+        fun setIsMainNoticeViewed(viewed: Boolean) {
+            isMainNoticeViewed = viewed
+        }
     }
 
     override fun onCreate() {
@@ -24,15 +31,26 @@ class MyApplication : Application() {
             .build()
         Realm.setDefaultConfiguration(config)
         prefs = PreferenceManager(applicationContext)
+        val commonData: CommonData = CommonData().getInstance()
+        commonData.numStarted = 0
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
             override fun onActivityStarted(activity: Activity) {
+                if (commonData.numStarted == 0) {
+                    commonData.isMainRefresh = true
+                    commonData.isForeground = true
+                }
+                commonData.numStarted++
             }
             override fun onActivityResumed(activity: Activity) {
             }
             override fun onActivityPaused(activity: Activity) {}
             override fun onActivityStopped(activity: Activity) {
+                commonData.numStarted--
+                if (commonData.numStarted == 0) {
+                    commonData.isForeground = false
+                }
             }
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
             override fun onActivityDestroyed(activity: Activity) {}
