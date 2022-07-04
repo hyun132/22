@@ -143,4 +143,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:4.2.2"
     implementation 'com.itextpdf:itext7-core:7.1.12'
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+
+    implementation("com.naver.maps:map-sdk:3.14.1")
+
 }

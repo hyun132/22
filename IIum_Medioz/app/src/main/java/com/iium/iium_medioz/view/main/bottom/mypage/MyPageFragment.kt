@@ -45,12 +45,8 @@ class MyPageFragment : Fragment() {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_page, container, false)
         apiServices = ApiUtils.apiService
         mBinding.fragment = this
-        return mBinding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
         initAPI()
+        return mBinding.root
     }
 
     private fun initAPI() {

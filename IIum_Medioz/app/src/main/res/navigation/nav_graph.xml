@@ -3,60 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/HomeFragment">
-
+    app:startDestination="@id/fragment_home">
     <fragment
-        android:id="@+id/HomeFragment"
+        android:id="@+id/fragment_home"
         android:name="com.iium.iium_medioz.view.main.bottom.home.HomeFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_HomeFragment_to_DataFragment"
-            app:destination="@id/DataFragment" />
-        <action
-            android:id="@+id/action_HomeFragment_to_InsuranceFragment"
-            app:destination="@id/InsuranceFragment" />
-        <action
-            android:id="@+id/action_HomeFragment_to_MyPageFragment"
-            app:destination="@id/MyPageFragment" />
-    </fragment>
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
 
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_data2"
+            app:destination="@id/fragment_data" />
+    </fragment>
     <fragment
-        android:id="@+id/DataFragment"
+        android:id="@+id/fragment_data"
         android:name="com.iium.iium_medioz.view.main.bottom.data.DataFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_data">
-        <action
-            android:id="@+id/action_DataFragment_to_InsuranceFragment"
-            app:destination="@id/InsuranceFragment" />
-        <action
-            android:id="@+id/action_DataFragment_to_MyPageFragment"
-            app:destination="@id/MyPageFragment" />
-        <action
-            android:id="@+id/action_DataFragment_to_HomeFragment"
-            app:destination="@id/HomeFragment" />
-    </fragment>
+        android:label="fragment_data"
+        tools:layout="@layout/fragment_data" >
 
+
+        <action
+            android:id="@+id/action_fragment_data_to_fragment_band"
+            app:destination="@id/fragment_band" />
+    </fragment>
     <fragment
-        android:id="@+id/InsuranceFragment"
+        android:id="@+id/fragment_insurance"
         android:name="com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_insurance">
-        <action
-            android:id="@+id/action_InsuranceFragment_to_MyPageFragment"
-            app:destination="@id/MyPageFragment" />
-        <action
-            android:id="@+id/action_InsuranceFragment_to_DataFragment"
-            app:destination="@id/DataFragment" />
-        <action
-            android:id="@+id/action_InsuranceFragment_to_HomeFragment"
-            app:destination="@id/HomeFragment" />
+        android:label="fragment_insurance"
+        tools:layout="@layout/fragment_insurance" >
+
     </fragment>
 
     <fragment
-        android:id="@+id/MyPageFragment"
-        android:name="com.iium.iium_medioz.view.main.bottom.mypage.MyPageFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_my_page">
+        android:id="@+id/fragment_band"
+        android:name="com.iium.iium_medioz.view.main.bottom.band.BandFragment"
+        android:label="fragment_band"
+        tools:layout="@layout/fragment_band" >
+        <action
+            android:id="@+id/action_fragment_band_to_fragment_insurance"
+            app:destination="@id/fragment_insurance" />
     </fragment>
+
+    <fragment
+        android:id="@+id/fragment_mypage"
+        android:name="com.iium.iium_medioz.view.main.bottom.mypage.MyPageFragment"
+        android:label="fragment_mypage"
+        tools:layout="@layout/fragment_my_page" />
 </navigation>

@@ -1,18 +1,27 @@
 package com.iium.iium_medioz.view.main
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityMainBinding
 import com.iium.iium_medioz.util.base.BaseActivity
+import com.iium.iium_medioz.view.main.bottom.band.BandFragment
 import com.iium.iium_medioz.view.main.bottom.data.DataFragment
 import com.iium.iium_medioz.view.main.bottom.home.HomeFragment
 import com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment
@@ -26,8 +35,8 @@ class MainActivity : BaseActivity() {
 
     private val fragmentOne by lazy { HomeFragment() }
     private val fragmentTwo by lazy { DataFragment() }
-    private val fragmentThree by lazy { InsuranceFragment() }
-    private val fragmentFour by lazy { MyPageFragment() }
+    private val fragmentThree by lazy { BandFragment() }
+    private val fragmentFour by lazy { InsuranceFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,10 +64,10 @@ class MainActivity : BaseActivity() {
                     R.id.nav_data -> {
                         changeFragment(fragmentTwo)
                     }
-                    R.id.nav_Insurance -> {
+                    R.id.nav_band -> {
                         changeFragment(fragmentThree)
                     }
-                    R.id.nav_Profile -> {
+                    R.id.nav_Insurance -> {
                         changeFragment(fragmentFour)
                     }
                 }

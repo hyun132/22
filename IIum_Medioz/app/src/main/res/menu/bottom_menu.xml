@@ -8,7 +8,8 @@
         android:enabled="true"
         android:icon="@drawable/bottom_home"
         android:title="홈"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/nav_data"
@@ -24,17 +25,17 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/nav_band"
+        android:enabled="true"
+        android:icon="@drawable/bottom_band"
+        android:title="건강밴드"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/nav_Insurance"
         android:enabled="true"
         android:icon="@drawable/bottom_insurance"
         android:title="보험청구"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/nav_Profile"
-        android:enabled="true"
-        android:icon="@drawable/bottom_profile"
-        android:title="마이페이지"
         app:showAsAction="always" />
 
 </menu>
