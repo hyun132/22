@@ -3,6 +3,7 @@ package com.iium.iium_medioz.api
 import com.iium.iium_medioz.model.OCRModel
 import com.iium.iium_medioz.model.TestDataList
 import com.iium.iium_medioz.model.TestSendModel
+import com.iium.iium_medioz.model.map.MapMarker
 import com.iium.iium_medioz.model.recycler.MedicalData
 import com.iium.iium_medioz.model.rest.base.AppPolicy
 import com.iium.iium_medioz.model.rest.base.AutoLogin
@@ -122,4 +123,8 @@ interface APIService {
     @POST("v1/dataocr/dataocr")
     fun postOCR(@Header("Accesstoken")accesstoken: String?,
                     @Body ocrModel: OCRModel) : Call<OCRModel>
+
+    // 제휴병원 좌표
+    @GET("v1/map/map")
+    fun getMap(@Header("Accesstoken")accesstoken: String?): Call<MapMarker>
 }

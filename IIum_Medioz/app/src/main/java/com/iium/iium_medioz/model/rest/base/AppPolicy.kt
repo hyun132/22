@@ -9,7 +9,7 @@ data class AppPolicy (
     var result : String?= null,
     var policy : List<Policy>?= null,
     var code : List<Code>?= null,
-    var app_menu : List<AppMenu>?= null
+    var app_menu : List<AppMenu>?= null,
 )
 
 open class Policy : RealmObject() {

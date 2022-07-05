@@ -153,4 +153,6 @@ object  Constant {
         , Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
+    const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+
 }

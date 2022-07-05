@@ -203,7 +203,7 @@ class SplashActivity : BaseActivity() {
         LLog.e("렐름")
         realm.executeTransaction { realm ->
             realm.where(Policy::class.java).findAll().deleteAllFromRealm()
-            realm.copyToRealm(result.policy)
+            result.policy?.let { realm.copyToRealm(it) }
             listener.onSuccess()
         }
 

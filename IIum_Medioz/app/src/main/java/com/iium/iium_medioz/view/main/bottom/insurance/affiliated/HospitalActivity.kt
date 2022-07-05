@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
@@ -15,30 +16,67 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityHospitalBinding
+import com.iium.iium_medioz.model.map.MapMarker
+import com.iium.iium_medioz.model.map.MapModel
 import com.iium.iium_medioz.util.`object`.Constant.GPS_ENABLE_REQUEST_CODE
+import com.iium.iium_medioz.util.`object`.Constant.LOCATION_PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.PERMISSIONS
 import com.iium.iium_medioz.util.`object`.Constant.PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.TAG
+import com.iium.iium_medioz.util.adapter.map.MapListAdapter
+import com.iium.iium_medioz.util.adapter.map.MapViewPagerAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication
-import com.naver.maps.map.LocationTrackingMode
-import com.naver.maps.map.MapFragment
-import com.naver.maps.map.NaverMap
-import com.naver.maps.map.OnMapReadyCallback
+import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
+import com.iium.iium_medioz.util.log.LLog
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.*
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.util.FusedLocationSource
+import com.naver.maps.map.util.MarkerIcons
+import com.naver.maps.map.widget.LocationButtonView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class HospitalActivity : BaseActivity(), OnMapReadyCallback {
+class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListener {
+
     private lateinit var mBinding : ActivityHospitalBinding
     private lateinit var apiServices: APIService
 
+    private val viewPager : ViewPager2 by lazy {
+        findViewById(R.id.houseViewPager)
+    }
+    private val recyclerView : RecyclerView by lazy {
+        findViewById(R.id.map_re)
+    }
+    private val currentLocationButton : LocationButtonView by lazy {
+        findViewById(R.id.currentLocationButton)
+    }
+
     private var locationSource: FusedLocationSource? = null
     private var mMap: NaverMap?=null
+
+    private val recyclerViewAdapter = MapListAdapter()
+
+    private val viewPagerAdapter = MapViewPagerAdapter(itemClickListener = {
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "[지금 이 가격에 예약하세요!!] ${it.name} ${it.address} 사진보기 : ${it.imgUrl}")
+            type = "text/plain"
+        }
+        startActivity(Intent.createChooser(intent, null))
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +90,8 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
             it.setDisplayShowHomeEnabled(true)
         }
 
+
+        initAdapter()
         inStatusBar()
         initView()
     }
@@ -177,14 +217,37 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         }
     }
 
+    private fun initAdapter() {
+        viewPager.adapter = viewPagerAdapter
+        recyclerView.adapter = recyclerViewAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val selectedHouseModel = viewPagerAdapter.currentList[position]
+                val cameraUpdate = CameraUpdate.scrollTo(LatLng(selectedHouseModel.xvalue!!, selectedHouseModel.yvalue!!))
+                    .animate(CameraAnimation.Easing)
+                mMap?.moveCamera(cameraUpdate)
+            }
+        })
+    }
+
     private fun inStatusBar() {
         setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
         window.statusBarColor = getColor(R.color.main_status )
     }
 
     private fun initView() {
+
+        val options = NaverMapOptions()
+            .mapType(NaverMap.MapType.Basic)
+            .enabledLayerGroups(NaverMap.LAYER_GROUP_BICYCLE)
+            .compassEnabled(true)
+            .scaleBarEnabled(true)
+
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment?
-            ?: MapFragment.newInstance().also {
+            ?: MapFragment.newInstance(options).also {
                 supportFragmentManager.beginTransaction().add(R.id.map_fragment, it).commit()
             }
         mapFragment.getMapAsync(this)
@@ -199,6 +262,70 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         }
 
     override fun onMapReady(naverMap: NaverMap) {
+        mMap = naverMap
+
+        naverMap.maxZoom = 18.0
+        naverMap.minZoom = 10.0
+
+        // 초기 위치 설정
+        val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.49804648065241, 127.02769178932371))
+        naverMap.moveCamera(cameraUpdate)
+
+        val uiSetting = naverMap.uiSettings
+        uiSetting.isLocationButtonEnabled = false
+        currentLocationButton.map = naverMap
+
+        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+        naverMap.locationSource = locationSource
+
+        getAPI()
+    }
+
+    private fun getAPI() {
+        LLog.e("제휴병원 좌표")
+        val vercall: Call<MapMarker> = apiServices.getMap(prefs.newaccesstoken)
+        vercall.enqueue(object : Callback<MapMarker> {
+            override fun onResponse(call: Call<MapMarker>, response: Response<MapMarker>) {
+                val result = response.body()
+                if (response.isSuccessful && result != null) {
+                    Log.d(LLog.TAG,"제휴병원 response SUCCESS -> $result")
+                    result.let { dto ->
+                        updateMarker(dto.map)
+                        viewPagerAdapter.submitList(dto.map)
+                        recyclerViewAdapter.submitList(dto.map)
+                    }
+                }
+                else {
+                    Log.d(LLog.TAG,"제휴병원 response ERROR -> $result")
+                }
+            }
+            override fun onFailure(call: Call<MapMarker>, t: Throwable) {
+                Log.d(LLog.TAG, "제휴병원 Fail -> ${t.localizedMessage}")
+            }
+        })
+    }
+
+    private fun updateMarker(map: List<MapModel>) {
+        map.forEach { maps ->
+            val marker = Marker()
+            marker.position = LatLng(maps.xvalue!!, maps.yvalue!!)
+            marker.map = mMap
+            marker.tag = maps.id
+            marker.icon = MarkerIcons.BLACK
+            marker.iconTintColor = R.color.main_status
+
+            // TODO marker click listener
+            marker.onClickListener = this
+        }
+    }
+
+    override fun onClick(overlay: Overlay): Boolean {
+        viewPagerAdapter.currentList.firstOrNull { it.id == overlay.tag }
+            ?.let {
+                val position = viewPagerAdapter.currentList.indexOf(it)
+                viewPager.currentItem = position
+            }
+        return true
     }
 
     override fun onBackPressed() {
