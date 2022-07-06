@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -27,6 +28,11 @@ import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityHospitalBinding
 import com.iium.iium_medioz.model.map.MapMarker
 import com.iium.iium_medioz.model.map.MapModel
+import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_ADDRESS
+import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_CALL
+import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_IMGURL
+import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_NAME
+import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_TIMESTAMP
 import com.iium.iium_medioz.util.`object`.Constant.GPS_ENABLE_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.LOCATION_PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.PERMISSIONS
@@ -67,7 +73,17 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
     private var locationSource: FusedLocationSource? = null
     private var mMap: NaverMap?=null
 
-    private val recyclerViewAdapter = MapListAdapter()
+    private val recyclerViewAdapter = MapListAdapter(itemClickListener = {
+        val intent = Intent(this, DocumentActivity::class.java)
+
+        intent.apply {
+            intent.putExtra(DOCUMENT_NAME, it.name.toString())
+            intent.putExtra(DOCUMENT_ADDRESS, it.address.toString())
+            intent.putExtra(DOCUMENT_CALL, it.call.toString())
+            intent.putExtra(DOCUMENT_IMGURL, it.imgUrl.toString())
+        }
+            startActivity(intent)
+    })
 
     private val viewPagerAdapter = MapViewPagerAdapter(itemClickListener = {
         val intent = Intent().apply {
@@ -89,7 +105,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
             it.setDisplayHomeAsUpEnabled(true)
             it.setDisplayShowHomeEnabled(true)
         }
-
 
         initAdapter()
         inStatusBar()
@@ -263,13 +278,8 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
 
     override fun onMapReady(naverMap: NaverMap) {
         mMap = naverMap
-
         naverMap.maxZoom = 18.0
         naverMap.minZoom = 10.0
-
-        // 초기 위치 설정
-        val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.49804648065241, 127.02769178932371))
-        naverMap.moveCamera(cameraUpdate)
 
         val uiSetting = naverMap.uiSettings
         uiSetting.isLocationButtonEnabled = false
@@ -277,6 +287,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
 
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         naverMap.locationSource = locationSource
+        naverMap.locationTrackingMode = LocationTrackingMode.Follow
 
         getAPI()
     }
@@ -292,7 +303,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
                     result.let { dto ->
                         updateMarker(dto.map)
                         viewPagerAdapter.submitList(dto.map)
-                        recyclerViewAdapter.submitList(dto.map)
+                        recyclerViewAdapter?.submitList(dto.map)
                     }
                 }
                 else {
@@ -317,6 +328,10 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
             // TODO marker click listener
             marker.onClickListener = this
         }
+    }
+
+    fun onAddressClick(v: View) {
+        moveAddress()
     }
 
     override fun onClick(overlay: Overlay): Boolean {

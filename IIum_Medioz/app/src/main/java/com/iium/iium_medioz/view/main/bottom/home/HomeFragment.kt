@@ -24,6 +24,7 @@ import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.log.LLog.TAG
 import com.iium.iium_medioz.view.main.banner.AchievementActivity
 import com.iium.iium_medioz.view.main.banner.GuideActivity
+import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
 import kotlinx.android.synthetic.main.view_photo_item.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -118,5 +119,7 @@ class HomeFragment : Fragment() {
     }
 
     fun onHosClick(v: View?) {
+        val intent = Intent(activity, HospitalActivity::class.java)
+        startActivity(intent)
     }
 }

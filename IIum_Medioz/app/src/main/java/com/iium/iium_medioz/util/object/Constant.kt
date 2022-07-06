@@ -121,6 +121,13 @@ object  Constant {
     const val OCR_NAME = "test 1"
     const val OCR_URL_IMG = "http://49.50.161.198:8080/v1/datalist/datalist?textimg=1655700097940_20220216_140748.jpg"
 
+    //제휴병원 서류신청
+    const val DOCUMENT_NAME = "DOCUMENT_NAME"
+    const val DOCUMENT_ADDRESS = "DOCUMENT_ADDRESS"
+    const val DOCUMENT_CALL = "DOCUMENT_CALL"
+    const val DOCUMENT_IMGURL = "DOCUMENT_IMGURL"
+    const val DOCUMENT_TIMESTAMP = "DOCUMENT_TIMESTAMP"
+
     //PDF
     const val PDF_HEADER = "생성일자"
 
@@ -154,5 +161,7 @@ object  Constant {
     )
 
     const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+
+
 
 }

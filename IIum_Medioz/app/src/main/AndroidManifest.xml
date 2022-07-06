@@ -37,6 +37,12 @@
         tools:replace="android:theme"
         tools:targetApi="s">
         <activity
+            android:name=".view.main.bottom.insurance.affiliated.AddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.insurance.affiliated.DocumentActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.main.bottom.insurance.affiliated.HospitalActivity"
             android:exported="false" />
         <activity

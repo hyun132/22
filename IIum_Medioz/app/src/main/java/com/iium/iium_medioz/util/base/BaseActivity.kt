@@ -32,6 +32,8 @@ import com.iium.iium_medioz.view.main.bottom.data.*
 import com.iium.iium_medioz.view.main.bottom.data.pdf.MakePDFActivity
 import com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity
 import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
+import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
+import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsUploadActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.notice.NoticeActivity
@@ -277,6 +279,20 @@ open class BaseActivity : AppCompatActivity() {
 
     internal fun moveBand() {
         val intent = Intent(this, BandUploadActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    internal fun moveHospital() {
+        val intent = Intent(this, HospitalActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    internal fun moveAddress() {
+        val intent = Intent(this, AddressActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0)
         finish()

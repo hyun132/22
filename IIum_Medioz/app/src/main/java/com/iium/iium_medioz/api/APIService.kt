@@ -1,8 +1,8 @@
 package com.iium.iium_medioz.api
 
 import com.iium.iium_medioz.model.OCRModel
-import com.iium.iium_medioz.model.TestDataList
-import com.iium.iium_medioz.model.TestSendModel
+import com.iium.iium_medioz.model.document.DocumentListModel
+import com.iium.iium_medioz.model.document.DocumentModel
 import com.iium.iium_medioz.model.map.MapMarker
 import com.iium.iium_medioz.model.recycler.MedicalData
 import com.iium.iium_medioz.model.rest.base.AppPolicy
@@ -127,4 +127,13 @@ interface APIService {
     // 제휴병원 좌표
     @GET("v1/map/map")
     fun getMap(@Header("Accesstoken")accesstoken: String?): Call<MapMarker>
+
+    //제휴병원 서류 등록
+    @POST("v1/document/document")
+    fun postDocument(@Header("Accesstoken")accesstoken: String?,
+                     @Body documentModel: DocumentModel): Call<DocumentModel>
+
+    // 제휴병원 서류 조회
+    @GET("v1/document/document/my")
+    fun getDocument(@Header("Accesstoken")accesstoken: String?): Call<DocumentListModel>
 }

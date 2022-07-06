@@ -29,6 +29,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/in_text" />
+
+            <ImageView
+                android:id="@+id/imageView40"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginEnd="20dp"
+                android:onClick='@{activity::onAddressClick}'
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/img_search" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
