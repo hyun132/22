@@ -47,7 +47,15 @@ class SendFragment : Fragment() {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"List response SUCCESS -> $result")
-                    result.datalist?.let { setAdapter(it) }
+
+                    if(result.datalist!!.isEmpty()) {
+                        mBinding.SendListRecyclerView.visibility = View.GONE
+                        mBinding.tvDataSendNot.visibility = View.VISIBLE
+                    } else {
+                        mBinding.SendListRecyclerView.visibility = View.VISIBLE
+                        mBinding.tvDataSendNot.visibility = View.GONE
+                        setAdapter(result.datalist)
+                    }
                 }
                 else {
                     Log.d(LLog.TAG,"판매 데이터 조회_첫번째 API List response ERROR -> $result")
@@ -68,8 +76,14 @@ class SendFragment : Fragment() {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"판매 데이터 조회_두번째 response SUCCESS -> $result")
-                    result.datalist?.let { setAdapter(it) }
-                }
+                    if(result.datalist!!.isEmpty()) {
+                        mBinding.SendListRecyclerView.visibility = View.GONE
+                        mBinding.tvDataSendNot.visibility = View.VISIBLE
+                    } else {
+                        mBinding.SendListRecyclerView.visibility = View.VISIBLE
+                        mBinding.tvDataSendNot.visibility = View.GONE
+                        setAdapter(result.datalist)
+                    }                }
                 else {
                     Log.d(LLog.TAG,"판매 데이터 조회_두번째 response ERROR -> $result")
                 }

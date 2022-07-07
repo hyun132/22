@@ -50,7 +50,15 @@ class AllFragment : Fragment() {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"List response SUCCESS -> $result")
-                    setAdapter(result.datalist)
+
+                    if(result.datalist!!.isEmpty()) {
+                        mBinding.medicalRecyclerView.visibility = View.GONE
+                        mBinding.tvDataNot.visibility = View.VISIBLE
+                    } else {
+                        mBinding.medicalRecyclerView.visibility = View.VISIBLE
+                        mBinding.tvDataNot.visibility = View.GONE
+                        setAdapter(result.datalist)
+                    }
                 }
                 else {
                     Log.d(LLog.TAG,"데이터 조회_첫번째 API List response ERROR -> $result")
@@ -71,8 +79,14 @@ class AllFragment : Fragment() {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"List Second response SUCCESS -> $result")
-                    setAdapter(result.datalist)
-                }
+                    if(result.datalist!!.isEmpty()) {
+                        mBinding.medicalRecyclerView.visibility = View.GONE
+                        mBinding.tvDataNot.visibility = View.VISIBLE
+                    } else {
+                        mBinding.medicalRecyclerView.visibility = View.VISIBLE
+                        mBinding.tvDataNot.visibility = View.GONE
+                        setAdapter(result.datalist)
+                    }                }
                 else {
                     Log.d(LLog.TAG,"List Second response ERROR -> $result")
                 }

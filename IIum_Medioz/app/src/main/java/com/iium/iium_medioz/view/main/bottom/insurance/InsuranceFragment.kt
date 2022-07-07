@@ -60,7 +60,14 @@ class InsuranceFragment : Fragment() {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"서류신청 조회 SUCCESS -> $result")
-                    setAdapter(result.documentList)
+                    if (result.documentList.isEmpty()) {
+                        mBinding.documentRe.visibility = View.GONE
+                        mBinding.tvDataDoNot.visibility = View.VISIBLE
+                    } else {
+                        mBinding.documentRe.visibility = View.VISIBLE
+                        mBinding.tvDataDoNot.visibility = View.GONE
+                        setAdapter(result.documentList)
+                    }
                 }
                 else {
                     Log.d(LLog.TAG,"서류신청 조회 response ERROR -> $result")
