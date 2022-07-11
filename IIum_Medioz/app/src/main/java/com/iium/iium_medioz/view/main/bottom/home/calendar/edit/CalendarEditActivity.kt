@@ -124,6 +124,9 @@ class CalendarEditActivity : BaseActivity(), DatePickerDialog.OnDateSetListener 
     fun onSaveClick(v: View) {
         val android_id = getDeviceId()
         val feeling = intent.getIntExtra("feeling", 0)
+        val title = intent.getStringExtra("title") ?: ""
+        val myDate = intent.getStringExtra("date") ?: ""
+
 
         if (isEdit) {
             val jurnal = SendFeelModel(

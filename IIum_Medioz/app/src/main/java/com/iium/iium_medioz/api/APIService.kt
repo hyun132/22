@@ -1,6 +1,7 @@
 package com.iium.iium_medioz.api
 
 import com.iium.iium_medioz.model.OCRModel
+import com.iium.iium_medioz.model.calendar.CalendarModel
 import com.iium.iium_medioz.model.document.DocumentListModel
 import com.iium.iium_medioz.model.document.DocumentModel
 import com.iium.iium_medioz.model.map.MapMarker
@@ -136,4 +137,10 @@ interface APIService {
     // 제휴병원 서류 조회
     @GET("v1/document/document/my")
     fun getDocument(@Header("Accesstoken")accesstoken: String?): Call<DocumentListModel>
+
+    // 캘린더 등록
+    @POST("v1/calendar/feel")
+    fun postFeel(@Header("Accesstoken")accesstoken: String?,
+                 @Body documentModel: DocumentModel): Call<CalendarModel>
+
 }
