@@ -4,6 +4,9 @@ data class DocumentModel(
 //    val documentList : List<DocumentList>
     val doname: String? = null,
     val address: String? = null,
+    val address_city: String? = null,
+    val address_district: String? = null,
+    val address_location: String? = null,
     val call: String? = null,
     val username: String? = null,
     val usernumber: String? = null,

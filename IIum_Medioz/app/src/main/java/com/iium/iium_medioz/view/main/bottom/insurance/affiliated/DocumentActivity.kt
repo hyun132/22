@@ -70,6 +70,9 @@ class DocumentActivity : BaseActivity() {
 
         val doname = mBinding.tvDoName.text.toString()
         val address = mBinding.tvDoAddress.text.toString()
+        val address_city = "대전"
+        val address_district = "서구"
+        val address_location = "월평동"
         val call = mBinding.tvDoCall.text.toString()
         val username = mBinding.etDoName.text.toString()
         val usernumber = "${mBinding.etDoNumberFirst.text}-${mBinding.etDoNumberSecond.text}"
@@ -78,7 +81,7 @@ class DocumentActivity : BaseActivity() {
         val imgUrl = intent.getStringExtra(DOCUMENT_IMGURL)
         val timestamp = mBinding.tvDoTimestamp.text.toString()
 
-        val data = DocumentModel(doname, address,call,username,usernumber,usercall, userreqdocument,imgUrl, timestamp)
+        val data = DocumentModel(doname, address,address_city, address_district, address_location,call,username,usernumber,usercall, userreqdocument,imgUrl, timestamp)
 
         LLog.e("제휴병원 서류신청")
         apiServices.postDocument(prefs.newaccesstoken,data).enqueue(object :
