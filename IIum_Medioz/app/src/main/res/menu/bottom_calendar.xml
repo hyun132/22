@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/icalendar"
+        android:icon="@drawable/ic_kalender"
+        android:title="캘린더" />
+
+    <item
+        android:id="@+id/icadd"
+        android:title="" />
+
+    <item
+        android:id="@+id/isearch"
+        android:icon="@drawable/ic_search"
+        android:title="검색" />
+</menu>

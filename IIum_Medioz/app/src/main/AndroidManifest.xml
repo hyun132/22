@@ -36,6 +36,19 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:theme"
         tools:targetApi="s">
+
+        <activity
+            android:name=".view.main.bottom.home.calendar.edit.CalendarEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.home.calendar.create.CreateFeelActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.home.calendar.search.CalendarSearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.main.bottom.home.calendar.CalendarActivity"
+            android:exported="false" />
         <activity
             android:name=".view.main.bottom.insurance.affiliated.AddressActivity"
             android:exported="false" />

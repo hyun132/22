@@ -214,6 +214,9 @@
         <item>입/퇴원 및 수술 내역서</item>
     </string-array>
 
+    <string name="msg_notif">오늘 하루는 어땠어요? 오늘에 감사하는 것을 잊지 마세요.☺️</string>
+    <string name="hint_msg">감사한 마음으로 하루하루를 마무리하세요. 여기서는 여러분의 생각이나 감정을 표현합니다. 아래 메뉴를 클릭하여 배경을 변경할 수도 있습니다.</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

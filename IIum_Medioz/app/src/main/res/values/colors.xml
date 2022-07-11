@@ -49,6 +49,21 @@
     <color name="dark_gray_242424">#FF242424</color>
 
     <color name="splash_1">#F69163</color>
+    <color name="unguJurna">#A9A9F5</color>
+    <color name="greyJurna">#DEDEDE</color>
+    <color name="biruJurnal">#BAE9F8</color>
+    <color name="kuningJurnal">#F8F6BA</color>
+    <color name="pinkJurnal">#F8BAC9</color>
+
+    <color name="merahmudaJurna">#eed8e9</color>
+
+    <color name="google">#4285F4</color>
+    <color name="mission_complete">#d9d9d9</color>
+    <color name="whiteJurna">#f8f5f3</color>
+    <color name="ungumuedaJurna">#d4a7cd</color>
+
+
+
 
 
 </resources>
