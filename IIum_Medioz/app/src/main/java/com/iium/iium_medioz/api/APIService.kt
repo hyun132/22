@@ -1,6 +1,7 @@
 package com.iium.iium_medioz.api
 
 import com.iium.iium_medioz.model.OCRModel
+import com.iium.iium_medioz.model.calendar.CalendarFeel
 import com.iium.iium_medioz.model.calendar.CalendarModel
 import com.iium.iium_medioz.model.document.DocumentListModel
 import com.iium.iium_medioz.model.document.DocumentModel
@@ -141,6 +142,15 @@ interface APIService {
     // 캘린더 등록
     @POST("v1/calendar/feel")
     fun postFeel(@Header("Accesstoken")accesstoken: String?,
-                 @Body documentModel: DocumentModel): Call<CalendarModel>
+                 @Body calendarFeel: CalendarFeel): Call<CalendarModel>
+
+    // 캘린더 조회
+    @GET("v1/calendar/my")
+    fun getFeel(@Header("Accesstoken")accesstoken: String?): Call<CalendarModel>
+
+    // 캘린더 삭제
+    @DELETE("v1/calendar")
+    fun deleteFeel(@Header("Accesstoken")accesstoken: String?,
+                   @Query("id") id : String?): Call<DeleteModel>
 
 }

@@ -74,9 +74,12 @@
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/bg_item_biru.xml" value="0.4565" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/bg_nocolor.xml" value="0.4615" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/bg_nocolor_left_rounded.xml" value="0.4615" />
+        <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/bg_radius_8.xml" value="0.203" />
+        <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/bg_radius_left.xml" value="0.203" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/color_common_btn.xml" value="0.452" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.4615" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/ic_check.xml" value="0.4565" />
+        <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/ic_delete.xml" value="0.203" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/ic_edit.xml" value="0.4565" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/ic_kalender.xml" value="0.4615" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/drawable/ic_notif_badged.xml" value="0.4615" />
@@ -130,6 +133,8 @@
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/fragment_send.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/fragment_title.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/item_bg_layout.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/item_jurnal.xml" value="0.44533558463486705" />
+        <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/no_jurnal_layout.xml" value="0.44533558463486705" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/notif_popup_layout.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/test.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/view_band_item.xml" value="0.5" />

@@ -18,9 +18,9 @@ import kotlin.math.roundToInt
 
 fun ImageView.getFeeling(code: Int) {
     val emotes = listOf(
-        R.drawable.icon_happy,
         R.drawable.icon_angry,
         R.drawable.icon_sad,
+        R.drawable.icon_happy,
         R.drawable.icon_thanks,
         R.drawable.icon_surprise,
     )
@@ -29,9 +29,9 @@ fun ImageView.getFeeling(code: Int) {
 
 fun TextView.getFeelingStatus(code: Int) {
     val emotes = listOf(
-        "행복",
         "화남",
         "슬픔",
+        "행복",
         "감사",
         "놀람",
     )

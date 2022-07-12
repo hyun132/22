@@ -10,19 +10,40 @@ import android.view.WindowManager
 import android.widget.DatePicker
 import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.firestore.ktx.toObjects
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityCalendarBinding
 import com.iium.iium_medioz.databinding.ActivityMainBinding
+import com.iium.iium_medioz.model.calendar.CalendarFeel
+import com.iium.iium_medioz.model.calendar.CalendarModel
+import com.iium.iium_medioz.model.calendar.FeelModel
+import com.iium.iium_medioz.model.calendar.Jurnal
+import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.adapter.CalendarAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
+import com.iium.iium_medioz.util.base.MyApplication
+import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
+import com.iium.iium_medioz.util.feel.ResultState
+import com.iium.iium_medioz.util.feel.getDeviceId
+import com.iium.iium_medioz.util.firebase.FirebaseService
+import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.vertical.VerticalSpaceItemDecoration
 import com.iium.iium_medioz.view.main.bottom.home.calendar.create.CreateFeelActivity
+import com.iium.iium_medioz.view.main.bottom.home.calendar.edit.CalendarEditActivity
 import com.iium.iium_medioz.view.main.bottom.home.calendar.search.CalendarSearchActivity
+import com.iium.iium_medioz.viewmodel.calendar.CalendarViewModel
+import com.iium.iium_medioz.viewmodel.calendar.EditViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,6 +52,7 @@ class CalendarActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
     private lateinit var mBinding : ActivityCalendarBinding
     private lateinit var apiServices: APIService
     private val formatter = SimpleDateFormat("yyyy년 MMM dd일, EEE요일")
+    private val viewModel by viewModels<CalendarViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,11 +126,11 @@ class CalendarActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
             mBinding.fab,
             mBinding.content.cardMood,
             mBinding.content.listEmote,
-            mBinding.content.btnLove,
-            mBinding.content.btnHappy,
-            mBinding.content.btnNeutral,
-            mBinding.content.btnSad,
-            mBinding.content.btnAngry
+            mBinding.content.llAngry,
+            mBinding.content.llSad,
+            mBinding.content.llHappy,
+            mBinding.content.llThanks,
+            mBinding.content.llSurprise
         ).forEach {
             it.setOnClickListener {
                 Intent(this, CreateFeelActivity::class.java).apply {
@@ -122,6 +144,63 @@ class CalendarActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
         mBinding.content.rvJurnal.addItemDecoration(VerticalSpaceItemDecoration(16))
 
         mBinding.content.pbhome.isVisible = true
+
+        viewModel.resultStateDeleteJurnal.observe(this) {
+            when (it) {
+                is ResultState.Error -> {
+                    FirebaseCrashlytics.getInstance().recordException(it.e)
+                    Log.e("Delete Data", it.e.message.toString())
+                }
+                is ResultState.Success<*> -> {
+                    Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show()
+
+                }
+                is ResultState.Loading -> {
+
+                }
+            }
+        }
+        fetchData(formatter.format(date))
+
+    }
+
+    private fun fetchData(date: String) {
+        FirebaseService.getText(getDeviceId())
+            .whereEqualTo("date", date)
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null && !snapshot.isEmpty) {
+                    val model = snapshot.toObjects<Jurnal>().toMutableList()
+                    val adapter = CalendarAdapter(model)
+                    adapter.setClickListener {
+                        val jurnal = FeelModel(
+                            it.background,
+                            it.date,
+                            it.feeling,
+                            it.fileName,
+                            it.msg,
+                            it.title,
+                            it.jurnalId
+                        )
+                        Intent(this, CalendarEditActivity::class.java).apply {
+                            putExtra("jurnal", jurnal)
+                            startActivity(this)
+                        }
+                    }
+                    mBinding.content.rvJurnal.adapter = adapter
+                    adapter.setClickDelete(viewModel::deleteJurnal)
+                } else {
+                    val adapter = CalendarAdapter(mutableListOf())
+                    mBinding.content.rvJurnal.adapter = adapter
+                }
+
+                mBinding.content.pbhome.isVisible = false
+            }
     }
 
     fun onBackPressed(v: View) {
@@ -140,5 +219,6 @@ class CalendarActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
         mCalendar[Calendar.DAY_OF_MONTH] = dayOfMonth
         val dateString = formatter.format(mCalendar.time)
         mBinding.content.currentDate.text = dateString
+        fetchData(dateString)
     }
 }

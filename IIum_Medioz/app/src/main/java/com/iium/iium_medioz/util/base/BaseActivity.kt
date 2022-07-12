@@ -32,6 +32,7 @@ import com.iium.iium_medioz.view.main.bottom.data.*
 import com.iium.iium_medioz.view.main.bottom.data.pdf.MakePDFActivity
 import com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity
 import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
+import com.iium.iium_medioz.view.main.bottom.home.calendar.CalendarActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsActivity
@@ -293,6 +294,13 @@ open class BaseActivity : AppCompatActivity() {
 
     internal fun moveAddress() {
         val intent = Intent(this, AddressActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    internal fun modeCalendar() {
+        val intent = Intent(this, CalendarActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0)
         finish()

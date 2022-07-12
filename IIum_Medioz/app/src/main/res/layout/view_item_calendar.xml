@@ -125,7 +125,7 @@
                         app:layout_constraintTop_toBottomOf="@id/todayFeeling">
 
                         <LinearLayout
-                            android:id="@+id/btnLove"
+                            android:id="@+id/llAngry"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -147,7 +147,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/btnHappy"
+                            android:id="@+id/llSad"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -169,7 +169,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/btnNeutral"
+                            android:id="@+id/llHappy"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -191,7 +191,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/btnSad"
+                            android:id="@+id/llThanks"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -213,7 +213,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/btnAngry"
+                            android:id="@+id/llSurprise"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"

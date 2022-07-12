@@ -113,7 +113,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/bg_color_merahmuda"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingTop="20dp"
@@ -139,6 +138,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:background="@drawable/bg_color_merahmuda"
                 android:orientation="vertical"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp">
@@ -194,7 +194,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    app:srcCompat="@drawable/icon_sad" />
+                    app:srcCompat="@drawable/icon_surprise" />
 
                 <TextView
                     android:layout_width="wrap_content"
