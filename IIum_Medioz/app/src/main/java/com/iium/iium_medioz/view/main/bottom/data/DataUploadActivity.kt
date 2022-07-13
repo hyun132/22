@@ -43,6 +43,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okio.utf8Size
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -447,6 +448,7 @@ class DataUploadActivity : BaseActivity() {
         for (uri:Uri in files4) {
             uri.path?.let {
                 Log.i("textImg", it)
+                Log.d(TAG,"사진 업로드 테스트 : ${it.length}")
             }
             textimg.add(prepareFilePart("textImg", uri))
             Log.e("textImg", uri.toString())

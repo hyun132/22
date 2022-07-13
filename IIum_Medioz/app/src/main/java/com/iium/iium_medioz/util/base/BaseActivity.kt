@@ -15,10 +15,9 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
-import com.iium.iium_medioz.view.main.MainActivity
+import com.google.android.gms.common.internal.service.Common
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.util.`object`.ActivityControlManager
 import com.iium.iium_medioz.util.common.CommonData
@@ -27,6 +26,7 @@ import com.iium.iium_medioz.util.log.LLog.e
 import com.iium.iium_medioz.view.login.LoginActivity
 import com.iium.iium_medioz.view.login.StartLoginActivity
 import com.iium.iium_medioz.view.login.sign.SignUpActivity
+import com.iium.iium_medioz.view.main.MainActivity
 import com.iium.iium_medioz.view.main.bottom.band.upload.BandUploadActivity
 import com.iium.iium_medioz.view.main.bottom.data.*
 import com.iium.iium_medioz.view.main.bottom.data.pdf.MakePDFActivity
@@ -51,6 +51,8 @@ open class BaseActivity : AppCompatActivity() {
     val comm: CommonData = CommonData().getInstance()
     var ResultView: ActivityResultLauncher<Intent>? = null
     private var doubleBackToExit = false
+    val commonApi: CommonData? = null
+
 
     internal val realm by lazy {
         Realm.getDefaultInstance()

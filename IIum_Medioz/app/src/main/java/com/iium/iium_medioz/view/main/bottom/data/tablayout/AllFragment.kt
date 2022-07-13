@@ -85,8 +85,9 @@ class AllFragment : Fragment() {
                     } else {
                         mBinding.medicalRecyclerView.visibility = View.VISIBLE
                         mBinding.tvDataNot.visibility = View.GONE
-                        setAdapter(result.datalist)
-                    }                }
+                         setAdapter(result.datalist)
+                    }
+                }
                 else {
                     Log.d(LLog.TAG,"List Second response ERROR -> $result")
                 }
@@ -96,6 +97,8 @@ class AllFragment : Fragment() {
             }
         })
     }
+
+
 
     @SuppressLint("UseRequireInsteadOfGet")
     private fun setAdapter(datalist: List<DataList>?) {

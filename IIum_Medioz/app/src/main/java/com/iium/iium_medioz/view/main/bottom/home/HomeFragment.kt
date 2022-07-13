@@ -46,6 +46,7 @@ class HomeFragment : Fragment() {
         mBinding.fragment = this
         initView()
         initAPI()
+//        initTemperature()
         return mBinding.root
     }
 
@@ -106,6 +107,10 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
+//    private fun initTemperature() {
+//        TODO("Not yet implemented")
+//    }
 
     fun onGuideClick(v: View?) {
         val intent = Intent(activity, GuideActivity::class.java)
