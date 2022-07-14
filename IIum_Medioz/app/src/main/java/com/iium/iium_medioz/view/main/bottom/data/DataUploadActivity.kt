@@ -8,11 +8,17 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
+import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
 import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -94,6 +100,31 @@ class DataUploadActivity : BaseActivity() {
         mBinding.textRe.adapter = textAdapter
         mBinding.textRe.setHasFixedSize(true)
         mBinding.textRe.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
+
+        mBinding.etKeyword.addTextChangedListener(object : TextWatcher{
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (mBinding.etKeyword.text.toString() == "") {
+                    mBinding.btnKeyword.isEnabled = false
+                    mBinding.btnKeyword.setBackgroundColor(R.drawable.color_common_btn)
+                    Toast.makeText(this@DataUploadActivity,"키워드를 추가해주세요!",Toast.LENGTH_SHORT).show()
+                } else if (mBinding.etKeyword.text.toString() != "") {
+                        mBinding.btnKeyword.isEnabled = true
+                        mBinding.btnKeyword.setBackgroundColor(R.drawable.color_common_btn)
+                        mBinding.btnKeyword.setOnClickListener {
+                            val textView = TextView(this@DataUploadActivity)
+                            textView.text = mBinding.etKeyword.text.toString()
+                            mBinding.clAutoTextview.addView(textView)
+                        }
+                    }
+                }
+        })
     }
 
     private fun initSecond() {

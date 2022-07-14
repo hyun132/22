@@ -177,6 +177,7 @@
     <string name="battery">배터리</string>
     <string name="menu">메뉴</string>
     <string name="notice">공지</string>
+    <string name="keyword">추가</string>
 
     <string name="server_check">서버 점검중입니다.\n잠시 후에 이용해 주세요.</string>
     <string name="update_check">앱 업데이트가 필요합니다.\n업데이트를 진행해주세요.</string>

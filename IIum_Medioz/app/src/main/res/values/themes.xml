@@ -20,6 +20,12 @@
         <item name="cardElevation">0dp</item>
     </style>
 
+    <style name="CommonButtonCardStyle_keyword" parent="CardView">
+        <item name="android:layout_height">40dp</item>
+        <item name="cardCornerRadius">9dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
     <style name="profile_modify_style" parent="CardView">
         <item name="android:layout_height">50dp</item>
         <item name="cardCornerRadius">7dp</item>
@@ -38,6 +44,26 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">17dp</item>
         <item name="android:background">@drawable/color_common_btn</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:outlineProvider">background</item>
+    </style>
+
+    <style name="CommonButtonStyle_keyword" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:background">@drawable/color_common_btn</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:outlineProvider">background</item>
+    </style>
+
+    <style name="CommonButtonStyle_keyword_after" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:background">@drawable/color_keyword_btn</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="android:outlineProvider">background</item>
     </style>

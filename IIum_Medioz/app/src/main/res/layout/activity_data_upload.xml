@@ -165,21 +165,48 @@
 
                                 <EditText
                                     android:id="@+id/et_keyword"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="280dp"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/edit_box"
                                     android:fontFamily="@font/notosans_medium"
                                     android:hint="@string/key_word"
+                                    android:imeOptions="actionDone"
                                     android:inputType="textMultiLine"
                                     android:maxLength="1000"
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/common_font_title"
-                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     tools:text="" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/cv_keyword"
+                                    style="@style/CommonButtonCardStyle_keyword"
+                                    android:layout_width="50dp"
+                                    android:visibility="visible"
+                                    android:layout_marginStart="10dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/et_keyword"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:id="@+id/btn_keyword"
+                                        style="@style/CommonButtonStyle_keyword_after"
+                                        android:text="@string/keyword" />
+
+                                </androidx.cardview.widget.CardView>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/cl_auto_textview"
+                                android:layout_marginTop="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
