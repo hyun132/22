@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.util.base
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +8,7 @@ import com.iium.iium_medioz.util.network.SingleLiveEvent
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel() : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     private val _isLoading = MutableLiveData(false)
@@ -20,8 +21,9 @@ abstract class BaseViewModel : ViewModel() {
     val backClick: LiveData<Unit> get() = _backClick
 
     override fun onCleared() {
-        compositeDisposable.dispose()
         super.onCleared()
+        compositeDisposable.dispose()
+        compositeDisposable.clear()
     }
 
     fun Disposable.autoDispose() {

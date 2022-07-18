@@ -292,6 +292,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
         getAPI()
     }
 
+
     private fun getAPI() {
         LLog.e("제휴병원 좌표")
         val vercall: Call<MapMarker> = apiServices.getMap(prefs.newaccesstoken)
@@ -303,7 +304,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
                     result.let { dto ->
                         updateMarker(dto.map)
                         viewPagerAdapter.submitList(dto.map)
-                        recyclerViewAdapter?.submitList(dto.map)
+                        recyclerViewAdapter.submitList(dto.map)
                     }
                 }
                 else {

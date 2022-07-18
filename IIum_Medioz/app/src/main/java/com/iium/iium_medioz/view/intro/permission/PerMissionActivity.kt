@@ -1,20 +1,39 @@
 package com.iium.iium_medioz.view.intro.permission
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.Toast
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.databinding.ActivityPerMissionBinding
 import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.animation.animationAppearWhileComingUp
+import com.iium.iium_medioz.util.animation.animationRotateSidewaysAndHighlight
 import com.iium.iium_medioz.util.base.BaseActivity
+import com.iium.iium_medioz.util.base.BasePerMissionActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
+import com.iium.iium_medioz.util.dialog.CustomAlarmDialog
+import com.iium.iium_medioz.util.widget.stickyslide.ITransitionListener
+import com.iium.iium_medioz.util.widget.stickyslide.StickySlideState
+import com.iium.iium_medioz.util.widget.stickyslide.StickySlideView
 import com.iium.iium_medioz.view.intro.splash.SplashActivity
+import com.iium.iium_medioz.view.login.LoginActivity
+import com.iium.iium_medioz.viewmodel.PermissionViewModel
+import kotlinx.coroutines.launch
 
 class PerMissionActivity : BaseActivity() {
     private lateinit var mBinding : ActivityPerMissionBinding

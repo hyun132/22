@@ -42,6 +42,8 @@ import com.iium.iium_medioz.view.main.bottom.mypage.setting.SettingActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.one_button_dialog.view.*
 import kotlinx.android.synthetic.main.two_button_dialog.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -52,7 +54,7 @@ open class BaseActivity : AppCompatActivity() {
     var ResultView: ActivityResultLauncher<Intent>? = null
     private var doubleBackToExit = false
     val commonApi: CommonData? = null
-
+    protected val scopeMain = CoroutineScope(Dispatchers.Main)
 
     internal val realm by lazy {
         Realm.getDefaultInstance()

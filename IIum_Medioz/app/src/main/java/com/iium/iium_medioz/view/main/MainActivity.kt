@@ -1,21 +1,13 @@
 package com.iium.iium_medioz.view.main
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.WindowManager
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
@@ -25,7 +17,6 @@ import com.iium.iium_medioz.view.main.bottom.band.BandFragment
 import com.iium.iium_medioz.view.main.bottom.data.DataFragment
 import com.iium.iium_medioz.view.main.bottom.home.HomeFragment
 import com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment
-import com.iium.iium_medioz.view.main.bottom.mypage.MyPageFragment
 
 class MainActivity : BaseActivity() {
 
@@ -103,4 +94,5 @@ class MainActivity : BaseActivity() {
     private fun runDelayed(millis: Long, function: () -> Unit) {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
+
 }

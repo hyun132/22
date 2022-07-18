@@ -181,11 +181,11 @@ class AchievementActivity : BaseActivity() {
                 if(response.isSuccessful&& result!= null) {
                     Log.d(LLog.TAG,"나의 의료데이터 조회 SUCCESS -> $result ")
                     val calendarSize = result.datalist?.size
-                    when (calendarSize) {
-                        1 -> mBinding.ach1.setImageResource(R.drawable.ach_1)
-                        10 -> mBinding.ach5.setImageResource(R.drawable.ach_5)
-                        20 -> mBinding.ach6.setImageResource(R.drawable.ach_6)
-                        30 -> mBinding.ach7.setImageResource(R.drawable.ach_7)
+                    when {
+                        (calendarSize in 1..1000)-> mBinding.ach1.setImageResource(R.drawable.ach_1)
+                        (calendarSize in 10..1000) -> mBinding.ach5.setImageResource(R.drawable.ach_5)
+                        (calendarSize in 20..1000) -> mBinding.ach6.setImageResource(R.drawable.ach_6)
+                        (calendarSize in 30..1000) -> mBinding.ach7.setImageResource(R.drawable.ach_7)
                         else ->{
 
                         }
@@ -214,7 +214,7 @@ class AchievementActivity : BaseActivity() {
                 if(response.isSuccessful&& result!= null) {
                     Log.d(LLog.TAG,"캘린더 조회 SUCCESS -> $result ")
                     val calendarSize = result.calendarList.size
-                    if(calendarSize == 30) {
+                    if(calendarSize in 30..1000) {
                         mBinding.ach3.setImageResource(R.drawable.ach_3)
                     } else {
                         mBinding.ach3.setImageResource(R.drawable.bch_3)
@@ -243,7 +243,7 @@ class AchievementActivity : BaseActivity() {
                 if(response.isSuccessful&& result!= null) {
                     Log.d(LLog.TAG,"의료데이터 판매 조회 SUCCESS -> $result ")
                     val calendarSize = result.datalist?.size
-                    if(calendarSize == 10) {
+                    if(calendarSize in 10..1000) {
                         mBinding.ach3.setImageResource(R.drawable.ach_2)
                     } else {
                         mBinding.ach3.setImageResource(R.drawable.bch_2)
@@ -272,7 +272,7 @@ class AchievementActivity : BaseActivity() {
                 if(response.isSuccessful&& result!= null) {
                     Log.d(LLog.TAG,"제휴병원 서류 조회 SUCCESS -> $result ")
                     val calendarSize = result.documentList.size
-                    if(calendarSize == 10) {
+                    if(calendarSize in 10..1000) {
                         mBinding.ach3.setImageResource(R.drawable.ach_4)
                     } else {
                         mBinding.ach3.setImageResource(R.drawable.bch_4)

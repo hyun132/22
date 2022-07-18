@@ -8,7 +8,9 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
@@ -34,6 +36,7 @@ class AddressActivity : BaseActivity() {
 
     private lateinit var mBinding : ActivityAddressBinding
     private lateinit var apiServices: APIService
+    val changePar = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,17 @@ class AddressActivity : BaseActivity() {
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
         inStatusBar()
+        initView()
+    }
+
+    private fun initView() {
+        val cl_daejeon = findViewById<ConstraintLayout>(R.id.cl_daejeon)
+
+        cl_daejeon.setOnClickListener {
+            if(mBinding.llDaejeon.visibility == View.GONE) {
+                mBinding.llDaejeon.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun inStatusBar() {
@@ -52,6 +66,10 @@ class AddressActivity : BaseActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         moveHospital()
+    }
+
+    fun onSearchClick(v: View) {
+
     }
 
 

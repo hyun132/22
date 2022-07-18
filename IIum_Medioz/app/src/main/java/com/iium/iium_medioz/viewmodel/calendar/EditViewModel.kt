@@ -1,16 +1,10 @@
 package com.iium.iium_medioz.viewmodel.calendar
 
-import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.ktx.toObjects
-import com.iium.iium_medioz.model.calendar.Jurnal
 import com.iium.iium_medioz.model.calendar.SendFeelModel
 import com.iium.iium_medioz.util.base.BaseViewModel
 import com.iium.iium_medioz.util.feel.ResultState
 import com.iium.iium_medioz.util.firebase.FirebaseService
-import java.io.File
-import java.net.URI.create
 import java.util.*
 
 class EditViewModel : BaseViewModel() {

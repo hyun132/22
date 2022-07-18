@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="fragment"
-            type="com.iium.iium_medioz.view.main.bottom.mypage.MyPageFragment" />
+            name="activity"
+            type="com.iium.iium_medioz.view.main.bottom.mypage.MyPageActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="20dp"
-                android:onClick='@{fragment::onSettingClick}'
+                android:onClick='@{activity::onSettingClick}'
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -119,7 +119,7 @@
                     android:layout_height="23dp"
                     android:layout_marginTop="62dp"
                     android:layout_marginStart="10dp"
-                    android:onClick='@{fragment::onProfileClick}'
+                    android:onClick='@{activity::onProfileClick}'
                     app:layout_constraintStart_toEndOf="@+id/tv_mypage_nickname"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/mypage_post" />
@@ -142,7 +142,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_marginStart="35dp"
-                    android:onClick='@{fragment::onPointClick}'
+                    android:onClick='@{activity::onPointClick}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -152,7 +152,7 @@
                     android:id="@+id/imageView15"
                     android:layout_width="67dp"
                     android:layout_height="67dp"
-                    android:onClick='@{fragment::onAchClick}'
+                    android:onClick='@{activity::onAchClick}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -164,7 +164,7 @@
                     android:layout_width="66dp"
                     android:layout_height="66dp"
                     android:layout_marginEnd="35dp"
-                    android:onClick='@{fragment::onCheckClick}'
+                    android:onClick='@{activity::onCheckClick}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -253,7 +253,7 @@
                             android:layout_height="70dp"
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
-                            android:onClick='@{fragment::onNotiClick}'
+                            android:onClick='@{activity::onNotiClick}'
                             android:background="@drawable/profile_box">
 
                             <ImageView
@@ -289,7 +289,7 @@
                             android:layout_height="70dp"
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
-                            android:onClick='@{fragment::onCsClick}'
+                            android:onClick='@{activity::onCsClick}'
                             android:background="@drawable/profile_box">
 
                             <ImageView
