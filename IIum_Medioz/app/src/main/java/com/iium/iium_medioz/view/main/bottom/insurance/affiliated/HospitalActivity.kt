@@ -5,7 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
+import android.graphics.Point
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
@@ -32,9 +32,10 @@ import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_ADDRESS
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_CALL
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_IMGURL
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_NAME
-import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_TIMESTAMP
 import com.iium.iium_medioz.util.`object`.Constant.GPS_ENABLE_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.LOCATION_PERMISSION_REQUEST_CODE
+import com.iium.iium_medioz.util.`object`.Constant.NAVER_MAPX
+import com.iium.iium_medioz.util.`object`.Constant.NAVER_MAPY
 import com.iium.iium_medioz.util.`object`.Constant.PERMISSIONS
 import com.iium.iium_medioz.util.`object`.Constant.PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.TAG
@@ -45,6 +46,7 @@ import com.iium.iium_medioz.util.base.MyApplication
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.geometry.Tm128
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
@@ -290,6 +292,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
 
         getAPI()
+
     }
 
 
@@ -332,7 +335,9 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
     }
 
     fun onAddressClick(v: View) {
-        moveAddress()
+        val dialog = AddressDialog()
+        dialog.show(supportFragmentManager,"CustomDialog")
+
     }
 
     override fun onClick(overlay: Overlay): Boolean {

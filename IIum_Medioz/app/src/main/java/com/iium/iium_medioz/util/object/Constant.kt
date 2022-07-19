@@ -131,6 +131,10 @@ object  Constant {
     //PDF
     const val PDF_HEADER = "생성일자"
 
+    //네이버 지역 검색
+    const val NAVER_MAPX = "NAVER_MAPX"
+    const val NAVER_MAPY = "NAVER_MAPY"
+
     // Splash
     const val SPLASH_WAIT = 3500
     val MUTILE_PERMISSION: ArrayList<String?> = object : ArrayList<String?>() {

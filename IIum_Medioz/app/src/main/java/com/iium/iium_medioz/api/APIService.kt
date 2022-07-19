@@ -6,6 +6,7 @@ import com.iium.iium_medioz.model.calendar.CalendarModel
 import com.iium.iium_medioz.model.document.DocumentListModel
 import com.iium.iium_medioz.model.document.DocumentModel
 import com.iium.iium_medioz.model.map.MapMarker
+import com.iium.iium_medioz.model.map.NaverSearchModel
 import com.iium.iium_medioz.model.recycler.MedicalData
 import com.iium.iium_medioz.model.rest.base.AppPolicy
 import com.iium.iium_medioz.model.rest.base.AutoLogin
@@ -152,5 +153,4 @@ interface APIService {
     @DELETE("v1/calendar")
     fun deleteFeel(@Header("Accesstoken")accesstoken: String?,
                    @Query("id") id : String?): Call<DeleteModel>
-
 }
