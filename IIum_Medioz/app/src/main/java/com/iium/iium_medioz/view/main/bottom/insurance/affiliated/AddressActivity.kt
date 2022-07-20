@@ -296,6 +296,7 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
         val cameraUpdate: CameraUpdate = CameraUpdate.scrollTo(tm.toLatLng())
         naverMap.moveCamera(cameraUpdate)
 
+
         getAPI()
     }
 
