@@ -188,8 +188,9 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
         when (requestCode) {
             Constant.GPS_ENABLE_REQUEST_CODE ->
                 if (checkLocationServicesStatus()) {
+
                     if (checkLocationServicesStatus()) {
-                        Log.d(Constant.TAG, "onActivityResult : GPS 활성화 되있음")
+                        Log.d(TAG, "onActivityResult : GPS 활성화 되있음")
                         checkRunTimePermission()
                         return
                     }

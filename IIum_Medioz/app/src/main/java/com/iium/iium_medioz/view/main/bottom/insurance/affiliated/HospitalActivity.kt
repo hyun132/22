@@ -275,6 +275,8 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
             finish()
             true
         } else {
+
+
             super.onOptionsItemSelected(item)
         }
 

@@ -5,14 +5,17 @@ import android.app.Application
 import android.os.Bundle
 import com.clj.fastble.BleManager
 import com.iium.iium_medioz.util.common.CommonData
+import com.iium.iium_medioz.util.pixel.PixelRatio
 import com.iium.iium_medioz.util.preference.PreferenceManager
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import javax.inject.Inject
 
 class MyApplication : Application() {
     companion object {
         lateinit var prefs: PreferenceManager
         private var isMainNoticeViewed = false
+        lateinit var pixelRatio: PixelRatio
 
 
         @Synchronized
@@ -20,6 +23,9 @@ class MyApplication : Application() {
             isMainNoticeViewed = viewed
         }
     }
+
+    @Inject
+    lateinit var pixelRatio: PixelRatio
 
     override fun onCreate() {
         super.onCreate()
