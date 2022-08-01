@@ -24,8 +24,6 @@ class MyApplication : Application() {
         }
     }
 
-    @Inject
-    lateinit var pixelRatio: PixelRatio
 
     override fun onCreate() {
         super.onCreate()
