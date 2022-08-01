@@ -48,4 +48,5 @@
         android:name="com.iium.iium_medioz.view.main.bottom.mypage.MyPageFragment"
         android:label="fragment_mypage"
         tools:layout="@layout/fragment_my_page" />
+
 </navigation>

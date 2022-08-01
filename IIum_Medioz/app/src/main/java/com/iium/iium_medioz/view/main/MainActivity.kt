@@ -1,9 +1,10 @@
 package com.iium.iium_medioz.view.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -13,7 +14,6 @@ import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityMainBinding
-import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.view.main.bottom.band.BandFragment
 import com.iium.iium_medioz.view.main.bottom.data.DataFragment
@@ -95,6 +95,16 @@ class MainActivity : BaseActivity() {
 
     private fun runDelayed(millis: Long, function: () -> Unit) {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
+    }
+
+    companion object {
+        const val EXTRA_EDIT = "edit"
+
+        fun newIntent(context: Context, edit: Boolean = false): Intent {
+            return Intent(context, MainActivity::class.java).apply {
+                putExtra(EXTRA_EDIT, edit)
+            }
+        }
     }
 
 }

@@ -15,6 +15,8 @@
     <color name="gray" tools:ignore="MissingDefaultResource">#666666</color>
     <color name="circleImageViewBorderColor">#CDCDCD</color>
 
+    <color name="ripple_grey">#22222222</color>
+
     <color name="TitleTextColor">#121212</color>
     <color name="majorDescTextColor">#656565</color>
     <color name="inquireButtonBackground">#F37474</color>

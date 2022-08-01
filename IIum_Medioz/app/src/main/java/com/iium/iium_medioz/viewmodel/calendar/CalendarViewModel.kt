@@ -1,15 +1,15 @@
 package com.iium.iium_medioz.viewmodel.calendar
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.google.firebase.firestore.ktx.toObjects
 import com.iium.iium_medioz.model.calendar.Jurnal
 import com.iium.iium_medioz.util.feel.ResultState
 import com.iium.iium_medioz.util.firebase.FirebaseService
 
+
 typealias YearMonthFormat = String
 
-class CalendarViewModel: ViewModel() {
+class CalendarViewModel() : ViewModel() {
     private val resultStateJurnal = MutableLiveData<ResultState>()
     val resultStateDeleteJurnal = MutableLiveData<ResultState>()
 
@@ -43,4 +43,5 @@ class CalendarViewModel: ViewModel() {
                 resultStateDeleteJurnal.value = ResultState.Success(it)
             }
     }
+
 }
