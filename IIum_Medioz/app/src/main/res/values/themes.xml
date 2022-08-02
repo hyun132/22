@@ -26,6 +26,15 @@
         <item name="cardElevation">0dp</item>
     </style>
 
+    <style name="bodyText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/bodyTextSize</item>
+        <item name="android:textColor">@color/colorBlackHighEmphasis</item>
+        <item name="android:fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <style name="DrawerLayoutTextStyle" parent="Widget.AppCompat.TextView">
         <!-- text size in menu-->
         <item name="android:textSize">@dimen/navigation_menu_text_size</item>
@@ -34,6 +43,24 @@
     <style name="WeekendText">
         <item name="android:textSize">13dp</item>
         <item name="android:textColor">@color/sub_grey_6</item>
+    </style>
+
+    <style name="explainText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/explainTextSize</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/notosanskr_regular</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="headerText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/headerTextSize</item>
+        <item name="android:textColor">@color/colorBlackHighEmphasis</item>
+        <item name="android:fontFamily">@font/gyeonggititle_bold_title</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="RoundButton" parent="Widget.MaterialComponents.Button">

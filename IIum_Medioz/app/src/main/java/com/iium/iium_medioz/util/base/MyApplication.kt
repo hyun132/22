@@ -3,27 +3,28 @@ package com.iium.iium_medioz.util.base
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import com.clj.fastble.BleManager
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.iium.iium_medioz.util.common.CommonData
 import com.iium.iium_medioz.util.pixel.PixelRatio
 import com.iium.iium_medioz.util.preference.PreferenceManager
+import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import javax.inject.Inject
 
+@HiltAndroidApp
 class MyApplication : Application() {
     companion object {
         lateinit var prefs: PreferenceManager
         private var isMainNoticeViewed = false
         lateinit var pixelRatio: PixelRatio
-
+        lateinit var databaseReference: DatabaseReference
 
         @Synchronized
         fun setIsMainNoticeViewed(viewed: Boolean) {
             isMainNoticeViewed = viewed
         }
     }
-
 
     override fun onCreate() {
         super.onCreate()
@@ -59,6 +60,8 @@ class MyApplication : Application() {
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
             override fun onActivityDestroyed(activity: Activity) {}
         })
+
+        databaseReference = FirebaseDatabase.getInstance().reference
 
     }
 }

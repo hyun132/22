@@ -6,9 +6,6 @@ import com.iium.iium_medioz.model.calendar.Jurnal
 import com.iium.iium_medioz.util.feel.ResultState
 import com.iium.iium_medioz.util.firebase.FirebaseService
 
-
-typealias YearMonthFormat = String
-
 class CalendarViewModel() : ViewModel() {
     private val resultStateJurnal = MutableLiveData<ResultState>()
     val resultStateDeleteJurnal = MutableLiveData<ResultState>()

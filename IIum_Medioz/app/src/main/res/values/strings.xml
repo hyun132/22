@@ -20,6 +20,8 @@
     <string name="permission_alarm_desc">공지 및 PUSH 알림</string>
     <string name="permission_select">(선택)</string>
     <string name="permission_necessary">(필수)</string>
+    <string name="database_error">키워드를 등록하지 못했습니다</string>
+    <string name="keyword_subscribe_info">\`%s\`(은)는\n공지에 등록된 이력이 없는 키워드입니다\n그래도 등록하시겠습니까?</string>
 
     <string name="permission_error_all_agree">권한동의를 하지 않으면 앱을 이용하실 수 없습니다.</string>
     <string name="permission_error_all_agree_not_show">권한동의를 하지 않으면 앱을 이용하실 수 없습니다. \n[애플리케이션 설정] - [권한]에서 권한을 확인 해주세요.</string>

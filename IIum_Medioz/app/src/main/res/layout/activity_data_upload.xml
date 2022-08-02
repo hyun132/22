@@ -129,6 +129,7 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/common_font_title"
                                 app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_today_data"
                                 tools:text="" />
@@ -165,49 +166,95 @@
 
                                 <EditText
                                     android:id="@+id/et_keyword"
-                                    android:layout_width="280dp"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/edit_box"
-                                    android:fontFamily="@font/notosans_medium"
-                                    android:hint="@string/key_word"
-                                    android:imeOptions="actionDone"
-                                    android:inputType="textMultiLine"
-                                    android:maxLength="1000"
-                                    android:paddingLeft="10dp"
-                                    android:paddingRight="10dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/common_font_title"
+                                    android:layout_width="0dp"
+                                    android:layout_height="44dp"
+                                    android:background="@drawable/edittext_outline_left"
+                                    android:ems="10"
+                                    android:hint="알림 받을 키워드를 입력하세요."
+                                    android:inputType="textPersonName"
+                                    android:maxLength="10"
+                                    android:maxLines="1"
+                                    android:padding="12dp"
+                                    android:textSize="14sp"
                                     app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    tools:text="" />
+                                    app:layout_constraintHorizontal_chainStyle="packed"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toLeftOf="@id/btn_subscribe"
+                                    app:layout_constraintTop_toTopOf="parent" />
 
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/cv_keyword"
-                                    style="@style/CommonButtonCardStyle_keyword"
-                                    android:layout_width="50dp"
-                                    android:visibility="visible"
-                                    android:layout_marginStart="10dp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toEndOf="@+id/et_keyword"
-                                    app:layout_constraintTop_toTopOf="parent">
 
-                                    <androidx.appcompat.widget.AppCompatButton
-                                        android:id="@+id/btn_keyword"
-                                        style="@style/CommonButtonStyle_keyword_after"
-                                        android:text="@string/keyword" />
-
-                                </androidx.cardview.widget.CardView>
+                                <TextView
+                                    android:id="@+id/btn_subscribe"
+                                    style="@style/explainText"
+                                    android:layout_width="60dp"
+                                    android:layout_height="0dp"
+                                    android:background="@drawable/edittext_outline_right"
+                                    android:gravity="center"
+                                    android:text="등록"
+                                    android:textSize="14sp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/et_keyword"
+                                    app:layout_constraintHorizontal_chainStyle="packed"
+                                    app:layout_constraintLeft_toRightOf="@id/et_keyword"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    app:layout_constraintTop_toTopOf="@+id/et_keyword" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="vertical">
                             <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/cl_auto_textview"
-                                android:layout_marginTop="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
+                                <TextView
+                                    android:id="@+id/tv_guide"
+                                    style="@style/headerText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="키워드"
+                                    android:textSize="16sp"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintRight_toLeftOf="@id/tv_registered_keyword"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/tv_registered_keyword"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    tools:text="-1"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/tv_guide"
+                                    app:layout_constraintLeft_toRightOf="@id/tv_guide"
+                                    app:layout_constraintTop_toTopOf="@+id/tv_guide" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="/10"
+                                    android:textColor="@color/colorBlackHighEmphasis"
+                                    android:textSize="14sp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/tv_registered_keyword"
+                                    app:layout_constraintLeft_toRightOf="@id/tv_registered_keyword"
+                                    app:layout_constraintTop_toTopOf="@+id/tv_registered_keyword" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rv_keyword"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/activity_margin_narrow"
+                                    android:overScrollMode="never"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_guide" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
 
@@ -490,5 +537,16 @@
             </ScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieView_sheep"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="gone"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_sheep"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

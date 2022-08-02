@@ -45,6 +45,10 @@
     <color name="black_trans">#44000000</color>
     <color name="borderGray">#f8f7fc</color>
     <color name="transparent_gray">#66666666</color>
+    <color name="colorBlackDisabled2">#33000000</color>
+    <color name="colorBlackDisabled">#66000000</color>
+    <color name="colorBlackHighEmphasis">#D9000000</color>
+    <color name="colorBlackMediumEmphasis">#99000000</color>
 
 
     <color name="colorPrimary">#5441ff</color>

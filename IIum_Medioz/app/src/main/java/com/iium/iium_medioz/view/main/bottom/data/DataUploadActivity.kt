@@ -17,17 +17,26 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.kimcore.inko.Inko
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityDataDetyailBinding
 import com.iium.iium_medioz.databinding.ActivityDataUploadBinding
 import com.iium.iium_medioz.model.upload.CreateMedical
+import com.iium.iium_medioz.model.upload.KeywordEntity
 import com.iium.iium_medioz.model.upload.NormalModel
 import com.iium.iium_medioz.model.upload.VideoModel
 import com.iium.iium_medioz.util.`object`.Constant.DEFAULT_CODE_TRUE
@@ -39,11 +48,21 @@ import com.iium.iium_medioz.util.adapter.upload.MultiImageAdapter
 import com.iium.iium_medioz.util.adapter.upload.NormalImgAdapter
 import com.iium.iium_medioz.util.adapter.upload.VideoRecyclerAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
+import com.iium.iium_medioz.util.base.MyApplication.Companion.databaseReference
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
+import com.iium.iium_medioz.util.dialog.keyWordDialog
 import com.iium.iium_medioz.util.file.FileUtil
+import com.iium.iium_medioz.util.keyword.KeywordChecker
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.log.LLog.TAG
 import com.iium.iium_medioz.view.main.MainActivity
+import com.iium.iium_medioz.view.main.bottom.data.keyword.KeywordAdapter
+import com.iium.iium_medioz.view.main.bottom.data.keyword.KeywordDialog
+import com.iium.iium_medioz.view.main.bottom.data.keyword.KeywordListener
+import com.iium.iium_medioz.view.term.FirstDialog
+import com.iium.iium_medioz.viewmodel.calendar.CalendarViewModel
+import com.iium.iium_medioz.viewmodel.data.KeyWordViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -59,7 +78,8 @@ import java.time.LocalDate
 import java.util.HashMap
 import kotlin.concurrent.thread
 
-class DataUploadActivity : BaseActivity() {
+@AndroidEntryPoint
+class DataUploadActivity : BaseActivity(), KeywordListener {
 
     private lateinit var mBinding : ActivityDataUploadBinding
     private lateinit var apiServices: APIService
@@ -74,6 +94,14 @@ class DataUploadActivity : BaseActivity() {
 
     private val fileUtil = FileUtil()
 
+    private lateinit var map: Map<String, String>// 서버에 있는 키워드를 가져와서 저장할 변수
+    private val viewModel by viewModels<KeyWordViewModel>()
+
+    private lateinit var keywordAdapter: KeywordAdapter
+    private var registeredKeywordList = arrayListOf<KeywordEntity>()
+    private val inko = Inko()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_data_upload)
@@ -84,6 +112,8 @@ class DataUploadActivity : BaseActivity() {
         initView()
         initSecond()
         initThird()
+        initKey()
+        initEvent()
     }
 
     private fun inStatusBar() {
@@ -101,30 +131,6 @@ class DataUploadActivity : BaseActivity() {
         mBinding.textRe.setHasFixedSize(true)
         mBinding.textRe.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
 
-        mBinding.etKeyword.addTextChangedListener(object : TextWatcher{
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (mBinding.etKeyword.text.toString() == "") {
-                    mBinding.btnKeyword.isEnabled = false
-                    mBinding.btnKeyword.setBackgroundColor(R.drawable.color_common_btn)
-                    Toast.makeText(this@DataUploadActivity,"키워드를 추가해주세요!",Toast.LENGTH_SHORT).show()
-                } else if (mBinding.etKeyword.text.toString() != "") {
-                        mBinding.btnKeyword.isEnabled = true
-                        mBinding.btnKeyword.setBackgroundColor(R.drawable.color_common_btn)
-                        mBinding.btnKeyword.setOnClickListener {
-                            val textView = TextView(this@DataUploadActivity)
-                            textView.text = mBinding.etKeyword.text.toString()
-                            mBinding.clAutoTextview.addView(textView)
-                        }
-                    }
-                }
-        })
     }
 
     private fun initSecond() {
@@ -141,6 +147,104 @@ class DataUploadActivity : BaseActivity() {
         mBinding.videoRe.adapter = videoAdapter
         mBinding.videoRe.setHasFixedSize(true)
         mBinding.videoRe.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
+    }
+
+    private fun initKey() {
+        mBinding.rvKeyword.layoutManager = LinearLayoutManager(this)
+        keywordAdapter = KeywordAdapter()
+        mBinding.rvKeyword.adapter = keywordAdapter
+    }
+
+    private fun initEvent() {
+        databaseReference
+            .child("keywords")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    map = p0.value as Map<String, String>
+                }
+            })
+
+        mBinding.etKeyword.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0.toString().trim().isNotEmpty()) {
+                    mBinding.btnSubscribe.isEnabled = true
+                    mBinding.btnSubscribe.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorupdate))
+                } else {
+                    mBinding.btnSubscribe.isEnabled = false
+                    mBinding.btnSubscribe.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorBlackDisabled2))
+                }
+            }
+        })
+
+        keywordAdapter.setItemClickListener(object : KeywordAdapter.ItemClickListener{
+            override fun onClick(keyword: String) {
+                unSubscribe(keyword)
+            }
+        })
+
+        mBinding.btnSubscribe.setOnClickListener {
+            val keyword = mBinding.etKeyword.text.toString()
+            try {
+                KeywordChecker.check(keyword, registeredKeywordList)
+            } catch (e: Exception) {
+                showToastMessage(e.message.toString())
+            }
+        }
+
+        viewModel.searchResult.observe(this) {
+            val keyword = mBinding.etKeyword.text.toString()
+
+            if(it){
+                subscribe(keyword)
+            } else {
+                KeywordDialog(this, this).createDialog(keyword)
+            }
+        }
+
+        viewModel.problem.observe(this) {
+            showToastMessage(resources.getString(R.string.database_error))
+        }
+    }
+
+    private fun subscribe(keyword: String) {
+        showProgress()
+        var num = "1" // 기본값 1
+        if (map.containsKey(keyword)) {
+            num = (map.getValue(keyword).toInt() + 1).toString() // 구독자 수 +1
+        }
+
+        databaseReference.child("keywords").child(keyword).setValue(num)
+        viewModel.writeKeyword(keyword)
+    }
+
+    private fun unSubscribe(keyword: String) {
+        showProgress()
+    }
+
+    override fun keyWordListener(keyword: String) {
+        subscribe(keyword)
+        mBinding.etKeyword.text = null
+        val num = map.getValue(keyword).toInt() - 1 // 구독자 수 -1
+        databaseReference.child("keywords").child(keyword).setValue(num.toString())
+        viewModel.deleteKeyword(keyword)
+
+    }
+
+    private fun showProgress() {
+        this.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        mBinding.lottieViewSheep.visibility = View.VISIBLE
+        mBinding.lottieViewSheep.playAnimation()
+    }
+
+    private fun hideProgress() {
+        this.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        mBinding.lottieViewSheep.visibility = View.GONE
     }
 
     fun onBackPressed(v: View) {
@@ -401,6 +505,7 @@ class DataUploadActivity : BaseActivity() {
         }
     }
 
+
     /////////////////// API 호출 ///////////////////
     private fun callCreateAPI() {
         val textimg : MutableList<MultipartBody.Part?> = ArrayList()
@@ -572,4 +677,5 @@ class DataUploadActivity : BaseActivity() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
+
 }

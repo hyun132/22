@@ -15,6 +15,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.internal.service.Common
@@ -460,6 +461,10 @@ open class BaseActivity : AppCompatActivity() {
         myLayout.update_btn.setOnClickListener {
             dialog.dismiss()
         }
+    }
+
+    fun showToastMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
 }

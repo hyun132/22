@@ -32,6 +32,9 @@ object  Constant {
     const val SECOND_PERMISSION_REQUEST_CODE = 2
     const val THRID_PERMISSION_REQUEST_CODE = 3
 
+    const val TABLE_NAME = "notification"
+
+
     const val ALL_PERMISSION_REQUEST_CODE = 2
     const val BACKPRESS_CLOSE_TIME = 1500
     const val DEFATULT_TIMEOUT = 20000
