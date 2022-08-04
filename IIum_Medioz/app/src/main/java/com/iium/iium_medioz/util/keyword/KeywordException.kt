@@ -1,4 +1,4 @@
-package com.iium.iium_medioz.util.extensions
+package com.iium.iium_medioz.util.keyword
 
 class ShortException: Exception("최소 2글자 이상 입력해주세요.")
 class ExceedException: Exception("키워드는 10개까지 등록 가능합니다.")

@@ -1,10 +1,9 @@
-package com.iium.iium_medioz.view.main.bottom.data.keyword
+package com.iium.iium_medioz.util.keyword
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iium.iium_medioz.databinding.ItemKeywordBinding
-import com.iium.iium_medioz.model.upload.KeywordEntity
 
 class KeywordAdapter : RecyclerView.Adapter<KeywordAdapter.KeywordsViewHolder>() {
     private lateinit var itemClickListener: ItemClickListener
@@ -29,7 +28,7 @@ class KeywordAdapter : RecyclerView.Adapter<KeywordAdapter.KeywordsViewHolder>()
         notifyDataSetChanged()
     }
 
-    inner class KeywordsViewHolder(private val binding: ItemKeywordBinding):RecyclerView.ViewHolder(binding.root){
+    inner class KeywordsViewHolder(private val binding: ItemKeywordBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(keyword: String){
             binding.keyword = keyword
             binding.ivDelete.setOnClickListener {

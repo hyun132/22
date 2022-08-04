@@ -1,7 +1,8 @@
 package com.iium.iium_medioz.util.keyword
 
 import androidx.lifecycle.LiveData
-import com.iium.iium_medioz.model.upload.KeywordEntity
+import dagger.Module
+
 
 interface KeywordRepository {
     suspend fun deleteKeyword(keyword: String)

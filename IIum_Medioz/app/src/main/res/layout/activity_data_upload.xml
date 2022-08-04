@@ -6,6 +6,10 @@
         <variable
             name="activity"
             type="com.iium.iium_medioz.view.main.bottom.data.DataUploadActivity" />
+
+        <variable
+            name="vm"
+            type="com.iium.iium_medioz.viewmodel.data.KeyWordViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.iium.iium_medioz.model
+package com.iium.iium_medioz.util.keyword
 
 data class Univ(
     val isHeaderNotice: Boolean,

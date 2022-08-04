@@ -1,10 +1,5 @@
 package com.iium.iium_medioz.util.keyword
 
-import com.iium.iium_medioz.model.upload.KeywordEntity
-import com.iium.iium_medioz.util.extensions.ExceedException
-import com.iium.iium_medioz.util.extensions.OutOfMatchException
-import com.iium.iium_medioz.util.extensions.RegisteredException
-import com.iium.iium_medioz.util.extensions.ShortException
 import java.util.regex.Pattern
 
 object KeywordChecker {

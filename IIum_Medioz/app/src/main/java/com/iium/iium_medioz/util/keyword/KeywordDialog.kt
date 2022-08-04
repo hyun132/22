@@ -1,4 +1,4 @@
-package com.iium.iium_medioz.view.main.bottom.data.keyword
+package com.iium.iium_medioz.util.keyword
 
 import android.app.Dialog
 import android.content.Context
@@ -42,7 +42,7 @@ class KeywordDialog(
         }
 
         binding.tvSignUp.setOnClickListener {
-            mCallback.keyWordListener(keyword)
+            mCallback.keyWordUpListener(keyword)
             dialog.dismiss()
         }
 
