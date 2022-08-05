@@ -12,7 +12,7 @@ import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
-@HiltAndroidApp
+
 class MyApplication : Application() {
     companion object {
         lateinit var prefs: PreferenceManager

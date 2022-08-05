@@ -7,21 +7,18 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.kimcore.inko.Inko
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
@@ -35,16 +32,13 @@ import com.iium.iium_medioz.util.`object`.Constant.THRID_PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.adapter.upload.MultiImageAdapter
 import com.iium.iium_medioz.util.adapter.upload.NormalImgAdapter
 import com.iium.iium_medioz.util.adapter.upload.VideoRecyclerAdapter
-import com.iium.iium_medioz.util.base.BasePerMissionActivity
-import com.iium.iium_medioz.util.base.MyApplication.Companion.databaseReference
+import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
+import com.iium.iium_medioz.util.feel.show
 import com.iium.iium_medioz.util.file.FileUtil
-import com.iium.iium_medioz.util.keyword.*
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.log.LLog.TAG
 import com.iium.iium_medioz.view.main.MainActivity
-import com.iium.iium_medioz.viewmodel.data.KeyWordViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -54,12 +48,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.lang.NullPointerException
 import java.time.LocalDate
-import java.util.HashMap
 
-@AndroidEntryPoint
-class DataUploadActivity : BasePerMissionActivity<ActivityDataUploadBinding>(R.layout.activity_data_upload), KeyWordListener {
+
+class DataUploadActivity : BaseActivity() {
 
     private lateinit var mBinding : ActivityDataUploadBinding
     private lateinit var apiServices: APIService
@@ -73,24 +65,49 @@ class DataUploadActivity : BasePerMissionActivity<ActivityDataUploadBinding>(R.l
     private val videoAdapter = VideoRecyclerAdapter(files6, this)
 
     private val fileUtil = FileUtil()
-
-    private lateinit var map: Map<String, String>
-    private val viewModel: KeyWordViewModel by viewModels()
-    private lateinit var keywordAdapter: KeywordAdapter
-    private var registeredKeywordList = arrayListOf<KeywordEntity>()
-    private val inko = Inko()
-
+    private val listArray = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_data_upload)
         apiServices = ApiUtils.apiService
+        mBinding.activity = this
         mBinding.lifecycleOwner = this
         inStatusBar()
         initView()
         initSecond()
         initThird()
         initKey()
-        initEvent()
+    }
+
+    private fun initKey() {
+        mBinding.btnSubscribe.setOnClickListener {
+            createKeyWord()
+        }
+    }
+
+    private fun createKeyWord() {
+        val textView = TextView(applicationContext)
+        val listView = mBinding.llKeyword
+        val typeface = resources.getFont(R.font.noto_sans_kr_bold)
+        textView.text = mBinding.etKeyword.text.toString()
+        textView.textSize = 15f
+        textView.typeface = typeface
+        textView.id = ViewCompat.generateViewId()
+        val param : LinearLayout.LayoutParams =
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        param.marginStart = 20
+        textView.layoutParams = param
+        listArray.add(textView.text.toString())
+        if (listArray.count() == 6) {
+            Toast.makeText(this,"키워드는 5개만 등록할 수 있습니다.",Toast.LENGTH_SHORT).show()
+            listArray.clear()
+            mBinding.tvRegisteredKeyword.text = listArray.count().toString()
+            listView.removeAllViews()
+        } else {
+            listView.addView(textView)
+            mBinding.tvRegisteredKeyword.text = listArray.count().toString()
+        }
     }
 
     private fun inStatusBar() {
@@ -124,112 +141,6 @@ class DataUploadActivity : BasePerMissionActivity<ActivityDataUploadBinding>(R.l
         mBinding.videoRe.adapter = videoAdapter
         mBinding.videoRe.setHasFixedSize(true)
         mBinding.videoRe.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
-    }
-
-    private fun initKey() {
-        mBinding.rvKeyword.layoutManager = LinearLayoutManager(this)
-        keywordAdapter = KeywordAdapter()
-        mBinding.rvKeyword.adapter = keywordAdapter
-    }
-
-    private fun initEvent() {
-        databaseReference
-            .child("keywords")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-
-                }
-
-                override fun onDataChange(p0: DataSnapshot) {
-                    map = p0.value as Map<String, String>
-                }
-            })
-
-        binding.etKeyword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().trim().isNotEmpty()) {
-                    binding.btnSubscribe.isEnabled = true
-                    binding.btnSubscribe.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                } else {
-                    binding.btnSubscribe.isEnabled = false
-                    binding.btnSubscribe.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorBlackDisabled2))
-                }
-            }
-        })
-
-        keywordAdapter.setItemClickListener(object : KeywordAdapter.ItemClickListener{
-            override fun onClick(keyword: String) {
-                unSubscribe(keyword)
-            }
-        })
-
-        viewModel.readKeywordList().observe(this) {
-            keywordAdapter.setList(it)
-            binding.tvRegisteredKeyword.text = it.size.toString()
-            registeredKeywordList.clear()
-            registeredKeywordList.addAll(it)
-        }
-
-        binding.btnSubscribe.setOnClickListener {
-            val keyword = binding.etKeyword.text.toString()
-            try {
-                KeywordChecker.check(keyword, registeredKeywordList)
-                viewModel.getSearchResult(keyword)
-            } catch (e: Exception) {
-                showToastMessage(e.message.toString())
-            }
-        }
-
-        viewModel.searchResult.observe(this) {
-            val keyword = binding.etKeyword.text.toString()
-
-            if(it){
-                subscribe(keyword)
-            } else {
-                KeywordDialog(this, this).createDialog(keyword)
-            }
-        }
-
-        viewModel.problem.observe(this) {
-            showToastMessage(resources.getString(R.string.database_error))
-        }
-
-    }
-
-    private fun subscribe(keyword: String) {
-        showProgress()
-        val englishKeyword = inko.ko2en(keyword)
-
-        var num = "1" // 기본값 1
-        if (map.containsKey(keyword)) {
-            num = (map.getValue(keyword).toInt() + 1).toString() // 구독자 수 +1
-        }
-
-        databaseReference.child("keywords").child(keyword).setValue(num)
-        viewModel.writeKeyword(keyword)
-
-        binding.etKeyword.text = null
-    }
-
-    private fun unSubscribe(keyword: String) {
-        showProgress()
-        val num = map.getValue(keyword).toInt() - 1
-        databaseReference.child("keywords").child(keyword).setValue(num.toString())
-        viewModel.deleteKeyword(keyword)
-    }
-
-
-    private fun showProgress() {
-        this.window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        mBinding.lottieViewSheep.visibility = View.VISIBLE
-        mBinding.lottieViewSheep.playAnimation()
-    }
-
-    private fun hideProgress() {
-        this.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        mBinding.lottieViewSheep.visibility = View.GONE
     }
 
     fun onBackPressed(v: View) {
@@ -362,7 +273,6 @@ class DataUploadActivity : BasePerMissionActivity<ActivityDataUploadBinding>(R.l
 
     /////////////////// 앨범 사진 가져오기(limit : 5개) ///////////////////
     @Deprecated("Deprecated in Java")
-    @SuppressLint("NotifyDataSetChanged")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK && requestCode == 200 ) {
@@ -520,80 +430,7 @@ class DataUploadActivity : BasePerMissionActivity<ActivityDataUploadBinding>(R.l
         }
 
         val title = mBinding.etTitle.text.toString()
-        val keyword =mBinding.etKeyword.text.toString()
-        val timestamp = mBinding.tvTodayData.text.toString()
-        val requestHashMap : HashMap<String, RequestBody> = HashMap()
-        val sendcode = SEND_CODE_FALSE
-        val defaultcode = DEFAULT_CODE_TRUE
-        val sensitivity = ""
-
-        requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["sendcode"] = sendcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["defaultcode"] = defaultcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["sensitivity"] = sensitivity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-        LLog.d("데이터 업로드_첫번째 API")
-        apiServices.getCreate(prefs.myaccesstoken,textimg,requestHashMap).enqueue(object :
-            Callback<CreateMedical> {
-            override fun onResponse(call: Call<CreateMedical>, response: Response<CreateMedical>) {
-                val result = response.body()
-                if(response.isSuccessful&& result!= null) {
-                    Log.d(TAG,"getCreate API SUCCESS -> $result")
-//                    Thread{
-//                        try {
-//                            normalAPI()
-//                        }
-//                        catch (e: Exception) {
-//                            LLog.e(e.toString())
-//                        }
-//                    }.start()
-                }
-                else {
-                    Log.d(TAG,"getCreate API ERROR -> ${response.errorBody()}")
-                    otherAPI()
-                }
-
-            }
-
-            override fun onFailure(call: Call<CreateMedical>, t: Throwable) {
-                Log.d(TAG,"getCreate Fail -> $t")
-                serverDialog()
-            }
-        })
-
-    }
-
-    private fun otherAPI() {
-        val textimg : MutableList<MultipartBody.Part?> = ArrayList()
-        for (uri:Uri in files4) {
-            uri.path?.let {
-                Log.i("textImg", it)
-                Log.d(TAG,"사진 업로드 테스트 : ${it.length}")
-            }
-            textimg.add(prepareFilePart("textImg", uri))
-            Log.e("textImg", uri.toString())
-        }
-
-        for (imguri:Uri in files5) {
-            imguri.path?.let {
-                Log.i("Img", it)
-            }
-            textimg.add(prepareFilePart("Img", imguri))
-            Log.e("Img", imguri.toString())
-        }
-
-        for (videouri:Uri in files6) {
-            videouri.path?.let {
-                Log.i("video", it)
-            }
-            textimg.add(prepareFilePart("video", videouri))
-            Log.e("video", videouri.toString())
-        }
-
-        val title = mBinding.etTitle.text.toString()
-        val keyword =mBinding.etKeyword.text.toString()
+        val keyword = listArray.toString()
         val timestamp = mBinding.tvTodayData.text.toString()
         val requestHashMap : HashMap<String, RequestBody> = HashMap()
         val sendcode = SEND_CODE_FALSE
@@ -643,14 +480,6 @@ class DataUploadActivity : BasePerMissionActivity<ActivityDataUploadBinding>(R.l
         return MultipartBody.Part.createFormData(partName, file.name, requestFile)
     }
 
-    private fun videoFilePart(partName: String, fileUri: Uri): MultipartBody.Part {
-        val file = File(fileUri.path!!)
-        Log.i("here is error", file.absolutePath.toString())
-        val requestFile: RequestBody = file
-            .asRequestBody("video/*".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData(partName, file.name, requestFile)
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
@@ -663,10 +492,4 @@ class DataUploadActivity : BasePerMissionActivity<ActivityDataUploadBinding>(R.l
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
-
-    override fun keyWordUpListener(keyword: String) {
-        subscribe(keyword)
-        binding.etKeyword.text = null
-    }
-
 }
