@@ -58,11 +58,9 @@ class SendDetailActivity : BaseActivity() {
         val textList = intent.getStringExtra(SEND_DETAIL_TEXTIMG)
         val normalList = intent.getStringExtra(SEND_DETAIL_NORMAL)
         val videoList = intent.getStringExtra(SEND_DETAIL_VIDEO)
+        val id = intent.getStringExtra(SEND_DETAIL_ID)
 
-        Log.d(TAG,"텍스트 이미지 ->$textList")
-        Log.d(TAG,"일반 이미지 ->$normalList")
-        Log.d(TAG,"비디오 이미지 ->$videoList")
-
+        Log.d(TAG,"아이템 아이디 ->$id")
 
         val img =  textList?.substring(2)
         val imgtest = img?.substring(0, img.length - 2)

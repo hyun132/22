@@ -9,10 +9,13 @@ data class SendModel(
 data class DataSend(
     val title: String? = null,
     val keyword: String? = null,
+    val textlist : String? = null,
+    val normallist: String? = null,
+    val videolist: String? = null,
     val timestamp: String? = null,
-    val sendcode: String? = null,
+    val defaultcode: String? =null,
     val sensitivity: String? = null,
-    val dataid: String? = null,
-    val defaultcode: String? =null
+    val sendcode: String? = null,
+    val dataid: String? = null
 )
 

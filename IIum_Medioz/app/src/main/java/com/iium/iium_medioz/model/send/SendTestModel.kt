@@ -8,13 +8,16 @@ data class SendTestModel (
 )
 
 data class SendList(
-    val DataList : List<DataListSecond>? = null,
-    val title : String? = null,
-    val keyword  : String? = null,
-    val timestamp : String? =null,
-    val sendcode : String? = null,
-    val defaultcode : String? = null,
-    val sensitivity : String? = null,
-    val userId : String? =null,
-    val id : String? =null
+    @SerializedName("_id")
+    val id : String? = null,
+    val title: String? = null,
+    val keyword: String? = null,
+    val textlist : String? = null,
+    val normallist: String? = null,
+    val videolist: String? = null,
+    val timestamp: String? = null,
+    val defaultcode: String? =null,
+    val sensitivity: String? = null,
+    val sendcode: String? = null,
+    val dataid: String? = null
 )

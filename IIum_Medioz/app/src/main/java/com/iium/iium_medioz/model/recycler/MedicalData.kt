@@ -15,6 +15,10 @@ data class DataList(
     val sendcode : String? = null,
     val defaultcode : String? = null,
     val sensitivity : String? = null,
+    val pickscore : String? = null,
+    val videoscore : String? = null,
+    val keywordscore : String? = null,
+    val sensitivityscore : String? = null,
     val userId : String? =null,
     val id : String? =null
 )

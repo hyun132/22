@@ -14,5 +14,9 @@ data class UserGet(
     val sex : String? = null,
     val name : String? = null,
     val admin : Boolean? = null,
+    val pickscore : String? = null,
+    val videoscore : String? = null,
+    val keywordscore : String? = null,
+    val sensitivityscore : String? = null,
     val id : String? = null
 )

@@ -7,12 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import androidx.core.graphics.get
 import androidx.databinding.DataBindingUtil
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityDataDetyailBinding
+import com.iium.iium_medioz.model.rest.login.GetUser
+import com.iium.iium_medioz.model.rest.login.UserGet
 import com.iium.iium_medioz.model.upload.DeleteModel
 import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.util.`object`.Constant.DATA_ID
@@ -35,7 +36,6 @@ import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.log.LLog.TAG
 import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
 import okhttp3.ResponseBody
-import okio.utf8Size
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,6 +62,10 @@ class DataDetyailActivity : BaseActivity() {
         val textList = intent.getStringExtra(DATA_TEXTIMG)
         val normalList = intent.getStringExtra(DATA_NORMAL)
         val videoList = intent.getStringExtra(DATA_VIDEOFILE)
+
+        Log.d(TAG,"텍스트 이미지 : ${textList.toString()}")
+        Log.d(TAG,"일반 이미지 : ${normalList.toString()}")
+        Log.d(TAG,"비디오 이미지 : ${videoList.toString()}")
 
         val img =  textList?.substring(2)
         val imgtest = img?.substring(0, img.length - 2)
@@ -459,18 +463,18 @@ class DataDetyailActivity : BaseActivity() {
     }
 
     fun onDataSend(v: View?) {
-        val title = intent.getStringExtra(DATA_TITLE)
-        val keyword = intent.getStringExtra(DATA_KEYWORD)
-        val timestamp = intent.getStringExtra(DATA_TIMESTAMP)
+        val title = mBinding.tvMedicalDetailTitle.text.toString()
+        val keyword = mBinding.tvMyKeyword.text.toString()
+        val timestamp = mBinding.tvMedicalDetailData.text.toString()
         val textList = intent.getStringExtra(DATA_TEXTIMG)
         val normalList = intent.getStringExtra(DATA_NORMAL)
         val videoList = intent.getStringExtra(DATA_VIDEOFILE)
         val id = intent.getStringExtra(DATA_ID)
 
         val intent = Intent(this, SendActivity::class.java)
-        intent.putExtra(SEND_TITLE, title.toString())
-        intent.putExtra(SEND_KEYWORD, keyword.toString())
-        intent.putExtra(SEND_TIME_STAMP, timestamp.toString())
+        intent.putExtra(SEND_TITLE, title)
+        intent.putExtra(SEND_KEYWORD, keyword)
+        intent.putExtra(SEND_TIME_STAMP, timestamp)
         intent.putExtra(SEND_TEXTIMG, textList.toString())
         intent.putExtra(SEND_NORMAL, normalList.toString())
         intent.putExtra(SEND_VIDEO, videoList.toString())

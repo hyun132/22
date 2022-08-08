@@ -14,11 +14,13 @@ import com.iium.iium_medioz.model.recycler.*
 import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.util.`object`.Constant.DATA_DEFAULT_CODE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_ID
+import com.iium.iium_medioz.util.`object`.Constant.DATA_KEYWORD_SCORE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_NORMAL
+import com.iium.iium_medioz.util.`object`.Constant.DATA_PICK_SCORE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_SEND_CODE
-import com.iium.iium_medioz.util.`object`.Constant.DATA_TEST
+import com.iium.iium_medioz.util.`object`.Constant.DATA_SENSITIVITY_SCORE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_TEXTIMG
-import com.iium.iium_medioz.util.`object`.Constant.DATA_VIDEOFILE
+import com.iium.iium_medioz.util.`object`.Constant.DATA_VIDEO_SCORE
 import com.iium.iium_medioz.view.main.bottom.data.DataDetyailActivity
 
 
@@ -81,6 +83,12 @@ class TestAdapter (private val datalist : List<DataList>, val context: Context)
                 intent.putExtra(DATA_ID, itemData.id.toString())
                 intent.putExtra(DATA_SEND_CODE, itemData.sendcode.toString())
                 intent.putExtra(DATA_DEFAULT_CODE, itemData.defaultcode.toString())
+
+                intent.putExtra(DATA_KEYWORD_SCORE, itemData.keywordscore.toString())
+                intent.putExtra(DATA_PICK_SCORE, itemData.pickscore.toString())
+                intent.putExtra(DATA_VIDEO_SCORE, itemData.videoscore.toString())
+                intent.putExtra(DATA_SENSITIVITY_SCORE, itemData.sensitivityscore.toString())
+
                 ContextCompat.startActivity(itemView.context, intent, null)
             }
         }

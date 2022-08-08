@@ -74,7 +74,11 @@ class SendActivity : BaseActivity() {
         Log.d(TAG,"아이디 -> $id")
         Log.d(TAG,"타이틀 -> $title")
         Log.d(TAG,"키워드 -> $keyword")
+        Log.d(TAG,"키워드 카운트 -> ${arrayOf(keyword).size}")
         Log.d(TAG,"날짜 -> $timestamp")
+        Log.d(TAG,"텍스트 이미지 ->$textList")
+        Log.d(TAG,"일반 이미지 ->$normalList")
+        Log.d(TAG,"비디오 이미지 ->$videoList")
 
         mBinding.tvMedicalDetailTitle.text = title.toString()
         mBinding.tvMedicalDetailData.text = timestamp.toString()
@@ -550,28 +554,26 @@ class SendActivity : BaseActivity() {
     }
 
     private fun sendAPI() {
-        val requestHashMap : HashMap<String, RequestBody> = HashMap()
-
         val title = intent.getStringExtra(SEND_TITLE)
         val keyword = intent.getStringExtra(SEND_KEYWORD)
         val timestamp = intent.getStringExtra(SEND_TIME_STAMP)
-        val textList = intent.getStringExtra(SEND_TEXTIMG)
-        val normalList = intent.getStringExtra(SEND_NORMAL)
-        val videoList = intent.getStringExtra(SEND_VIDEO)
         val id = intent.getStringExtra(SEND_ID)
         val send_sendcode = SEND_CODE_TRUE
         val send_default = DEFAULT_CODE_FALSE
         val send_sensitivity = "0"
+        val textList = intent.getStringExtra(SEND_TEXTIMG)
+        val normalList = intent.getStringExtra(SEND_NORMAL)
+        val videoList = intent.getStringExtra(SEND_VIDEO)
 
-        val send = DataSend(title, keyword, timestamp, send_sendcode, send_sensitivity,id,send_default)
+        val send = DataSend(title, keyword,textList,normalList,videoList, timestamp, send_default,send_sensitivity, send_sendcode,id)
         LLog.e("판매 데이터 API")
-        val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,id,send)
+        val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,send)
         vercall.enqueue(object : Callback<SendModel> {
             override fun onResponse(call: Call<SendModel>, response: Response<SendModel>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"판매 데이터 response SUCCESS -> $result")
-                    naverOCRAPI()
+//                    naverOCRAPI()
                     moveSaveSend()
                 }
                 else {
@@ -668,8 +670,8 @@ class SendActivity : BaseActivity() {
     }
 
     fun onSendClick(v: View?) {
-        naverOCRAPI()
-//        sendAPI()
+//        naverOCRAPI()
+        sendAPI()
     }
 
     override fun onBackPressed() {

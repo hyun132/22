@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.model.send.SendList
 import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_DEFAULT
 import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_ID
 import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_KEYWORD
 import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_NORMAL
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_SEND_CODE
+import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_SENSITIVITY
 import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_TEXTIMG
 import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_TIME_STAMP
 import com.iium.iium_medioz.util.`object`.Constant.SEND_DETAIL_TITLE
@@ -51,32 +54,17 @@ class SendAdapter(private val datalist: List<SendList>, val context: Context)
             keyword?.text = itemData.keyword.toString()
             timestamp?.text = itemData.timestamp.toString()
 
-            val textlist = itemData.DataList?.map {  it ->
-                it.textImg.map {
-                    it.filename
-                }
-            }
-
-            val normallist = itemData.DataList?.map { it ->
-                it.Img.map {
-                    it.filename
-                }
-            }
-
-//            val video = itemData.DataList?.map { it ->
-//                it.video.map {
-//                    it.filename
-//                }
-//            }
-
             cl_body?.setOnClickListener {
                 val intent = Intent(context, SendDetailActivity::class.java)
                 intent.putExtra(SEND_DETAIL_TITLE, itemData.title.toString())
                 intent.putExtra(SEND_DETAIL_KEYWORD, itemData.keyword.toString())
                 intent.putExtra(SEND_DETAIL_TIME_STAMP, itemData.timestamp.toString())
-                intent.putExtra(SEND_DETAIL_TEXTIMG, textlist.toString())
-                intent.putExtra(SEND_DETAIL_NORMAL, normallist.toString())
-//                intent.putExtra(SEND_DETAIL_VIDEO, video.toString())
+                intent.putExtra(SEND_DETAIL_TEXTIMG, itemData.textlist.toString())
+                intent.putExtra(SEND_DETAIL_NORMAL, itemData.normallist.toString())
+                intent.putExtra(SEND_DETAIL_VIDEO, itemData.videolist.toString())
+                intent.putExtra(SEND_DETAIL_DEFAULT, itemData.defaultcode.toString())
+                intent.putExtra(SEND_DETAIL_SENSITIVITY, itemData.sensitivity.toString())
+                intent.putExtra(SEND_DETAIL_SEND_CODE, itemData.sendcode.toString())
                 intent.putExtra(SEND_DETAIL_ID, itemData.id.toString())
                 ContextCompat.startActivity(itemView.context, intent, null)
             }

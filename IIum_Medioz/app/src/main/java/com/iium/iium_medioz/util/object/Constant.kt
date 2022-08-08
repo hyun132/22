@@ -63,7 +63,11 @@ object  Constant {
     const val DATA_ID = "DATA_ID"
     const val DATA_SEND_CODE = "DATA_SEND_CODE"
     const val DATA_DEFAULT_CODE = "DATA_DEFAULT_CODE"
-    const val DATA_TEST = "DATA_TEST"
+    const val DATA_KEYWORD_SCORE = "DATA_KEYWORD_SCORE"
+    const val DATA_PICK_SCORE = "DATA_PICK_SCORE"
+    const val DATA_VIDEO_SCORE = "DATA_VIDEO_SCORE"
+    const val DATA_SENSITIVITY_SCORE = "DATA_SENSITIVITY_SCORE"
+
 
     //Search 데이터
     const val SEARCH_TITLE = "SEARCH_TITLE"
@@ -90,6 +94,10 @@ object  Constant {
     const val SEND_DETAIL_NORMAL = "SEND_DETAIL_NORMAL"
     const val SEND_DETAIL_VIDEO = "SEND_DETAIL_VIDEO"
     const val SEND_DETAIL_ID = "SEND_DETAIL_ID"
+    const val SEND_DETAIL_DEFAULT = "SEND_DETAIL_DEFAULT"
+    const val SEND_DETAIL_SENSITIVITY = "SEND_DETAIL_SENSITIVITY"
+    const val SEND_DETAIL_SEND_CODE = "SEND_DETAIL_SEND_CODE"
+
 
     const val SEND_CODE_TRUE = "true"
     const val SEND_CODE_FALSE = "false"

@@ -53,6 +53,7 @@ interface APIService {
     @GET("v1/user")
     fun getUser(@Header("Accesstoken")accesstoken: String?): Call<GetUser>
 
+
     // 프로필 이미지 받기API
     @GET("v1/user/image")
     @Streaming
@@ -85,9 +86,8 @@ interface APIService {
                @Header("Accesstoken") accesstoken: String?) : Call<ResponseBody>
 
     //나의 의료데이터 판매 전환
-    @PUT("v1/datalist")
+    @POST("v1/datasend")
     fun getChange(@Header("Accesstoken") accesstoken: String?,
-                  @Query("id") id: String?,
                   @Body dataSend: DataSend) : Call<SendModel>
 
     //나의 의료데이터 판매 조회

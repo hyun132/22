@@ -107,6 +107,7 @@ class DataUploadActivity : BaseActivity() {
         } else {
             listView.addView(textView)
             mBinding.tvRegisteredKeyword.text = listArray.count().toString()
+            mBinding.etKeyword.text = null
         }
     }
 
@@ -289,7 +290,6 @@ class DataUploadActivity : BaseActivity() {
                             fileUtil.getPath(this, it!!)
                         }
                         files4.add(Uri.parse(imgPath))
-                        Log.d(TAG,"upload TextIMG -> $imgPath")
                     }
                 }
                 catch (e : NullPointerException) {
@@ -383,17 +383,10 @@ class DataUploadActivity : BaseActivity() {
 
     fun onDataSendClick(v: View?) {
         val et_title = mBinding.etTitle.text.toString()
-        val et_keyword = mBinding.etKeyword.text.toString()
         when {
             et_title.isEmpty() -> {
                 mBinding.etTitle.error = "미입력"
                 Toast.makeText(this,"제목을 입력해 주세요",Toast.LENGTH_SHORT).show().toString()
-            }
-
-            et_keyword.isEmpty() -> {
-                mBinding.etKeyword.error = "미입력"
-                Toast.makeText(this,"키워드를 입력해 주세요",Toast.LENGTH_SHORT).show().toString()
-
             }
             else -> {
                 callCreateAPI()
@@ -437,12 +430,51 @@ class DataUploadActivity : BaseActivity() {
         val defaultcode = DEFAULT_CODE_TRUE
         val sensitivity = ""
 
+        val picksize = files4.size
+        val pick = 0
+        val pickkk = when(picksize) {
+            1 -> pick + 4
+            2 -> pick + 8
+            3 -> pick + 12
+            4 -> pick + 16
+            5 -> pick + 20
+            else -> pick + 0
+        }
+        val pickscore = pickkk.toString()
+
+        val videosize = files6.size
+        val video = 0
+        val videooo = when(videosize) {
+            1 -> video + 4
+            2 -> video + 8
+            3 -> video + 12
+            4 -> video + 16
+            5 -> video + 20
+            else -> video + 0
+        }
+        val videoscore = videooo.toString()
+
+        val keyscore = 0
+        val key = listArray.count()
+        val keyy = when(key) {
+            1 -> keyscore + 4
+            2 -> keyscore + 8
+            3 -> keyscore + 12
+            4 -> keyscore + 16
+            5 -> keyscore + 20
+            else -> keyscore + 0
+        }
+        val keywordscore = keyy.toString()
+
         requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["sendcode"] = sendcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["defaultcode"] = defaultcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["sensitivity"] = sensitivity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["pickscore"] = pickscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["videoscore"] = videoscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["keywordscore"] = keywordscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         LLog.d("데이터 업로드_두번째 API")
         apiServices.getCreate(prefs.newaccesstoken,textimg, requestHashMap).enqueue(object :

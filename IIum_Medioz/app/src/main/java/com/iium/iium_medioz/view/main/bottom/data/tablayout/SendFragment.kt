@@ -40,14 +40,13 @@ class SendFragment : Fragment() {
     }
 
     private fun initView() {
-        LLog.e("판매 데이터 조회_첫번째 API")
-        val vercall: Call<SendTestModel> = apiServices.getSend(prefs.myaccesstoken)
+        LLog.e("판매 데이터 조회 API")
+        val vercall: Call<SendTestModel> = apiServices.getSend(prefs.newaccesstoken)
         vercall.enqueue(object : Callback<SendTestModel> {
             override fun onResponse(call: Call<SendTestModel>, response: Response<SendTestModel>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"List response SUCCESS -> $result")
-
+                    Log.d(LLog.TAG,"판매 데이터 조회 API SUCCESS -> $result")
                     if(result.datalist!!.isEmpty()) {
                         mBinding.SendListRecyclerView.visibility = View.GONE
                         mBinding.tvDataSendNot.visibility = View.VISIBLE
@@ -58,38 +57,11 @@ class SendFragment : Fragment() {
                     }
                 }
                 else {
-                    Log.d(LLog.TAG,"판매 데이터 조회_첫번째 API List response ERROR -> $result")
-                    otherAPI()
+                    Log.d(LLog.TAG,"판매 데이터 조회 API ERROR -> $result")
                 }
             }
             override fun onFailure(call: Call<SendTestModel>, t: Throwable) {
-                Log.d(LLog.TAG, "판매 데이터 조회_첫번째 Fail -> $t")
-            }
-        })
-    }
-
-    private fun otherAPI() {
-        LLog.e("판매 데이터 조회_두번째 API")
-        val vercall: Call<SendTestModel> = apiServices.getSend(prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<SendTestModel> {
-            override fun onResponse(call: Call<SendTestModel>, response: Response<SendTestModel>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"판매 데이터 조회_두번째 response SUCCESS -> $result")
-                    if(result.datalist!!.isEmpty()) {
-                        mBinding.SendListRecyclerView.visibility = View.GONE
-                        mBinding.tvDataSendNot.visibility = View.VISIBLE
-                    } else {
-                        mBinding.SendListRecyclerView.visibility = View.VISIBLE
-                        mBinding.tvDataSendNot.visibility = View.GONE
-                        setAdapter(result.datalist)
-                    }                }
-                else {
-                    Log.d(LLog.TAG,"판매 데이터 조회_두번째 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<SendTestModel>, t: Throwable) {
-                Log.d(LLog.TAG, "판매 데이터 조회_두번째 Fail -> $t")
+                Log.d(LLog.TAG, "판매 데이터 조회 API Fail -> $t")
             }
         })
     }
