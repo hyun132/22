@@ -423,6 +423,7 @@ class DataUploadActivity : BaseActivity() {
         }
 
         val title = mBinding.etTitle.text.toString()
+
         val keyword = listArray.toString()
         val timestamp = mBinding.tvTodayData.text.toString()
         val requestHashMap : HashMap<String, RequestBody> = HashMap()
@@ -466,6 +467,13 @@ class DataUploadActivity : BaseActivity() {
         }
         val keywordscore = keyy.toString()
 
+        val pickk : Int = pickscore.toInt()
+        val vidd : Int = videoscore.toInt()
+        val kkk : Int = keywordscore.toInt()
+
+        val all = pickk + vidd + kkk
+        val allscore : String = all.toString()
+
         requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["timestamp"] = timestamp.toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -475,6 +483,7 @@ class DataUploadActivity : BaseActivity() {
         requestHashMap["pickscore"] = pickscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["videoscore"] = videoscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["keywordscore"] = keywordscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["allscore"] = allscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         LLog.d("데이터 업로드_두번째 API")
         apiServices.getCreate(prefs.newaccesstoken,textimg, requestHashMap).enqueue(object :

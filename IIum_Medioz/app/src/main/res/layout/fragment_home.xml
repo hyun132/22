@@ -138,10 +138,19 @@
                         android:id="@+id/cl_tem"
                         android:layout_width="match_parent"
                         android:layout_height="110dp"
-                        android:background="@drawable/main_tem_first"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/cl_main">
+
+                        <ImageView
+                            android:id="@+id/img_data_tem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/main_tem_first" />
 
                         <TextView
                             android:id="@+id/tv_tem"
@@ -165,6 +174,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/main_tem_icon" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 

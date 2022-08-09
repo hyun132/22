@@ -19,6 +19,7 @@ data class DataList(
     val videoscore : String? = null,
     val keywordscore : String? = null,
     val sensitivityscore : String? = null,
+    val allscore: String? = null,
     val userId : String? =null,
     val id : String? =null
 )

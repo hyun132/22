@@ -16,6 +16,7 @@ import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.FragmentAllBinding
 import com.iium.iium_medioz.model.recycler.*
+import com.iium.iium_medioz.model.rest.login.GetUser
 import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.adapter.TestAdapter
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
@@ -43,35 +44,6 @@ class AllFragment : Fragment() {
     }
 
     private fun initView() {
-        LLog.e("데이터 조회_첫번째 API")
-        val vercall: Call<MedicalData> = apiServices.getCreateGet(prefs.myaccesstoken)
-        vercall.enqueue(object : Callback<MedicalData> {
-            override fun onResponse(call: Call<MedicalData>, response: Response<MedicalData>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"List response SUCCESS -> $result")
-
-                    if(result.datalist!!.isEmpty()) {
-                        mBinding.medicalRecyclerView.visibility = View.GONE
-                        mBinding.tvDataNot.visibility = View.VISIBLE
-                    } else {
-                        mBinding.medicalRecyclerView.visibility = View.VISIBLE
-                        mBinding.tvDataNot.visibility = View.GONE
-                        setAdapter(result.datalist)
-                    }
-                }
-                else {
-                    Log.d(LLog.TAG,"데이터 조회_첫번째 API List response ERROR -> $result")
-                    otherAPI()
-                }
-            }
-            override fun onFailure(call: Call<MedicalData>, t: Throwable) {
-                Log.d(LLog.TAG, "List Fail -> $t")
-            }
-        })
-    }
-
-    private fun otherAPI() {
         LLog.e("데이터 조회_두번째 API")
         val vercall: Call<MedicalData> = apiServices.getCreateGet(prefs.newaccesstoken)
         vercall.enqueue(object : Callback<MedicalData> {
@@ -97,8 +69,6 @@ class AllFragment : Fragment() {
             }
         })
     }
-
-
 
     @SuppressLint("UseRequireInsteadOfGet")
     private fun setAdapter(datalist: List<DataList>?) {

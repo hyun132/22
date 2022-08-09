@@ -53,7 +53,6 @@ interface APIService {
     @GET("v1/user")
     fun getUser(@Header("Accesstoken")accesstoken: String?): Call<GetUser>
 
-
     // 프로필 이미지 받기API
     @GET("v1/user/image")
     @Streaming
