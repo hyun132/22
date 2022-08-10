@@ -180,15 +180,30 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <ImageView
-                                android:id="@+id/imageView3"
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
+                            <TextView
+                                android:id="@+id/tv_text_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="12dp"
+                                android:fontFamily="@font/gyeonggititle_bold_title"
+                                tools:text="0"
+                                android:textColor="@color/black_trans"
+                                android:textSize="15sp"
                                 app:layout_constraintStart_toEndOf="@+id/tv_text_img"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_tex"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/gyeonggititle_bold_title"
+                                android:textColor="@color/black_trans"
+                                android:textSize="15sp"
+                                app:layout_constraintStart_toEndOf="@+id/tv_text_count"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/help_img" />
+                                android:text="/5" />
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -280,15 +295,30 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <ImageView
-                                android:id="@+id/imageView4"
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
+                            <TextView
+                                android:id="@+id/tv_normal_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="12dp"
+                                android:fontFamily="@font/gyeonggititle_bold_title"
+                                tools:text="0"
+                                android:textColor="@color/black_trans"
+                                android:textSize="15sp"
                                 app:layout_constraintStart_toEndOf="@+id/tv_normal_img"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_normal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/gyeonggititle_bold_title"
+                                android:textColor="@color/black_trans"
+                                android:textSize="15sp"
+                                app:layout_constraintStart_toEndOf="@+id/tv_normal_count"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/help_img" />
+                                android:text="/5" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -380,15 +410,30 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <ImageView
-                                android:id="@+id/imageView5"
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
+                            <TextView
+                                android:id="@+id/tv_video_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="12dp"
+                                android:fontFamily="@font/gyeonggititle_bold_title"
+                                tools:text="0"
+                                android:textColor="@color/black_trans"
+                                android:textSize="15sp"
                                 app:layout_constraintStart_toEndOf="@+id/tv_video"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_videos"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/gyeonggititle_bold_title"
+                                android:textColor="@color/black_trans"
+                                android:textSize="15sp"
+                                app:layout_constraintStart_toEndOf="@+id/tv_video_count"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/help_img" />
+                                android:text="/5" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -399,34 +444,37 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tv_detail_keyword">
 
-                            <ImageView
-                                android:id="@+id/v_image1"
+                            <com.google.android.exoplayer2.ui.PlayerView
+                                android:id="@+id/pv_first"
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 android:scaleType="center"
                                 android:layout_marginHorizontal="5dp"/>
 
-                            <ImageView
-                                android:id="@+id/v_image2"
+                            <com.google.android.exoplayer2.ui.PlayerView
+                                android:id="@+id/pv_second"
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
                                 android:layout_marginHorizontal="5dp"
                                 android:scaleType="center"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/v_image1"
+                                app:layout_constraintStart_toEndOf="@+id/pv_first"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <ImageView
-                                android:id="@+id/v_image3"
+                            <com.google.android.exoplayer2.ui.PlayerView
+                                android:id="@+id/pv_third"
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
                                 android:layout_marginHorizontal="5dp"
                                 android:scaleType="center"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/v_image2"
+                                app:layout_constraintStart_toEndOf="@+id/pv_second"
                                 app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                         <LinearLayout

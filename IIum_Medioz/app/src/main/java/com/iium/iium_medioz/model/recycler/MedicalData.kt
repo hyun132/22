@@ -25,9 +25,9 @@ data class DataList(
 )
 
 data class DataListSecond(
-    val textImg : List<TextList>,
-    val Img : List<NormalList>,
-    val video : List<VideoList>
+    val textImg : List<TextList>? = null,
+    val Img : List<NormalList>? = null,
+    val video : List<VideoList>? = null
 )
 
 data class TextList(

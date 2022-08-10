@@ -8,14 +8,12 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityDataDetyailBinding
-import com.iium.iium_medioz.model.rest.login.GetUser
-import com.iium.iium_medioz.model.rest.login.UserGet
 import com.iium.iium_medioz.model.upload.DeleteModel
-import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.util.`object`.Constant.DATA_ID
 import com.iium.iium_medioz.util.`object`.Constant.DATA_KEYWORD
 import com.iium.iium_medioz.util.`object`.Constant.DATA_NORMAL
@@ -55,13 +53,18 @@ class DataDetyailActivity : BaseActivity() {
         inStatusBar()
     }
 
+    override fun onResume() {
+        super.onResume()
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
     private fun initView() {
-        val title = intent.getStringExtra(DATA_TITLE)
-        val keyword = intent.getStringExtra(DATA_KEYWORD)
-        val timestamp = intent.getStringExtra(DATA_TIMESTAMP)
-        val textList = intent.getStringExtra(DATA_TEXTIMG)
-        val normalList = intent.getStringExtra(DATA_NORMAL)
-        val videoList = intent.getStringExtra(DATA_VIDEOFILE)
+        val title = intent?.getStringExtra(DATA_TITLE)
+        val keyword = intent?.getStringExtra(DATA_KEYWORD)
+        val timestamp = intent?.getStringExtra(DATA_TIMESTAMP)
+        val textList = intent?.getStringExtra(DATA_TEXTIMG)
+        val normalList = intent?.getStringExtra(DATA_NORMAL)
+        val videoList = intent?.getStringExtra(DATA_VIDEOFILE)
 
         Log.d(TAG,"텍스트 이미지 : ${textList.toString()}")
         Log.d(TAG,"일반 이미지 : ${normalList.toString()}")
@@ -83,6 +86,7 @@ class DataDetyailActivity : BaseActivity() {
                         "4" -> five(tnla[i].trim())
                         else -> Log.d(TAG, "실패")
                     }
+                    mBinding.tvTextCount.text = tnla.count().toString()
                 }
                 catch (e: Exception) {
                     LLog.d(e.toString())
@@ -106,6 +110,7 @@ class DataDetyailActivity : BaseActivity() {
                         "4" -> normal_five(normalstart[i].trim())
                         else -> Log.d(TAG, "실패")
                     }
+                    mBinding.tvNormalCount.text = normalstart.count().toString()
                 }
                 catch (e: Exception) {
                     LLog.d(e.toString())
@@ -113,20 +118,31 @@ class DataDetyailActivity : BaseActivity() {
             }.start()
         }
 
-//        val video =  videoList?.substring(2)
-//        val videotest = video?.substring(0, img.length - 2)
-//        val videostart = videotest?.split(",")
-//
-//        for(i in 0 until videostart?.size!! step(1)) {
-//            val str_idx = i.toString()
-//            when (str_idx) {
-//                "0" -> video_first(videostart[i].trim())
-//                "1" -> video_second(videostart[i].trim())
-//                "2" -> video_third(videostart[i].trim())
-//                else -> Log.d(TAG,"실패")
-//            }
-//        }
+        val video =  videoList?.substring(2)
+        val videotest = video?.substring(0, video.length - 2)
+        val videostart = videotest?.split(",")
 
+        for(i in 0 until videostart?.size!! step(1)) {
+            val str_idx = i.toString()
+            when (str_idx) {
+                "0" -> video_first(videostart[i].trim())
+                "1" -> video_second(videostart[i].trim())
+                "2" -> video_third(videostart[i].trim())
+                else -> Log.d(TAG,"실패")
+            }
+
+            if (videostart.count() in 1..3) {
+               if( mBinding.pvFirst.visibility == View.GONE) {
+                   mBinding.pvFirst.visibility = View.VISIBLE
+               } else if(mBinding.pvSecond.visibility == View.GONE) {
+                   mBinding.pvSecond.visibility = View.VISIBLE
+               } else if(mBinding.pvThird.visibility == View.GONE) {
+                   mBinding.pvThird.visibility = View.VISIBLE
+               }
+            }
+            mBinding.tvVideoCount.text = videostart.count().toString()
+
+        }
 
         mBinding.tvMedicalDetailTitle.text = title.toString()
         mBinding.tvMedicalDetailData.text = timestamp.toString()
@@ -441,21 +457,67 @@ class DataDetyailActivity : BaseActivity() {
 
     //////////////////////영상 추출 API////////////////////////////
     private fun video_first(s: String) {
+        LLog.e("비디오 추출_첫번째 API")
+        val vercall: Call<ResponseBody> = apiServices.getImg(s,prefs.newaccesstoken)
+        vercall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val result = response.body()
+                if (response.isSuccessful && result != null) {
+                    Log.d(TAG,"비디오 추출_첫번째 response SUCCESS -> $result")
 
+                }
+                else {
+                    Log.d(TAG,"비디오 추출_첫번째 response ERROR -> $result")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d(TAG, "비디오 추출_첫번째 Fail -> ${t.localizedMessage}")
+            }
+        })
     }
 
     private fun video_second(s: String) {
-
+        LLog.e("비디오 추출_두번째 API")
+        val vercall: Call<ResponseBody> = apiServices.getImg(s,prefs.newaccesstoken)
+        vercall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val result = response.body()
+                if (response.isSuccessful && result != null) {
+                    Log.d(TAG,"비디오 추출_두번째 response SUCCESS -> $result")
+                }
+                else {
+                    Log.d(TAG,"비디오 추출_두번째 response ERROR -> $result")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d(TAG, "비디오 추출_두번째 Fail -> ${t.localizedMessage}")
+            }
+        })
     }
 
     private fun video_third(s: String) {
-
+        LLog.e("비디오 추출_세번째 API")
+        val vercall: Call<ResponseBody> = apiServices.getImg(s,prefs.newaccesstoken)
+        vercall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val result = response.body()
+                if (response.isSuccessful && result != null) {
+                    Log.d(TAG,"비디오 추출_세번째 response SUCCESS -> $result")
+                }
+                else {
+                    Log.d(TAG,"비디오 추출_세번째 response ERROR -> $result")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d(TAG, "비디오 추출_세번째 Fail -> ${t.localizedMessage}")
+            }
+        })
     }
-
 
     private fun inStatusBar() {
         setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
         window.statusBarColor = getColor(R.color.main_status)
+
     }
 
     fun onBackPressed(v: View?){
@@ -466,10 +528,10 @@ class DataDetyailActivity : BaseActivity() {
         val title = mBinding.tvMedicalDetailTitle.text.toString()
         val keyword = mBinding.tvMyKeyword.text.toString()
         val timestamp = mBinding.tvMedicalDetailData.text.toString()
-        val textList = intent.getStringExtra(DATA_TEXTIMG)
-        val normalList = intent.getStringExtra(DATA_NORMAL)
-        val videoList = intent.getStringExtra(DATA_VIDEOFILE)
-        val id = intent.getStringExtra(DATA_ID)
+        val textList = intent?.getStringExtra(DATA_TEXTIMG)
+        val normalList = intent?.getStringExtra(DATA_NORMAL)
+        val videoList = intent?.getStringExtra(DATA_VIDEOFILE)
+        val id = intent?.getStringExtra(DATA_ID)
 
         val intent = Intent(this, SendActivity::class.java)
         intent.putExtra(SEND_TITLE, title)

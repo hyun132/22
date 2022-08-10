@@ -2,6 +2,7 @@ package com.iium.iium_medioz.util.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,11 +21,13 @@ import com.iium.iium_medioz.util.`object`.Constant.DATA_PICK_SCORE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_SEND_CODE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_SENSITIVITY_SCORE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_TEXTIMG
+import com.iium.iium_medioz.util.`object`.Constant.DATA_VIDEOFILE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_VIDEO_SCORE
+import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.view.main.bottom.data.DataDetyailActivity
 
 
-class TestAdapter (private val datalist : List<DataList>, val context: Context)
+class TestAdapter (private val datalist : List<DataList>?, val context: Context)
     : RecyclerView.Adapter<TestAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,11 +38,11 @@ class TestAdapter (private val datalist : List<DataList>, val context: Context)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(datalist[position], context)
+        holder.bind(datalist!![position], context)
     }
 
     override fun getItemCount(): Int {
-        return datalist.count()
+        return datalist!!.count()
     }
 
     inner class ViewHolder (itemView: View? ) : RecyclerView.ViewHolder(itemView!!){
@@ -55,35 +58,45 @@ class TestAdapter (private val datalist : List<DataList>, val context: Context)
             timestamp?.text = itemData.timestamp.toString()
 
             val textlist = itemData.DataList?.map {  it ->
-                it.textImg.map {
+                it.textImg?.map {
                     it.filename
                 }
             }
 
             val normallist = itemData.DataList?.map { it ->
-                it.Img.map {
+                it.Img?.map {
                     it.filename
                 }
             }
 
-//            val video = itemData.DataList?.map { it ->
-//                it.video.map {
-//                    it.filename
-//                }
-//            }
+            val video = itemData.DataList?.map { it ->
+                it.video?.map {
+                    it.filename
+                }
+            }
 
             cl_body?.setOnClickListener {
                 val intent = Intent(context, DataDetyailActivity::class.java)
                 intent.putExtra(Constant.DATA_TITLE, itemData.title.toString())
-                intent.putExtra(Constant.DATA_KEYWORD, itemData.keyword.toString())
                 intent.putExtra(Constant.DATA_TIMESTAMP, itemData.timestamp.toString())
-                intent.putExtra(DATA_TEXTIMG, textlist.toString())
-                intent.putExtra(DATA_NORMAL, normallist.toString())
-//                intent.putExtra(DATA_VIDEOFILE, video.toString())
+                if (textlist?.isEmpty() == true) {
+                    Log.d(TAG,"텍스트 이미지 데이터가 없습니다.")
+                } else {
+                    intent.putExtra(DATA_TEXTIMG, textlist.toString())
+                }
+                if (normallist?.isEmpty() == true) {
+                    Log.d(TAG,"일반 이미지 데이터가 없습니다.")
+                } else {
+                    intent.putExtra(DATA_NORMAL, normallist.toString())
+                }
+                if (video?.isEmpty() == true) {
+                    Log.d(TAG,"비디오 데이터가 없습니다.")
+                } else {
+                    intent.putExtra(DATA_VIDEOFILE, video.toString())
+                }
                 intent.putExtra(DATA_ID, itemData.id.toString())
                 intent.putExtra(DATA_SEND_CODE, itemData.sendcode.toString())
                 intent.putExtra(DATA_DEFAULT_CODE, itemData.defaultcode.toString())
-
                 intent.putExtra(DATA_KEYWORD_SCORE, itemData.keywordscore.toString())
                 intent.putExtra(DATA_PICK_SCORE, itemData.pickscore.toString())
                 intent.putExtra(DATA_VIDEO_SCORE, itemData.videoscore.toString())

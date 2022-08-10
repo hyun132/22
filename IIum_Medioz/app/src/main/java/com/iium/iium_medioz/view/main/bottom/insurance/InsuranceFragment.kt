@@ -1,6 +1,7 @@
 package com.iium.iium_medioz.view.main.bottom.insurance
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -43,8 +44,12 @@ class InsuranceFragment : Fragment() {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_insurance, container, false)
         apiServices = ApiUtils.apiService
         mBinding.fragment = this
-        initView()
         return mBinding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        initView()
     }
 
     fun onTestClick(v: View) {

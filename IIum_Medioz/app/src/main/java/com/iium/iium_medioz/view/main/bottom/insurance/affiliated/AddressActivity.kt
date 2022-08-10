@@ -109,6 +109,7 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
     override fun onBackPressed() {
         super.onBackPressed()
         moveHospital()
+        finishAffinity()
     }
 
     override fun onResume() {

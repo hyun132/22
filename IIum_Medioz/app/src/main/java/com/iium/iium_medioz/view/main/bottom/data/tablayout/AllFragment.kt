@@ -38,9 +38,12 @@ class AllFragment : Fragment() {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_all, container, false)
         apiServices = ApiUtils.apiService
         mBinding.fragment = this
-        initView()
-
         return mBinding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initView()
     }
 
     private fun initView() {
@@ -54,6 +57,7 @@ class AllFragment : Fragment() {
                     if(result.datalist!!.isEmpty()) {
                         mBinding.medicalRecyclerView.visibility = View.GONE
                         mBinding.tvDataNot.visibility = View.VISIBLE
+                        setAdapter(result.datalist)
                     } else {
                         mBinding.medicalRecyclerView.visibility = View.VISIBLE
                         mBinding.tvDataNot.visibility = View.GONE

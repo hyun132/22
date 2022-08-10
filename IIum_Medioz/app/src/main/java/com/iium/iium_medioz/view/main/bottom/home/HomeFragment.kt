@@ -1,6 +1,8 @@
 package com.iium.iium_medioz.view.main.bottom.home
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -28,6 +30,8 @@ import com.iium.iium_medioz.view.main.bottom.home.calendar.CalendarActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.MyPageActivity
 import com.iium.iium_medioz.view.term.SecondDialog
+import okhttp3.internal.notify
+import okhttp3.internal.notifyAll
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,9 +50,13 @@ class HomeFragment : Fragment() {
         apiServices = ApiUtils.apiService
         mBinding.fragment = this
         initView()
-        initAPI()
 //        initTemperature()
         return mBinding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initAPI()
     }
 
     private fun initView() {            // 메인 상단 Background 변경
@@ -71,13 +79,13 @@ class HomeFragment : Fragment() {
                 val result = response.body()
                 if(response.isSuccessful&& result!= null) {
                     Log.d(TAG,"GetUser Second API SUCCESS -> $result")
-                    if (response.code() == 404 || response.code() == 400) {
-                        val dialog = SecondDialog()
-                        dialog.showsDialog
+                    if (response.code() == 404 || response.code() == 400 || response.code() == 401) {
+                        return initAPI().notify()
+                    } else {
+                        mBinding.tvNickname.text = result.user?.name.toString()
+                        initList()
                     }
-                    mBinding.tvNickname.text = result.user?.name.toString()
-                    val user_id = result.user?._id
-                    initList(user_id)
+
                 }
                 else {
                     Log.d(TAG,"GetUser Second API ERROR -> ${response.errorBody()}")
@@ -91,18 +99,22 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun initList(userId: String?) {
+    private fun initList() {
         LLog.e("데이터 조회_두번째 API")
         val vercall: Call<MedicalData> = apiServices.getCreateGet(prefs.newaccesstoken)
         vercall.enqueue(object : Callback<MedicalData> {
             override fun onResponse(call: Call<MedicalData>, response: Response<MedicalData>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    val allscore = result.datalist?.map { it.allscore }
-                    if(allscore?.size!! > 0) {
-                        initData(allscore)
+                    if (response.code() == 404 || response.code() == 400 || response.code() == 401) {
+                        return initList()
                     } else {
-                        Log.d(TAG,"데이터가 없습니다.")
+                        val allscore = result.datalist?.map { it.allscore }
+                        if(allscore?.size!! > 0) {
+                            initData(allscore)
+                        } else {
+                            Log.d(TAG,"데이터가 없습니다.")
+                        }
                     }
                 }
                 else {

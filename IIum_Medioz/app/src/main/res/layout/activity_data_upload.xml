@@ -537,16 +537,6 @@
             </ScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieView_sheep"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:visibility="gone"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_sheep"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

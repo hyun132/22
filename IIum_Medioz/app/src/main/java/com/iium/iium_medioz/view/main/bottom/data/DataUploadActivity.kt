@@ -49,6 +49,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.time.LocalDate
+import kotlin.concurrent.thread
 
 
 class DataUploadActivity : BaseActivity() {
@@ -492,7 +493,7 @@ class DataUploadActivity : BaseActivity() {
                 val result = response.body()
                 if(response.isSuccessful&& result!= null) {
                     Log.d(TAG,"getCreate Second API SUCCESS -> $result")
-                    Thread{
+                    Thread {
                         try {
                             moveSave()
                         }
