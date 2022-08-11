@@ -1,10 +1,12 @@
 package com.iium.iium_medioz.view.main
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -14,11 +16,28 @@ import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityMainBinding
+import com.iium.iium_medioz.model.rest.base.AppPolicy
+import com.iium.iium_medioz.model.rest.base.Policy
+import com.iium.iium_medioz.util.`object`.Constant.EVENT_IMG_ENABLE_YN
+import com.iium.iium_medioz.util.`object`.Constant.EVENT_IMG_TIME_END
+import com.iium.iium_medioz.util.`object`.Constant.EVENT_IMG_URL
+import com.iium.iium_medioz.util.`object`.Constant.INTENT_NOTICE_END_DATE
+import com.iium.iium_medioz.util.`object`.Constant.INTENT_NOTICE_URL
 import com.iium.iium_medioz.util.base.BaseActivity
+import com.iium.iium_medioz.util.base.MyApplication
+import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
+import com.iium.iium_medioz.util.log.LLog
+import com.iium.iium_medioz.util.popup.ImageNoticePopup
 import com.iium.iium_medioz.view.main.bottom.band.BandFragment
 import com.iium.iium_medioz.view.main.bottom.data.DataFragment
 import com.iium.iium_medioz.view.main.bottom.home.HomeFragment
 import com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : BaseActivity() {
 
@@ -38,11 +57,6 @@ class MainActivity : BaseActivity() {
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
         inStatusBar()
-    }
-
-    private fun inStatusBar() {
-        setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
-        window.statusBarColor = getColor(R.color.main_status )
     }
 
     override fun onResume() {
@@ -68,6 +82,43 @@ class MainActivity : BaseActivity() {
             }
             selectedItemId = R.id.nav_home
         }
+        initAPI()
+    }
+
+    private fun initAPI() {
+        LLog.e("정책 API")
+        val vercall: Call<AppPolicy> = apiServices.getPolicy()
+        vercall.enqueue(object : Callback<AppPolicy> {
+            override fun onResponse(call: Call<AppPolicy>, response: Response<AppPolicy>) {
+                val result = response.body()
+                if (response.isSuccessful && result != null) {
+                    Log.d(LLog.TAG,"Policy response SUCCESS -> $result")
+                }
+                else {
+                    Log.d(LLog.TAG,"Policy response ERROR -> $result")
+                    serverDialog()
+                }
+            }
+            override fun onFailure(call: Call<AppPolicy>, t: Throwable) {
+                Log.d(LLog.TAG, "Policy error -> $t")
+                serverDialog()
+            }
+        })
+    }
+
+
+
+    private fun showNoticePopup(url: String, endDate: String) {
+        val intent = Intent(this, ImageNoticePopup::class.java)
+        intent.putExtra(INTENT_NOTICE_URL, url)
+        intent.putExtra(INTENT_NOTICE_END_DATE, endDate)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+    }
+
+    private fun inStatusBar() {
+        setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
+        window.statusBarColor = getColor(R.color.main_status )
     }
 
     private fun changeFragment(fragment: Fragment) {

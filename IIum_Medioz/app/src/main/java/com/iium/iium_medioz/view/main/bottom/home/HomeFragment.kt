@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -18,29 +20,40 @@ import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.FragmentHomeBinding
 import com.iium.iium_medioz.model.recycler.MedicalData
+import com.iium.iium_medioz.model.rest.base.AppPolicy
+import com.iium.iium_medioz.model.rest.base.Policy
 import com.iium.iium_medioz.model.rest.login.GetUser
 import com.iium.iium_medioz.model.rest.login.PutUser
+import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.base.MyApplication
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.feel.dp
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.log.LLog.TAG
+import com.iium.iium_medioz.util.popup.ImageNoticePopup
 import com.iium.iium_medioz.view.main.banner.AchievementActivity
 import com.iium.iium_medioz.view.main.banner.GuideActivity
 import com.iium.iium_medioz.view.main.bottom.home.calendar.CalendarActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.MyPageActivity
 import com.iium.iium_medioz.view.term.SecondDialog
+import io.realm.Realm
+import kotlinx.android.synthetic.main.one_button_dialog.view.*
 import okhttp3.internal.notify
 import okhttp3.internal.notifyAll
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var mBinding : FragmentHomeBinding
     private lateinit var apiServices: APIService
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +80,7 @@ class HomeFragment : Fragment() {
         mBinding.clMain.setBackgroundResource(images[imageId])
     }
 
+
     private fun initAPI() {
         LLog.e("회원 정보_두번째 API")
         apiServices.getUser(prefs.newaccesstoken).enqueue(object :
@@ -77,7 +91,7 @@ class HomeFragment : Fragment() {
                 if(response.isSuccessful&& result!= null) {
                     Log.d(TAG,"GetUser Second API SUCCESS -> $result")
                     if (response.code() == 404 || response.code() == 400 || response.code() == 401) {
-                        return initAPI().notify()
+                        return
                     } else {
                         mBinding.tvNickname.text = result.user?.name.toString()
                         initList()
@@ -156,7 +170,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     fun onGuideClick(v: View?) {
         val intent = Intent(activity, GuideActivity::class.java)
         startActivity(intent)
@@ -182,6 +195,24 @@ class HomeFragment : Fragment() {
     fun onMyPage(v: View) {
         val intent = Intent(activity, MyPageActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.supportFragmentManager
+                    ?.beginTransaction()
+                    ?.remove(this@HomeFragment)
+                    ?.commit()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
 }

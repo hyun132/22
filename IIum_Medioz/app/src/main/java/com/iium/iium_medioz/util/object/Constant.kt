@@ -184,5 +184,9 @@ object  Constant {
     const val PROGRESS_TIMEOUT = 15000
     const val PREF_MAIN_NOTICE_END_DATE = "PREF_MAIN_NOTICE_END_DATE"
 
+    const val EVENT_IMG_ENABLE_YN = "EVENT_IMG_ENABLE_YN"
+    const val EVENT_IMG_TIME_END = "EVENT_IMG_TIME_END"
+    const val EVENT_IMG_URL = "EVENT_IMG_URL"
+
 
 }

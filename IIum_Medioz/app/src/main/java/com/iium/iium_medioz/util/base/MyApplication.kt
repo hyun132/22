@@ -8,7 +8,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.iium.iium_medioz.util.common.CommonData
 import com.iium.iium_medioz.util.pixel.PixelRatio
 import com.iium.iium_medioz.util.preference.PreferenceManager
-import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -22,9 +21,15 @@ class MyApplication : Application() {
         lateinit var databaseReference: DatabaseReference
 
         @Synchronized
-        fun setIsMainNoticeViewed(viewed: Boolean) {
-            isMainNoticeViewed = viewed
+        fun isIsMainNoticeViewed(): Boolean {
+            return isMainNoticeViewed
         }
+
+        @Synchronized
+        fun setIsMainNoticeViewed(viewed: Boolean) {
+           isMainNoticeViewed = viewed
+        }
+
     }
 
     override fun onCreate() {
@@ -65,4 +70,5 @@ class MyApplication : Application() {
         databaseReference = FirebaseDatabase.getInstance().reference
 
     }
+
 }

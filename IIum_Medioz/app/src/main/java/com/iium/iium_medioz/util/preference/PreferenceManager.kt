@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.util.preference
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import com.iium.iium_medioz.util.`object`.Constant
@@ -27,6 +28,7 @@ class PreferenceManager (context: Context) : PreferenceAdapter() {
     private var securePreferences: SecurePreferences? = null
     private var securePrefEditor: SecurePreferences.Editor? = null
 
+    @SuppressLint("NotConstructor")
     private fun PreferenceManager(context: Context) {
         val sharedPref = androidx.preference.PreferenceManager.getDefaultSharedPreferences(context)
         securePreferences = SecurePreferences(context)
@@ -143,6 +145,9 @@ class PreferenceManager (context: Context) : PreferenceAdapter() {
         return setString(PREF_MAIN_NOTICE_END_DATE, value)
     }
 
+    fun getMainPopupEndDate(): String? {
+        return getString(PREF_MAIN_NOTICE_END_DATE, "")
+    }
 
     companion object {
         private var instance: PreferenceManager? = null

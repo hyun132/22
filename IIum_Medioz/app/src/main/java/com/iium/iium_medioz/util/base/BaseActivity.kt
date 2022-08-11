@@ -403,7 +403,6 @@ open class BaseActivity : AppCompatActivity() {
         myLayout.ok_btn.setOnClickListener {
             dialog.dismiss()
         }
-
     }
 
     internal fun networkDialog() {
