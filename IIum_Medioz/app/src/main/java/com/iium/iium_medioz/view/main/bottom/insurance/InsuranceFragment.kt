@@ -44,13 +44,10 @@ class InsuranceFragment : Fragment() {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_insurance, container, false)
         apiServices = ApiUtils.apiService
         mBinding.fragment = this
+        initView()
         return mBinding.root
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        initView()
-    }
 
     fun onTestClick(v: View) {
         val intent = Intent(activity, HospitalActivity::class.java)
@@ -68,6 +65,7 @@ class InsuranceFragment : Fragment() {
                     if (result.documentList.isEmpty()) {
                         mBinding.documentRe.visibility = View.GONE
                         mBinding.tvDataDoNot.visibility = View.VISIBLE
+                        setAdapter(result.documentList)
                     } else {
                         mBinding.documentRe.visibility = View.VISIBLE
                         mBinding.tvDataDoNot.visibility = View.GONE

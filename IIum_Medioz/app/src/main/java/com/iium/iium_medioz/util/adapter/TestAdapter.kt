@@ -15,6 +15,7 @@ import com.iium.iium_medioz.model.recycler.*
 import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.util.`object`.Constant.DATA_DEFAULT_CODE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_ID
+import com.iium.iium_medioz.util.`object`.Constant.DATA_KEYWORD
 import com.iium.iium_medioz.util.`object`.Constant.DATA_KEYWORD_SCORE
 import com.iium.iium_medioz.util.`object`.Constant.DATA_NORMAL
 import com.iium.iium_medioz.util.`object`.Constant.DATA_PICK_SCORE
@@ -79,21 +80,31 @@ class TestAdapter (private val datalist : List<DataList>?, val context: Context)
                 val intent = Intent(context, DataDetyailActivity::class.java)
                 intent.putExtra(Constant.DATA_TITLE, itemData.title.toString())
                 intent.putExtra(Constant.DATA_TIMESTAMP, itemData.timestamp.toString())
+
+                if(itemData.keyword?.isEmpty() == true) {
+                    Log.d(TAG,"키워드 데이터가 없습니다.")
+                } else {
+                    intent.putExtra(DATA_KEYWORD, itemData.keyword.toString())
+                }
+
                 if (textlist?.isEmpty() == true) {
                     Log.d(TAG,"텍스트 이미지 데이터가 없습니다.")
                 } else {
                     intent.putExtra(DATA_TEXTIMG, textlist.toString())
                 }
+
                 if (normallist?.isEmpty() == true) {
                     Log.d(TAG,"일반 이미지 데이터가 없습니다.")
                 } else {
                     intent.putExtra(DATA_NORMAL, normallist.toString())
                 }
+
                 if (video?.isEmpty() == true) {
                     Log.d(TAG,"비디오 데이터가 없습니다.")
                 } else {
                     intent.putExtra(DATA_VIDEOFILE, video.toString())
                 }
+
                 intent.putExtra(DATA_ID, itemData.id.toString())
                 intent.putExtra(DATA_SEND_CODE, itemData.sendcode.toString())
                 intent.putExtra(DATA_DEFAULT_CODE, itemData.defaultcode.toString())

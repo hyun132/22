@@ -11,6 +11,7 @@ import com.iium.iium_medioz.util.`object`.Constant.PREF_KEY_ENCTYPT_IV
 import com.iium.iium_medioz.util.`object`.Constant.PREF_KEY_ENCTYPT_KEY
 import com.iium.iium_medioz.util.`object`.Constant.PREF_KEY_LANG
 import com.iium.iium_medioz.util.`object`.Constant.PREF_KEY_LANG_CODE
+import com.iium.iium_medioz.util.`object`.Constant.PREF_MAIN_NOTICE_END_DATE
 import com.iium.iium_medioz.util.`object`.Constant.PREF_NEW_ACCESS_TOKEN
 import com.iium.iium_medioz.util.`object`.Constant.PREF_PHONE
 import com.iium.iium_medioz.util.`object`.Constant.PREF_PW
@@ -137,6 +138,10 @@ class PreferenceManager (context: Context) : PreferenceAdapter() {
     var terms : String?
         get() = prefs.getString(PREF_TERMS,"")
         set(value) = prefs.edit().putString(PREF_TERMS, value).apply()
+
+    fun setMainPopupEndDate(value: String?): Boolean {
+        return setString(PREF_MAIN_NOTICE_END_DATE, value)
+    }
 
 
     companion object {

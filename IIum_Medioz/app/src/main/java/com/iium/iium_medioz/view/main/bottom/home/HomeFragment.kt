@@ -50,14 +50,11 @@ class HomeFragment : Fragment() {
         apiServices = ApiUtils.apiService
         mBinding.fragment = this
         initView()
+        initAPI()
 //        initTemperature()
         return mBinding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        initAPI()
-    }
 
     private fun initView() {            // 메인 상단 Background 변경
         val images = intArrayOf(
