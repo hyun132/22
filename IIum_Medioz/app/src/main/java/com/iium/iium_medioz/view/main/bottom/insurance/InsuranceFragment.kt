@@ -1,6 +1,7 @@
 package com.iium.iium_medioz.view.main.bottom.insurance
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iium.iium_medioz.R
@@ -35,6 +37,7 @@ class InsuranceFragment : Fragment() {
     private lateinit var mBinding : FragmentInsuranceBinding
     private lateinit var apiServices: APIService
     private var readapter: DocumentAdapter?=null
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +49,7 @@ class InsuranceFragment : Fragment() {
         initView()
         return mBinding.root
     }
+
 
     fun onTestClick(v: View) {
         val intent = Intent(activity, HospitalActivity::class.java)
@@ -63,6 +67,7 @@ class InsuranceFragment : Fragment() {
                     if (result.documentList.isEmpty()) {
                         mBinding.documentRe.visibility = View.GONE
                         mBinding.tvDataDoNot.visibility = View.VISIBLE
+                        setAdapter(result.documentList)
                     } else {
                         mBinding.documentRe.visibility = View.VISIBLE
                         mBinding.tvDataDoNot.visibility = View.GONE
@@ -91,6 +96,24 @@ class InsuranceFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         readapter?.notifyDataSetChanged()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.supportFragmentManager
+                    ?.beginTransaction()
+                    ?.remove(this@InsuranceFragment)
+                    ?.commit()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
 }

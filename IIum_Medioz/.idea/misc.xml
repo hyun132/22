@@ -121,6 +121,7 @@
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_document.xml" value="0.5" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_edit_color.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_hospital.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_image_notice_popup.xml" value="0.41890639481000924" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_insurance.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_login.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_main.xml" value="0.33" />
@@ -140,8 +141,11 @@
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_setting.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_sign_up.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_sign_up_profile.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_sign_up_pw.xml" value="0.41890639481000924" />
+        <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/activity_start_login.xml" value="0.41890639481000924" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/bottom_sheet.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/content_main.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/custom_loading.xml" value="0.41890639481000924" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/custom_view_sticky_slide.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/dialog_access.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/dialog_choice.xml" value="0.4510474561778538" />
@@ -164,6 +168,7 @@
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/fragment_key_word_dialog.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/fragment_my_band.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/fragment_my_page.xml" value="0.4510474561778538" />
+        <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/fragment_net_work_dialog.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/fragment_search_dialog.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/fragment_send.xml" value="0.4510474561778538" />
         <entry key="..\:/Users/IIUMPC14/Documents/Medioz/IIum_Medioz/app/src/main/res/layout/fragment_test_calendar.xml" value="0.4510474561778538" />

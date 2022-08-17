@@ -255,5 +255,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_per_mission">PerMissionActivity</string>
     <string name="no_journal_for_this_day">오늘의 기분을 선택해주세요!</string>
+    <string name="title_activity_image_notice_popup">ImageNoticePopup</string>
 
 </resources>

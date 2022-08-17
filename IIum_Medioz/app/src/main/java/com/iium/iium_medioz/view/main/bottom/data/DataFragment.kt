@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.view.main.bottom.data
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -24,6 +27,7 @@ class DataFragment : Fragment() {
 
     private lateinit var mBinding : FragmentDataBinding
     private lateinit var apiServices: APIService
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +39,8 @@ class DataFragment : Fragment() {
         return mBinding.root
     }
 
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -64,4 +70,22 @@ class DataFragment : Fragment() {
         startActivity(intent)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.supportFragmentManager
+                    ?.beginTransaction()
+                    ?.remove(this@DataFragment)
+                    ?.commit()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+
+    }
 }

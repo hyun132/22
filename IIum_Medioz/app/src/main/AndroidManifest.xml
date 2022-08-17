@@ -37,6 +37,9 @@
         tools:replace="android:theme"
         tools:targetApi="s">
         <activity
+            android:name=".ImageNoticePopup"
+            android:exported="false" />
+        <activity
             android:name=".view.main.bottom.mypage.MyPageActivity"
             android:exported="false" />
         <activity

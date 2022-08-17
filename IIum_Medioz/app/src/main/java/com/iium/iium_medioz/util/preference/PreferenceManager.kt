@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.util.preference
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import com.iium.iium_medioz.util.`object`.Constant
@@ -11,6 +12,7 @@ import com.iium.iium_medioz.util.`object`.Constant.PREF_KEY_ENCTYPT_IV
 import com.iium.iium_medioz.util.`object`.Constant.PREF_KEY_ENCTYPT_KEY
 import com.iium.iium_medioz.util.`object`.Constant.PREF_KEY_LANG
 import com.iium.iium_medioz.util.`object`.Constant.PREF_KEY_LANG_CODE
+import com.iium.iium_medioz.util.`object`.Constant.PREF_MAIN_NOTICE_END_DATE
 import com.iium.iium_medioz.util.`object`.Constant.PREF_NEW_ACCESS_TOKEN
 import com.iium.iium_medioz.util.`object`.Constant.PREF_PHONE
 import com.iium.iium_medioz.util.`object`.Constant.PREF_PW
@@ -26,6 +28,7 @@ class PreferenceManager (context: Context) : PreferenceAdapter() {
     private var securePreferences: SecurePreferences? = null
     private var securePrefEditor: SecurePreferences.Editor? = null
 
+    @SuppressLint("NotConstructor")
     private fun PreferenceManager(context: Context) {
         val sharedPref = androidx.preference.PreferenceManager.getDefaultSharedPreferences(context)
         securePreferences = SecurePreferences(context)
@@ -138,6 +141,13 @@ class PreferenceManager (context: Context) : PreferenceAdapter() {
         get() = prefs.getString(PREF_TERMS,"")
         set(value) = prefs.edit().putString(PREF_TERMS, value).apply()
 
+    fun setMainPopupEndDate(value: String?): Boolean {
+        return setString(PREF_MAIN_NOTICE_END_DATE, value)
+    }
+
+    fun getMainPopupEndDate(): String? {
+        return getString(PREF_MAIN_NOTICE_END_DATE, "")
+    }
 
     companion object {
         private var instance: PreferenceManager? = null

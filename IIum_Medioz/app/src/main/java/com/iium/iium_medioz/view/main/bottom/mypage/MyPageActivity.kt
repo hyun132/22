@@ -112,6 +112,7 @@ class MyPageActivity : BaseActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         moveMain()
+        finishAffinity()
     }
 
     fun onPointClick(v: View) {

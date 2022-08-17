@@ -19,14 +19,15 @@ data class DataList(
     val videoscore : String? = null,
     val keywordscore : String? = null,
     val sensitivityscore : String? = null,
+    val allscore: String? = null,
     val userId : String? =null,
     val id : String? =null
 )
 
 data class DataListSecond(
-    val textImg : List<TextList>,
-    val Img : List<NormalList>,
-    val video : List<VideoList>
+    val textImg : List<TextList>? = null,
+    val Img : List<NormalList>? = null,
+    val video : List<VideoList>? = null
 )
 
 data class TextList(

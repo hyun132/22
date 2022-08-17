@@ -354,5 +354,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
     override fun onBackPressed() {
         super.onBackPressed()
         moveMain()
+        finishAffinity()
     }
 }

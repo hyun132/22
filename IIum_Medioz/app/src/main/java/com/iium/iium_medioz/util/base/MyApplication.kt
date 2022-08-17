@@ -8,7 +8,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.iium.iium_medioz.util.common.CommonData
 import com.iium.iium_medioz.util.pixel.PixelRatio
 import com.iium.iium_medioz.util.preference.PreferenceManager
-import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -22,9 +21,15 @@ class MyApplication : Application() {
         lateinit var databaseReference: DatabaseReference
 
         @Synchronized
-        fun setIsMainNoticeViewed(viewed: Boolean) {
-            isMainNoticeViewed = viewed
+        fun isIsMainNoticeViewed(): Boolean {
+            return isMainNoticeViewed
         }
+
+        @Synchronized
+        fun setIsMainNoticeViewed(viewed: Boolean) {
+           isMainNoticeViewed = viewed
+        }
+
     }
 
     override fun onCreate() {
@@ -40,29 +45,30 @@ class MyApplication : Application() {
         val commonData: CommonData = CommonData().getInstance()
         commonData.numStarted = 0
 
-//        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
-//            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
-//            override fun onActivityStarted(activity: Activity) {
-//                if (commonData.numStarted == 0) {
-//                    commonData.isMainRefresh = true
-//                    commonData.isForeground = true
-//                }
-//                commonData.numStarted++
-//            }
-//            override fun onActivityResumed(activity: Activity) {
-//            }
-//            override fun onActivityPaused(activity: Activity) {}
-//            override fun onActivityStopped(activity: Activity) {
-//                commonData.numStarted--
-//                if (commonData.numStarted == 0) {
-//                    commonData.isForeground = false
-//                }
-//            }
-//            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
-//            override fun onActivityDestroyed(activity: Activity) {}
-//        })
+        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
+            override fun onActivityStarted(activity: Activity) {
+                if (commonData.numStarted == 0) {
+                    commonData.isMainRefresh = true
+                    commonData.isForeground = true
+                }
+                commonData.numStarted++
+            }
+            override fun onActivityResumed(activity: Activity) {
+            }
+            override fun onActivityPaused(activity: Activity) {}
+            override fun onActivityStopped(activity: Activity) {
+                commonData.numStarted--
+                if (commonData.numStarted == 0) {
+                    commonData.isForeground = false
+                }
+            }
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+            override fun onActivityDestroyed(activity: Activity) {}
+        })
 
         databaseReference = FirebaseDatabase.getInstance().reference
 
     }
+
 }

@@ -52,7 +52,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wed, 4 July 2021"
+                tools:text="Wed, 4 July 2021"
                 android:textColor="@color/unguJurna"
                 app:layout_constraintBottom_toBottomOf="@id/btnCancel"
                 app:layout_constraintEnd_toStartOf="@id/btnSave"

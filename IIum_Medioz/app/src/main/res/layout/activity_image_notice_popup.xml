@@ -1,0 +1,148 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="activity"
+            type="com.iium.iium_medioz.util.popup.ImageNoticePopup" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:gravity="center">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="40dp"
+            android:paddingBottom="20dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="500dp"
+                app:layout_constraintWidth_percent="0.85">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!--<WebView
+                        android:id="@+id/webview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/ll_button"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>-->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3px"
+                        android:background="@color/gray3"
+                        app:layout_constraintBottom_toTopOf="@id/ll_button"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ll_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/imageview">
+
+
+                        <!--android:onClick='@{activity::onNotshowClick}'-->
+                        <Button
+                            android:id="@+id/btn_notshow"
+                            android:layout_width="21dp"
+                            android:layout_height="21dp"
+                            android:layout_marginLeft="13dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/check_selector"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.08" />
+
+                        <TextView
+                            android:id="@+id/tv_notshow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:textSize="@dimen/font_overlay_text"
+                            android:textColor="@color/gray6"
+                            android:text="다시 보지 않기"
+                            app:layout_constraintTop_toTopOf="@id/btn_notshow"
+                            app:layout_constraintLeft_toRightOf="@id/btn_notshow"
+                            app:layout_constraintBottom_toBottomOf="@id/btn_notshow"/>
+
+                        <Button
+                            android:id="@+id/btn_notshow_touch"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:background="@android:color/transparent"
+                            android:onClick='@{activity::onNotshowClick}'
+                            app:layout_constraintLeft_toLeftOf="@id/btn_notshow"
+                            app:layout_constraintRight_toRightOf="@id/tv_notshow"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:fontFamily="@font/notosans_medium"
+                            android:onClick='@{activity::onConfirmClick}'
+                            android:text="@string/ok"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/font_overlay_text"
+                            android:paddingRight="21dp"
+                            android:paddingLeft="21dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageView
+                        android:id="@+id/imageview"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        app:layout_constrainedHeight="true"
+                        app:layout_constraintBottom_toTopOf="@+id/ll_button"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/test_long" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</layout>

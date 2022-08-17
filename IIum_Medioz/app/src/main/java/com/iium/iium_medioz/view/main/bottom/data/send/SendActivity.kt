@@ -62,6 +62,11 @@ class SendActivity : BaseActivity() {
         initView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
     private fun initView() {
         val title = intent.getStringExtra(SEND_TITLE)
         val keyword = intent.getStringExtra(SEND_KEYWORD)
@@ -71,14 +76,6 @@ class SendActivity : BaseActivity() {
         val videoList = intent.getStringExtra(SEND_VIDEO)
         val id = intent.getStringExtra(SEND_ID)
 
-        Log.d(TAG,"아이디 -> $id")
-        Log.d(TAG,"타이틀 -> $title")
-        Log.d(TAG,"키워드 -> $keyword")
-        Log.d(TAG,"키워드 카운트 -> ${arrayOf(keyword).size}")
-        Log.d(TAG,"날짜 -> $timestamp")
-        Log.d(TAG,"텍스트 이미지 ->$textList")
-        Log.d(TAG,"일반 이미지 ->$normalList")
-        Log.d(TAG,"비디오 이미지 ->$videoList")
 
         mBinding.tvMedicalDetailTitle.text = title.toString()
         mBinding.tvMedicalDetailData.text = timestamp.toString()

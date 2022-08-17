@@ -6,21 +6,27 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.*
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.common.internal.service.Common
+import androidx.appcompat.app.AppCompatDialog
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.util.`object`.ActivityControlManager
+import com.iium.iium_medioz.util.`object`.Constant.PROGRESS_TIMEOUT
 import com.iium.iium_medioz.util.common.CommonData
 import com.iium.iium_medioz.util.log.LLog.TAG
 import com.iium.iium_medioz.util.log.LLog.e
@@ -29,7 +35,10 @@ import com.iium.iium_medioz.view.login.StartLoginActivity
 import com.iium.iium_medioz.view.login.sign.SignUpActivity
 import com.iium.iium_medioz.view.main.MainActivity
 import com.iium.iium_medioz.view.main.bottom.band.upload.BandUploadActivity
-import com.iium.iium_medioz.view.main.bottom.data.*
+import com.iium.iium_medioz.view.main.bottom.data.DataDetyailActivity
+import com.iium.iium_medioz.view.main.bottom.data.DataUploadActivity
+import com.iium.iium_medioz.view.main.bottom.data.SaveActivity
+import com.iium.iium_medioz.view.main.bottom.data.SaveSendActivity
 import com.iium.iium_medioz.view.main.bottom.data.pdf.MakePDFActivity
 import com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity
 import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
@@ -56,6 +65,9 @@ open class BaseActivity : AppCompatActivity() {
     private var doubleBackToExit = false
     val commonApi: CommonData? = null
     protected val scopeMain = CoroutineScope(Dispatchers.Main)
+    var progress: AppCompatDialog? = null
+    private var mTimeoutHandler: Handler? = null
+
 
     internal val realm by lazy {
         Realm.getDefaultInstance()
@@ -71,6 +83,7 @@ open class BaseActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         realm.close()
+        mTimeoutHandler = null
         finish()
     }
 
@@ -83,6 +96,7 @@ open class BaseActivity : AppCompatActivity() {
             return
         }
     }
+
 
     open fun setWindowFlag(activity: Activity, bits: Int, on: Boolean) {
         val win = activity.window
@@ -177,6 +191,57 @@ open class BaseActivity : AppCompatActivity() {
             }
             return cert
         }
+
+    open fun showProgress() {
+        if (this.isFinishing) {
+            return
+        }
+        //if ( (progress != null && progress.isShowing()) || this.isFinishing() || getApplicationContext() == null) {
+        if (progress != null && progress!!.isShowing || this.isFinishing || applicationContext == null) {
+            return
+        } else {
+            progress = AppCompatDialog(this)
+            progress!!.setCancelable(false)
+            progress!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            progress!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            progress!!.window!!.setDimAmount(0f)
+            //            progress.getWindow().setNavigationBarContrastEnforced(true);
+            progress!!.setContentView(R.layout.custom_loading)
+            progress!!.show()
+
+            // 타임아웃 설정
+            val looper = Looper.myLooper()
+            mTimeoutHandler = null
+            mTimeoutHandler = Handler(looper!!)
+            mTimeoutHandler!!.postDelayed({
+                if (progress != null && progress!!.isShowing) {
+                    mTimeoutHandler?.removeMessages(0)
+                    //progressTimeout();
+                    if (!this.isFinishing) {
+                        progress!!.dismiss()
+                        progress = null
+                    }
+                }
+            }, PROGRESS_TIMEOUT.toLong())
+        }
+        val imgLoading: ImageView = progress!!.findViewById(R.id.iv_loading)!!
+        val frameAnimation = imgLoading.background as AnimationDrawable
+        imgLoading.post { frameAnimation.start() }
+    }
+
+    open fun stopProgress() {
+        /*if (this.isFinishing()) {
+            return;
+        }*/
+        if (progress != null && progress!!.isShowing) {
+            // 좌표 찾으면 타임아웃 제거
+            if (mTimeoutHandler != null) {
+                mTimeoutHandler!!.removeMessages(0)
+            }
+            progress!!.dismiss()
+            progress = null
+        }
+    }
 
     internal fun moveMain() {
         val intent = Intent(this, MainActivity::class.java)
@@ -338,7 +403,6 @@ open class BaseActivity : AppCompatActivity() {
         myLayout.ok_btn.setOnClickListener {
             dialog.dismiss()
         }
-
     }
 
     internal fun networkDialog() {

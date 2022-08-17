@@ -177,6 +177,16 @@ object  Constant {
 
     const val LOCATION_PERMISSION_REQUEST_CODE = 1000
 
+    //이미지 팝업
+    const val INTENT_NOTICE_URL = "INTENT_NOTICE_URL"
+    const val INTENT_NOTICE_END_DATE = "INTENT_NOTICE_END_DATE"
+    const val IMAGE_TIMEOUT = 10000
+    const val PROGRESS_TIMEOUT = 15000
+    const val PREF_MAIN_NOTICE_END_DATE = "PREF_MAIN_NOTICE_END_DATE"
+
+    const val EVENT_IMG_ENABLE_YN = "EVENT_IMG_ENABLE_YN"
+    const val EVENT_IMG_TIME_END = "EVENT_IMG_TIME_END"
+    const val EVENT_IMG_URL = "EVENT_IMG_URL"
 
 
 }

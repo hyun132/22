@@ -46,6 +46,11 @@ class SendDetailActivity : BaseActivity() {
         initView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
     private fun inStatusBar() {
         setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
         window.statusBarColor = getColor(R.color.colorPrimary)

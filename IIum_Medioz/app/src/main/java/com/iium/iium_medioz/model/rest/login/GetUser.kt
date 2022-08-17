@@ -18,5 +18,6 @@ data class UserGet(
     val videoscore : String? = null,
     val keywordscore : String? = null,
     val sensitivityscore : String? = null,
+    val allscore : String? = null,
     val id : String? = null
 )
