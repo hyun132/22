@@ -1,27 +1,18 @@
 package com.iium.iium_medioz.util.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.databinding.ItemJurnalBinding
 import com.iium.iium_medioz.databinding.NoJurnalLayoutBinding
-import com.iium.iium_medioz.model.calendar.CalendarFeel
 import com.iium.iium_medioz.model.calendar.Jurnal
-import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.util.feel.getColorSave
 import com.iium.iium_medioz.util.feel.getFeeling
 import com.iium.iium_medioz.util.feel.getFeelingStatus
-import com.iium.iium_medioz.view.main.bottom.mypage.notice.NoticeDetailActivity
 
 
 class CalendarAdapter(private val data: MutableList<Jurnal>) :

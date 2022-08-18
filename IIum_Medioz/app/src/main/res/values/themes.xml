@@ -20,6 +20,14 @@
         <item name="cardElevation">0dp</item>
     </style>
 
+    <style name="RoundBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_top_round_20</item>
+    </style>
+
+    <style name="RoundBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundBottomSheet</item>
+    </style>
+
     <style name="CommonButtonCardStyle_keyword" parent="CardView">
         <item name="android:layout_height">40dp</item>
         <item name="cardCornerRadius">9dp</item>

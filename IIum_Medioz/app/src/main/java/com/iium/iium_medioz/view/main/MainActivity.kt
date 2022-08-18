@@ -30,6 +30,7 @@ import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.popup.ImageNoticePopup
 import com.iium.iium_medioz.view.main.bottom.band.BandFragment
 import com.iium.iium_medioz.view.main.bottom.data.DataFragment
+import com.iium.iium_medioz.view.main.bottom.feel.FeelFragment
 import com.iium.iium_medioz.view.main.bottom.home.HomeFragment
 import com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment
 import retrofit2.Call
@@ -47,7 +48,7 @@ class MainActivity : BaseActivity() {
 
     private val fragmentOne by lazy { HomeFragment() }
     private val fragmentTwo by lazy { DataFragment() }
-    private val fragmentThree by lazy { BandFragment() }
+    private val fragmentThree by lazy { FeelFragment() }
     private val fragmentFour by lazy { InsuranceFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {

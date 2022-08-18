@@ -335,7 +335,6 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
             marker.icon = MarkerIcons.BLACK
             marker.iconTintColor = R.color.main_status
 
-            // TODO marker click listener
             marker.onClickListener = this
         }
     }

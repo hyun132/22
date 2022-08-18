@@ -331,7 +331,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
             marker.icon = MarkerIcons.BLACK
             marker.iconTintColor = R.color.main_status
 
-            // TODO marker click listener
             marker.onClickListener = this
         }
     }
