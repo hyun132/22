@@ -171,6 +171,8 @@ class CalendarActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
                 if (e != null) {
                     e.printStackTrace()
                     Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
+
+
                     return@addSnapshotListener
                 }
 

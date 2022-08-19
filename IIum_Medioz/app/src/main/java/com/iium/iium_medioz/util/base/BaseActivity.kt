@@ -224,9 +224,6 @@ open class BaseActivity : AppCompatActivity() {
                 }
             }, PROGRESS_TIMEOUT.toLong())
         }
-        val imgLoading: ImageView = progress!!.findViewById(R.id.iv_loading)!!
-        val frameAnimation = imgLoading.background as AnimationDrawable
-        imgLoading.post { frameAnimation.start() }
     }
 
     open fun stopProgress() {
