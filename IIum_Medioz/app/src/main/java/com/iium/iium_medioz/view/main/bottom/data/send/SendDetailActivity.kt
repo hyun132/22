@@ -481,4 +481,9 @@ class SendDetailActivity : BaseActivity() {
         super.onBackPressed()
         moveMain()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

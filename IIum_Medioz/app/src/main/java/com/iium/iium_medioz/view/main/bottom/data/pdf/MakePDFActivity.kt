@@ -163,4 +163,9 @@ class MakePDFActivity : BaseActivity() {
         super.onBackPressed()
         moveMain()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

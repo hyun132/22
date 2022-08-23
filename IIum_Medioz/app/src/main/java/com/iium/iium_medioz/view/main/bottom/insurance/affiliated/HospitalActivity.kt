@@ -130,6 +130,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
     override fun onDestroy() {
         super.onDestroy()
         MyApplication.setIsMainNoticeViewed(false)
+        finishAffinity()
     }
 
     private fun removeGps() {
@@ -336,9 +337,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
     }
 
     fun onAddressClick(v: View) {
-        val dialog = AddressDialog()
-        dialog.show(supportFragmentManager,"CustomDialog")
-
+        searchAddress()
     }
 
     override fun onClick(overlay: Overlay): Boolean {
@@ -355,4 +354,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
         moveMain()
         finishAffinity()
     }
+
+
 }

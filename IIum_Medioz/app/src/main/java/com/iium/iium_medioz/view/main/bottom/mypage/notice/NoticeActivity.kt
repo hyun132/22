@@ -111,4 +111,9 @@ class NoticeActivity : BaseActivity() {
         super.onResume()
         noticeAdapter?.notifyDataSetChanged()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

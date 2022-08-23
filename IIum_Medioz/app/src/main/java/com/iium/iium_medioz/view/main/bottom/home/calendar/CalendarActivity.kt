@@ -201,6 +201,8 @@ class CalendarActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
                     mBinding.content.rvJurnal.adapter = adapter
                 }
 
+
+
                 mBinding.content.pbhome.isVisible = false
             }
     }

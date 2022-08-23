@@ -150,4 +150,9 @@ class MyPageActivity : BaseActivity() {
         startActivity(intent)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
+
 }

@@ -39,4 +39,9 @@ class NoticeDetailActivity : BaseActivity() {
         super.onBackPressed()
         moveNotice()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

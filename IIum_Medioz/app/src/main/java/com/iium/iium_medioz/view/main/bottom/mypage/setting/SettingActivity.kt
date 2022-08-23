@@ -49,4 +49,8 @@ class SettingActivity : BaseActivity() {
         moveMain()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

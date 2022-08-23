@@ -269,6 +269,7 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
     override fun onDestroy() {
         super.onDestroy()
         MyApplication.setIsMainNoticeViewed(false)
+        finishAffinity()
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -287,11 +288,11 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
         val uiSetting = naverMap.uiSettings
         uiSetting.isLocationButtonEnabled = false
 
-        val mapx = intent.getStringExtra(NAVER_MAPX)
-        val mapy = intent.getStringExtra(NAVER_MAPY)
+        val mapx = intent.getIntExtra(NAVER_MAPX,0)
+        val mapy = intent.getIntExtra(NAVER_MAPY,0)
         Log.d(TAG,"카메라 : $mapx, $mapy")
 
-        val tm = Tm128(mapx!!.toDouble(),mapy!!.toDouble())
+        val tm = Tm128(mapx.toDouble(),mapy.toDouble())
         Log.d(TAG,"카메라 카텍 변환 : $tm")
         Log.d(TAG,"카메라 카텍 변환 lang : ${tm.toLatLng()}")
 
@@ -347,5 +348,7 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
             }
         return true
     }
+
+
 
 }

@@ -33,4 +33,9 @@ class SaveActivity : BaseActivity() {
     fun onSaveClick(v: View) {
         moveMain()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

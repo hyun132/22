@@ -484,4 +484,9 @@ class SearchDetailActivity : BaseActivity() {
         super.onBackPressed()
         moveSearch()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

@@ -161,4 +161,9 @@ class CalendarSearchActivity : BaseActivity() {
         input.hideSoftInputFromWindow(mBinding.etSearch.windowToken, 0)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
+
 }

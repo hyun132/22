@@ -113,4 +113,9 @@ class CsActivity : BaseActivity() {
         super.onResume()
         counAdapter?.notifyDataSetChanged()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

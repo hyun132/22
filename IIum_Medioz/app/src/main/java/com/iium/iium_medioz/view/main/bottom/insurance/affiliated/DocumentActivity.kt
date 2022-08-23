@@ -101,4 +101,9 @@ class DocumentActivity : BaseActivity() {
             }
         })
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

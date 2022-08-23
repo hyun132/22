@@ -146,4 +146,9 @@ class CsUploadActivity : BaseActivity() {
         super.onBackPressed()
         moveCs()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

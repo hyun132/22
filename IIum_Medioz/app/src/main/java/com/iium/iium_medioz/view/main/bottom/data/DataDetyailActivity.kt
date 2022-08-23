@@ -579,4 +579,8 @@ class DataDetyailActivity : BaseActivity() {
         moveMain()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }
