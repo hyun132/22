@@ -106,4 +106,9 @@ class DocumentActivity : BaseActivity() {
         super.onDestroy()
         finishAffinity()
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        moveHospital()
+    }
 }

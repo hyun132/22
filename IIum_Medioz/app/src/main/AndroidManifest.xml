@@ -37,9 +37,6 @@
         tools:replace="android:theme"
         tools:targetApi="s">
         <activity
-            android:name=".TestActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.main.bottom.insurance.search.SearchAddressActivity"
             android:exported="false" />
         <activity

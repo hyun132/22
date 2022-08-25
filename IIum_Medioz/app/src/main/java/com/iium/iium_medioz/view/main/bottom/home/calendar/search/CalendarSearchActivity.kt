@@ -166,4 +166,9 @@ class CalendarSearchActivity : BaseActivity() {
         finishAffinity()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        modeCalendar()
+    }
+
 }

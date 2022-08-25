@@ -10,6 +10,7 @@ object  Constant {
     const val OCR_URL="https://2ihmtg25yc.apigw.ntruss.com/custom/v1/16697/bca7590ad614a464052b8d2bc1fe99f16edeb31677cd0e7e4863c7611d01238b/general"
     const val PREF_KEY_USER_TOKEN = "PREF_KEY_USER_TOKEN"
     const val NAVER_API_URL = "https://openapi.naver.com/"
+    const val KAKAO_API_URL = "https://dapi.kakao.com/"
     const val PREF_KEY_APP_TOKEN = "myAppToken"
     const val PREF_KEY_ENCTYPT_IV = "myEncryptIv"
     const val PREF_KEY_ENCTYPT_KEY = "myEncryptKey"
@@ -146,6 +147,9 @@ object  Constant {
     //네이버 지역 검색
     const val NAVER_MAPX = "NAVER_MAPX"
     const val NAVER_MAPY = "NAVER_MAPY"
+
+    const val KAKAO_MAPX = "KAKAO_MAPX"
+    const val KAKAO_MAPY = "KAKAO_MAPY"
 
     // Splash
     const val SPLASH_WAIT = 3500

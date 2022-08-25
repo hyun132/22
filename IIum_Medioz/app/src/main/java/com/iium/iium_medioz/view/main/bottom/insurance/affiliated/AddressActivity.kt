@@ -29,6 +29,8 @@ import com.iium.iium_medioz.databinding.ActivityAddressBinding
 import com.iium.iium_medioz.model.map.MapMarker
 import com.iium.iium_medioz.model.map.MapModel
 import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.`object`.Constant.KAKAO_MAPX
+import com.iium.iium_medioz.util.`object`.Constant.KAKAO_MAPY
 import com.iium.iium_medioz.util.`object`.Constant.NAVER_MAPX
 import com.iium.iium_medioz.util.`object`.Constant.NAVER_MAPY
 import com.iium.iium_medioz.util.`object`.Constant.TAG
@@ -288,17 +290,19 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
         val uiSetting = naverMap.uiSettings
         uiSetting.isLocationButtonEnabled = false
 
-        val mapx = intent.getIntExtra(NAVER_MAPX,0)
-        val mapy = intent.getIntExtra(NAVER_MAPY,0)
-        Log.d(TAG,"카메라 : $mapx, $mapy")
+//        val mapx = intent.getIntExtra(NAVER_MAPX,0)
+//        val mapy = intent.getIntExtra(NAVER_MAPY,0)
 
-        val tm = Tm128(mapx.toDouble(),mapy.toDouble())
-        Log.d(TAG,"카메라 카텍 변환 : $tm")
-        Log.d(TAG,"카메라 카텍 변환 lang : ${tm.toLatLng()}")
+        val kakao_mapx = intent.getStringExtra(KAKAO_MAPX)
+        val kakap_mapy = intent.getStringExtra(KAKAO_MAPY)
+        Log.d(TAG,"카메라 : ${kakao_mapx!!.toDouble()}, ${kakap_mapy!!.toDouble()}")
 
-        val cameraUpdate: CameraUpdate = CameraUpdate.scrollTo(tm.toLatLng())
+//        val tm = Tm128(mapx.toDouble(),mapy.toDouble())
+//        Log.d(TAG,"카메라 카텍 변환 : $tm")
+//        Log.d(TAG,"카메라 카텍 변환 lang : ${tm.toLatLng()}")
+
+        val cameraUpdate: CameraUpdate = CameraUpdate.scrollTo(LatLng(kakap_mapy.toDouble(),kakao_mapx.toDouble()))
         naverMap.moveCamera(cameraUpdate)
-
 
         getAPI()
     }
