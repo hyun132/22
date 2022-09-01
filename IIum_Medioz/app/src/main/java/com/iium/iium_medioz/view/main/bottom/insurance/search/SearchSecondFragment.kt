@@ -91,7 +91,7 @@ class SearchSecondFragment : Fragment() {
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 Log.d(TAG,"NotingSelected Spinner : ${p0.toString()}")
-            }
+            }     
 
         }
     }

@@ -56,7 +56,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 app:boxBackgroundColor="@color/white"
-
                 app:endIconDrawable="@drawable/ic_textdelete"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/transparent"
@@ -77,7 +76,7 @@
                     android:inputType="text"
                     android:paddingStart="22dp"
                     android:textCursorDrawable="@drawable/cursor"
-                    tools:text="asd" />
+                    tools:text="키워드를 검색 해주세요!" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
