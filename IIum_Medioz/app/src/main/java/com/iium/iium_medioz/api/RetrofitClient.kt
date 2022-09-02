@@ -22,8 +22,6 @@ object RetrofitClient {
             .addInterceptor(interceptor)
             .build()
     }
-
-
     fun getClient(baseUrl: String): Retrofit {
         if (retrofit ==  null) {
             retrofit = Retrofit.Builder()
@@ -43,6 +41,4 @@ object RetrofitClient {
         return retrofit!!
 
     }
-
-
 }
