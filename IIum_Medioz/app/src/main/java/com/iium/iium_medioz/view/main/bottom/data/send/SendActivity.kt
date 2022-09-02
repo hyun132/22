@@ -686,5 +686,10 @@ class SendActivity : BaseActivity() {
     private fun runDelayed(millis: Long, function: () -> Unit) {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }
 

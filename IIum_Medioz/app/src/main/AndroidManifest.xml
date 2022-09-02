@@ -37,7 +37,7 @@
         tools:replace="android:theme"
         tools:targetApi="s">
         <activity
-            android:name=".ImageNoticePopup"
+            android:name=".view.main.bottom.insurance.search.SearchAddressActivity"
             android:exported="false" />
         <activity
             android:name=".view.main.bottom.mypage.MyPageActivity"
@@ -169,6 +169,9 @@
         <meta-data
             android:name="android.allow_multiple_resumed_activities"
             android:value="true" />
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="127916a54d2fdab4044303edf9e1c897" />
     </application>
 
 </manifest>

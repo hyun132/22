@@ -139,6 +139,8 @@ interface APIService {
     @GET("v1/document/document/my")
     fun getDocument(@Header("Accesstoken")accesstoken: String?): Call<DocumentListModel>
 
+    //제휴병원 검색
+
     // 캘린더 등록
     @POST("v1/calendar/feel")
     fun postFeel(@Header("Accesstoken")accesstoken: String?,

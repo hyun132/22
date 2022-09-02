@@ -534,4 +534,9 @@ class DataUploadActivity : BaseActivity() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

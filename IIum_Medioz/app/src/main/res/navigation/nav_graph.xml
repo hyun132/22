@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_fragment_band_to_fragment_insurance"
             app:destination="@id/fragment_insurance" />
+        <action
+            android:id="@+id/action_fragment_band_to_fragment_feel"
+            app:destination="@id/fragment_feel" />
     </fragment>
 
     <fragment
@@ -48,5 +51,11 @@
         android:name="com.iium.iium_medioz.view.main.bottom.mypage.MyPageFragment"
         android:label="fragment_mypage"
         tools:layout="@layout/fragment_my_page" />
+
+    <fragment
+        android:id="@+id/fragment_feel"
+        android:name="com.iium.iium_medioz.view.main.bottom.feel.FeelFragment"
+        android:label="fragment_mypage"
+        tools:layout="@layout/fragment_feel" />
 
 </navigation>

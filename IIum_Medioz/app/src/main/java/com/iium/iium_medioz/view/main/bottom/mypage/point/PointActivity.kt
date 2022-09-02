@@ -42,4 +42,9 @@ class PointActivity : BaseActivity() {
         finish()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
+
 }

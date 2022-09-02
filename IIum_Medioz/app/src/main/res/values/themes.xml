@@ -20,10 +20,38 @@
         <item name="cardElevation">0dp</item>
     </style>
 
+    <style name="RoundBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_top_round_20</item>
+    </style>
+
+    <style name="RoundBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundBottomSheet</item>
+    </style>
+
     <style name="CommonButtonCardStyle_keyword" parent="CardView">
         <item name="android:layout_height">40dp</item>
         <item name="cardCornerRadius">9dp</item>
         <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="hintEnabled">false</item>
+        <item name="boxCornerRadiusBottomEnd">15dp</item>
+        <item name="boxCornerRadiusBottomStart">15dp</item>
+        <item name="boxCornerRadiusTopEnd">15dp</item>
+        <item name="boxCornerRadiusTopStart">15dp</item>
+    </style>
+
+    <style name="TextInputEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColorHint">@color/sub_grey_8</item>
     </style>
 
     <style name="bodyText">

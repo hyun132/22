@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -79,7 +80,6 @@ class HomeFragment : Fragment() {
         val imageId = (Math.random() * images.size).toInt()
         mBinding.clMain.setBackgroundResource(images[imageId])
     }
-
 
     private fun initAPI() {
         LLog.e("회원 정보_두번째 API")

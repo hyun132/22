@@ -123,4 +123,9 @@ class SearchActivity : BaseActivity() {
         super.onResume()
         searchAdapter?.notifyDataSetChanged()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
 }

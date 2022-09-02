@@ -3,16 +3,22 @@ package com.iium.iium_medioz.util.base
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.iium.iium_medioz.di.module
 import com.iium.iium_medioz.util.common.CommonData
 import com.iium.iium_medioz.util.pixel.PixelRatio
 import com.iium.iium_medioz.util.preference.PreferenceManager
+import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
-
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import javax.inject.Inject
 
 class MyApplication : Application() {
+
     companion object {
         lateinit var prefs: PreferenceManager
         private var isMainNoticeViewed = false
@@ -69,6 +75,12 @@ class MyApplication : Application() {
 
         databaseReference = FirebaseDatabase.getInstance().reference
 
+        startKoin {
+            androidContext(this@MyApplication)
+            modules(module)
+        }
     }
+
+
 
 }

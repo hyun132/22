@@ -86,6 +86,10 @@ class DataFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         callback.remove()
+    }
+
+    override fun onPause() {
+        super.onPause()
 
     }
 }

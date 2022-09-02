@@ -45,6 +45,7 @@ import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
 import com.iium.iium_medioz.view.main.bottom.home.calendar.CalendarActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
+import com.iium.iium_medioz.view.main.bottom.insurance.search.SearchAddressActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsUploadActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.notice.NoticeActivity
@@ -95,6 +96,11 @@ open class BaseActivity : AppCompatActivity() {
             networkDialog()
             return
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        finishAffinity()
     }
 
 
@@ -224,9 +230,6 @@ open class BaseActivity : AppCompatActivity() {
                 }
             }, PROGRESS_TIMEOUT.toLong())
         }
-        val imgLoading: ImageView = progress!!.findViewById(R.id.iv_loading)!!
-        val frameAnimation = imgLoading.background as AnimationDrawable
-        imgLoading.post { frameAnimation.start() }
     }
 
     open fun stopProgress() {
@@ -371,6 +374,13 @@ open class BaseActivity : AppCompatActivity() {
 
     internal fun modeCalendar() {
         val intent = Intent(this, CalendarActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    internal fun searchAddress() {
+        val intent = Intent(this, SearchAddressActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0)
         finish()

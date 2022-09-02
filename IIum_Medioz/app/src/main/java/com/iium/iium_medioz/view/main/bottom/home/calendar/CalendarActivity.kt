@@ -171,6 +171,8 @@ class CalendarActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
                 if (e != null) {
                     e.printStackTrace()
                     Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
+
+
                     return@addSnapshotListener
                 }
 
@@ -198,6 +200,8 @@ class CalendarActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
                     val adapter = CalendarAdapter(mutableListOf())
                     mBinding.content.rvJurnal.adapter = adapter
                 }
+
+
 
                 mBinding.content.pbhome.isVisible = false
             }
