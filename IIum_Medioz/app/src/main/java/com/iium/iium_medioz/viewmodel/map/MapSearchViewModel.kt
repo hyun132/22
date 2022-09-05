@@ -51,7 +51,6 @@ class MapSearchViewModel (application: Application,
         .asFlow() // BroadcastChannel을 hot flow로 바꿈
         .debounce(SEARCH_TIMEOUT) // search() 호출 속도를 조절할 수 있음. 해당 ms동안 새로운 텍스트를 입력하지 않으면 search() 호출
         .mapLatest { text ->
-            initView(text)
             withContext(Dispatchers.IO) {
                 repository.search(text)
             }
@@ -61,46 +60,4 @@ class MapSearchViewModel (application: Application,
             e.printStackTrace()
         }
         .asLiveData()
-
-    private fun initView(text: String) {
-        LLog.e("브로드캐스트 채널링")
-        val interceptor = HttpLoggingInterceptor()
-        val gson = GsonBuilder().setLenient().create()
-        val client = OkHttpClient.Builder()
-            .connectTimeout(10000, TimeUnit.MILLISECONDS)
-            .readTimeout(10000, TimeUnit.MILLISECONDS)
-            .writeTimeout(10000, TimeUnit.MILLISECONDS)
-            .addInterceptor(interceptor)
-            .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constant.KAKAO_API_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-
-        val api = retrofit.create(NaverService::class.java)
-        val callGetSearchNews = api.getKakaoLocal(Authorization, text, 45,15,"similar")
-
-        callGetSearchNews.enqueue(object : Callback<KaKaoLocalModel> {
-            override fun onResponse(
-                call: Call<KaKaoLocalModel>,
-                response: Response<KaKaoLocalModel>
-            ) {
-                val result = response.body()
-                if(response.isSuccessful && result != null) {
-                    Log.d(Constant.TAG, "브로드캐스트 채널링 성공 : $result")
-                } else {
-                    Log.d(Constant.TAG,"브로드캐스트 채널링 성공 후 실패 ${response.errorBody()}")
-                }
-            }
-
-            override fun onFailure(call: Call<KaKaoLocalModel>, t: Throwable) {
-                Log.d(Constant.TAG, "브로드캐스트 채널링 실패 : $t")
-            }
-        })
-
-    }
 }
