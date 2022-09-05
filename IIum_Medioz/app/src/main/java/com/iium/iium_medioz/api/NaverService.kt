@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.api
 
+import com.iium.iium_medioz.model.map.KaKaoLocalModel
 import com.iium.iium_medioz.model.map.KaKaoModel
 import com.iium.iium_medioz.model.map.NaverSearchModel
 import com.iium.iium_medioz.model.rest.base.Verification
@@ -18,12 +19,20 @@ interface NaverService {
                        @Query("start") start: Int?,
                        @Query("sort")random:String?): Call<NaverSearchModel>
 
-    // 네이버 검색 API
+    // KaKao 키워드 검색 API
     @GET("v2/local/search/keyword.json")
     fun getKaKaoSearch(@Header("Authorization")id: String?,
                        @Query("query") query: String?,
                        @Query("page") page: Int?,
                        @Query("size") size: Int?): Call<KaKaoModel>
+
+    // KaKao 로컬 검색 API
+    @GET("v2/local/search/address.json")
+    fun getKakaoLocal(@Header("Authorization")id: String?,
+                       @Query("query") query: String?,
+                       @Query("page") page: Int?,
+                       @Query("size") size: Int?,
+                      @Query("analyze_type") analyze_type: String?): Call<KaKaoLocalModel>
 
 }
 

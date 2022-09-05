@@ -1,10 +1,12 @@
 package com.iium.iium_medioz.model.di
 
+import android.widget.EditText
+import com.iium.iium_medioz.view.main.bottom.insurance.search.SearchFirstFragment
 import kotlinx.coroutines.delay
 
 class MainRepository() {
 
-    private val list = arrayListOf(
+    private val list = arrayListOf(     // 해당 EditText에 들어오는 Value 값을 반환
         "범프리카 인생치킨",
         "더꼬치다",
         "치킨대가",
