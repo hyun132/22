@@ -4,16 +4,19 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.Marker
 
 data class MapMarker (
-    val result: Boolean? = null,
-    val map: List<MapModel>
+    val address_document: List<AddressDocument>
 )
 
-data class MapModel(
-    val id: Int? = null,
-    val name: String? = null,
-    val xvalue: Double? = null,
-    val yvalue: Double? = null,
-    val address: String? = null,
-    val call: String? = null,
-    val imgUrl: String? = null
+data class AddressDocument(
+    val id: String?= null,
+    val address_name : String?= null,
+    val region_1depth_name: String?= null,
+    val region_2depth_name: String?= null,
+    val region_3depth_name: String?= null,
+    val region_4depth_name: String?= null,
+    val call: String?= null,
+    val x: String?= null,
+    val y: String?= null,
+    val created: String?= null,
+    val imgURL: String?= null
 )

@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.view_item_kakao_local.view.*
 
 class KaKaoLocalAdapter (private val datalist : List<KaKaoDocuments>, val context: Context)
     : RecyclerView.Adapter<KaKaoLocalAdapter.ViewHolder>(){
+    private var list = mutableListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val context = parent.context
@@ -34,14 +35,14 @@ class KaKaoLocalAdapter (private val datalist : List<KaKaoDocuments>, val contex
         return datalist.count()
     }
 
-    inner class ViewHolder (itemView: View? ) : RecyclerView.ViewHolder(itemView!!){
+    inner class ViewHolder (itemView: View? ) : RecyclerView.ViewHolder(itemView!!) {
 
         val title = itemView?.findViewById<TextView>(R.id.tv_search_title_detail)
         val name = itemView?.findViewById<TextView>(R.id.tv_search_address_detail)
         val phone = itemView?.findViewById<TextView>(R.id.tv_search_phone_detail)
-        val cl = itemView?.findViewById<ConstraintLayout>(R.id.cl_search)
+        private val cl = itemView?.findViewById<ConstraintLayout>(R.id.cl_search)
 
-        fun bind(itemData: KaKaoDocuments, context: Context){
+        fun bind(itemData: KaKaoDocuments, context: Context) {
             title?.text = itemData.address_name.toString()
 
             cl?.setOnClickListener {
@@ -51,6 +52,5 @@ class KaKaoLocalAdapter (private val datalist : List<KaKaoDocuments>, val contex
                 ContextCompat.startActivity(itemView.context, intent, null)
             }
         }
-
     }
 }

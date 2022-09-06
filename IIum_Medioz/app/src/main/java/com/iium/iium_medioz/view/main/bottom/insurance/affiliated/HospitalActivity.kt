@@ -26,8 +26,8 @@ import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityHospitalBinding
+import com.iium.iium_medioz.model.map.AddressDocument
 import com.iium.iium_medioz.model.map.MapMarker
-import com.iium.iium_medioz.model.map.MapModel
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_ADDRESS
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_CALL
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_IMGURL
@@ -79,10 +79,10 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
         val intent = Intent(this, DocumentActivity::class.java)
 
         intent.apply {
-            intent.putExtra(DOCUMENT_NAME, it.name.toString())
-            intent.putExtra(DOCUMENT_ADDRESS, it.address.toString())
+            intent.putExtra(DOCUMENT_NAME, it.address_name.toString())
+            intent.putExtra(DOCUMENT_ADDRESS, "${it.region_1depth_name} ${it.region_2depth_name} ${it.region_3depth_name} ${it.region_4depth_name}")
             intent.putExtra(DOCUMENT_CALL, it.call.toString())
-            intent.putExtra(DOCUMENT_IMGURL, it.imgUrl.toString())
+            intent.putExtra(DOCUMENT_IMGURL, it.imgURL.toString())
         }
             startActivity(intent)
     })
@@ -90,7 +90,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
     private val viewPagerAdapter = MapViewPagerAdapter(itemClickListener = {
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, "[지금 이 가격에 예약하세요!!] ${it.name} ${it.address} 사진보기 : ${it.imgUrl}")
+            putExtra(Intent.EXTRA_TEXT, "[지금 이 가격에 예약하세요!!] ${it.address_name} ${it.region_1depth_name} 사진보기 : ${it.imgURL}")
             type = "text/plain"
         }
         startActivity(Intent.createChooser(intent, null))
@@ -244,7 +244,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 val selectedHouseModel = viewPagerAdapter.currentList[position]
-                val cameraUpdate = CameraUpdate.scrollTo(LatLng(selectedHouseModel.xvalue!!, selectedHouseModel.yvalue!!))
+                val cameraUpdate = CameraUpdate.scrollTo(LatLng(selectedHouseModel.x!!.toDouble(), selectedHouseModel.y!!.toDouble()))
                     .animate(CameraAnimation.Easing)
                 mMap?.moveCamera(cameraUpdate)
             }
@@ -276,8 +276,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
             finish()
             true
         } else {
-
-
             super.onOptionsItemSelected(item)
         }
 
@@ -301,16 +299,17 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
 
     private fun getAPI() {
         LLog.e("제휴병원 좌표")
-        val vercall: Call<MapMarker> = apiServices.getMap(prefs.newaccesstoken)
+        val query = ""
+        val vercall: Call<MapMarker> = apiServices.getMap(prefs.newaccesstoken,query)
         vercall.enqueue(object : Callback<MapMarker> {
             override fun onResponse(call: Call<MapMarker>, response: Response<MapMarker>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"제휴병원 response SUCCESS -> $result")
                     result.let { dto ->
-                        updateMarker(dto.map)
-                        viewPagerAdapter.submitList(dto.map)
-                        recyclerViewAdapter.submitList(dto.map)
+                        updateMarker(dto.address_document)
+                        viewPagerAdapter.submitList(dto.address_document)
+                        recyclerViewAdapter.submitList(dto.address_document)
                     }
                 }
                 else {
@@ -323,18 +322,18 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
         })
     }
 
-    private fun updateMarker(map: List<MapModel>) {
-        map.forEach { maps ->
+    private fun updateMarker(addressDocument: List<AddressDocument>) {
+        addressDocument.forEach { maps ->
             val marker = Marker()
-            marker.position = LatLng(maps.xvalue!!, maps.yvalue!!)
+            marker.position = LatLng(maps.x!!.toDouble(), maps.y!!.toDouble())
             marker.map = mMap
-            marker.tag = maps.id
             marker.icon = MarkerIcons.BLACK
             marker.iconTintColor = R.color.main_status
-
+            marker.tag = maps.id
             marker.onClickListener = this
         }
     }
+
 
     fun onAddressClick(v: View) {
         searchAddress()

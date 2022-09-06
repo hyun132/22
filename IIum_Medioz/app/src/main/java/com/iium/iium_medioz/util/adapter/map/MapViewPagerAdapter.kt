@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.util.adapter.map
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,28 +11,29 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.iium.iium_medioz.R
-import com.iium.iium_medioz.model.map.MapModel
+import com.iium.iium_medioz.model.map.AddressDocument
 
 class MapViewPagerAdapter(
-    val itemClickListener : (MapModel) -> Unit
-) : ListAdapter<MapModel, MapViewPagerAdapter.HouseViewHolder>(diffUtil) {
+    val itemClickListener : (AddressDocument) -> Unit
+) : ListAdapter<AddressDocument, MapViewPagerAdapter.HouseViewHolder>(diffUtil) {
 
     inner class HouseViewHolder(
         private val view : View
     ) : RecyclerView.ViewHolder(view) {
 
-        fun bind (houseModel: MapModel) {
+        @SuppressLint("SetTextI18n")
+        fun bind (houseModel: AddressDocument) {
             val titleTextView = view.findViewById<TextView>(R.id.tv_map_title)
             val addressTextView = view.findViewById<TextView>(R.id.tv_map_address)
             val callTextView = view.findViewById<TextView>(R.id.tv_map_call)
             val thumbnailImageView = view.findViewById<ImageView>(R.id.thumbnailImageView)
 
-            titleTextView.text = houseModel.name
-            addressTextView.text = houseModel.address
+            titleTextView.text = houseModel.address_name
+            addressTextView.text = "${houseModel.region_1depth_name} ${houseModel.region_2depth_name} ${houseModel.region_3depth_name} ${houseModel.region_4depth_name}"
             callTextView.text = houseModel.call
 
             Glide.with(thumbnailImageView.context)
-                .load(houseModel.imgUrl)
+                .load(houseModel.imgURL)
                 .into(thumbnailImageView)
 
             view.setOnClickListener { itemClickListener(houseModel) }
@@ -48,11 +50,11 @@ class MapViewPagerAdapter(
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<MapModel>() {
-            override fun areItemsTheSame(oldItem: MapModel, newItem: MapModel)
+        val diffUtil = object : DiffUtil.ItemCallback<AddressDocument>() {
+            override fun areItemsTheSame(oldItem: AddressDocument, newItem: AddressDocument)
                     = oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: MapModel, newItem: MapModel)
+            override fun areContentsTheSame(oldItem: AddressDocument, newItem: AddressDocument)
                     = oldItem == newItem
         }
     }

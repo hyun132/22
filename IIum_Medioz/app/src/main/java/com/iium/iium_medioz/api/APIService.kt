@@ -127,8 +127,9 @@ interface APIService {
                     @Body ocrModel: OCRModel) : Call<OCRModel>
 
     // 제휴병원 좌표
-    @GET("v1/map/map")
-    fun getMap(@Header("Accesstoken")accesstoken: String?): Call<MapMarker>
+    @GET("v1/map/map/search")
+    fun getMap(@Header("Accesstoken")accesstoken: String?,
+               @Query("value")value: String?): Call<MapMarker>
 
     //제휴병원 서류 등록
     @POST("v1/document/document")
