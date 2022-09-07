@@ -1,6 +1,5 @@
 package com.iium.iium_medioz.util.adapter.map
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -11,11 +10,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.iium.iium_medioz.R
-import com.iium.iium_medioz.model.map.Documents
 import com.iium.iium_medioz.model.map.KaKaoDocuments
 import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
-import kotlinx.android.synthetic.main.view_item_kakao_local.view.*
 
 class KaKaoLocalAdapter (private val datalist : List<KaKaoDocuments>, val context: Context)
     : RecyclerView.Adapter<KaKaoLocalAdapter.ViewHolder>(){
