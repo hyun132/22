@@ -4,7 +4,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.Marker
 
 data class MapMarker (
-    val address_document: List<AddressDocument>
+    val result: List<AddressDocument>
 )
 
 data class AddressDocument(

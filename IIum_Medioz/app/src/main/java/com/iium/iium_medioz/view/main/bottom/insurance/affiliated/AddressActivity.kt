@@ -301,7 +301,7 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
 //        Log.d(TAG,"카메라 카텍 변환 : $tm")
 //        Log.d(TAG,"카메라 카텍 변환 lang : ${tm.toLatLng()}")
 
-        val cameraUpdate: CameraUpdate = CameraUpdate.scrollTo(LatLng(kakap_mapy.toDouble(),kakao_mapx.toDouble()))
+        val cameraUpdate: CameraUpdate = CameraUpdate.scrollTo(LatLng(kakao_mapx.toDouble(),kakap_mapy   .toDouble()))
         naverMap.moveCamera(cameraUpdate)
 
         getAPI()
@@ -317,9 +317,9 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"제휴병원 response SUCCESS -> $result")
                     result.let { dto ->
-                        updateMarker(dto.address_document)
-                        viewPagerAdapter.submitList(dto.address_document)
-                        recyclerViewAdapter.submitList(dto.address_document)
+                        updateMarker(dto.result)
+                        viewPagerAdapter.submitList(dto.result)
+                        recyclerViewAdapter.submitList(dto.result)
                     }
                 }
                 else {
@@ -332,8 +332,8 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
         })
     }
 
-    private fun updateMarker(addressDocument: List<AddressDocument>) {
-        addressDocument.forEach { maps ->
+    private fun updateMarker(result: List<AddressDocument>) {
+        result.forEach { maps ->
             val marker = Marker()
             marker.position = LatLng(maps.x!!.toDouble(), maps.y!!.toDouble())
             marker.map = mMap
