@@ -51,7 +51,6 @@ class MainActivity : BaseActivity() {
 
     private val fragmentOne by lazy { HomeFragment() }
     private val fragmentTwo by lazy { DataFragment() }
-    private val fragmentThree by lazy { FeelFragment() }
     private val fragmentFour by lazy { InsuranceFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
