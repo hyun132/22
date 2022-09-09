@@ -255,6 +255,11 @@
         <item>제주도</item>
     </string-array>
 
+    <string name="empty_result">Nothing found…</string>
+    <string name="not_enough_characters">Query must be at least 3 characters long</string>
+    <string name="search_error">Error when searching!</string>
+    <string name="search_query_hint">Enter search here…</string>
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_book_mark">BookMarkActivity</string>

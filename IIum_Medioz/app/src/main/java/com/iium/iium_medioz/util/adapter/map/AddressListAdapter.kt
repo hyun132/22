@@ -11,20 +11,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.iium.iium_medioz.R
-import com.iium.iium_medioz.model.map.Documents
-import com.iium.iium_medioz.model.map.KaKaoDocuments
+import com.iium.iium_medioz.model.map.AddressDocument
 import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
-import kotlinx.android.synthetic.main.view_item_kakao_local.view.*
 
-class KaKaoLocalAdapter (private val datalist : List<KaKaoDocuments>, val context: Context)
-    : RecyclerView.Adapter<KaKaoLocalAdapter.ViewHolder>(){
-    private var list = mutableListOf<String>()
+class AddressListAdapter(private val datalist: List<AddressDocument>, val context: Context)
+    : RecyclerView.Adapter<AddressListAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
-        val contactView = inflater.inflate(R.layout.view_item_kakao_search, parent, false)
+        val contactView = inflater.inflate(R.layout.search_item, parent, false)
         return ViewHolder(contactView)
     }
 
@@ -35,22 +32,22 @@ class KaKaoLocalAdapter (private val datalist : List<KaKaoDocuments>, val contex
         return datalist.count()
     }
 
-    inner class ViewHolder (itemView: View? ) : RecyclerView.ViewHolder(itemView!!) {
+    inner class ViewHolder (itemView: View? ) : RecyclerView.ViewHolder(itemView!!){
 
-        val title = itemView?.findViewById<TextView>(R.id.tv_search_title_detail)
-        val name = itemView?.findViewById<TextView>(R.id.tv_search_address_detail)
-        val phone = itemView?.findViewById<TextView>(R.id.tv_search_phone_detail)
-        private val cl = itemView?.findViewById<ConstraintLayout>(R.id.cl_search)
+        val name = itemView?.findViewById<TextView>(R.id.resultText)
+        val cl = itemView?.findViewById<ConstraintLayout>(R.id.cl_address_search)
 
-        fun bind(itemData: KaKaoDocuments, context: Context) {
-            title?.text = itemData.address_name.toString()
+        @SuppressLint("SetTextI18n")
+        fun bind(itemData: AddressDocument, context: Context){
+            name?.text = "${itemData.region_1depth_name} ${itemData.region_2depth_name} ${itemData.region_3depth_name} ${itemData.region_4depth_name}"
 
             cl?.setOnClickListener {
                 val intent = Intent(context, AddressActivity::class.java)
-                intent.putExtra(Constant.KAKAO_MAPX, itemData.x)
-                intent.putExtra(Constant.KAKAO_MAPY, itemData.y)
+                intent.putExtra(Constant.KAKAO_MAPX, itemData.x.toString())
+                intent.putExtra(Constant.KAKAO_MAPY, itemData.y.toString())
                 ContextCompat.startActivity(itemView.context, intent, null)
             }
         }
+
     }
 }
