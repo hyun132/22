@@ -1,12 +1,13 @@
 package com.iium.iium_medioz.viewmodel.map
 
+import android.app.Application
 import android.content.res.AssetManager
+import android.util.Log
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
-import com.iium.iium_medioz.di.SearchApi
-import com.iium.iium_medioz.di.SearchRepository
+import androidx.lifecycle.*
+import com.iium.iium_medioz.api.RetrofitBuilder
+import com.iium.iium_medioz.model.map.MapMarker
+import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
@@ -14,70 +15,51 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.mapLatest
+import retrofit2.HttpException
 
-sealed class SearchResult
-class ValidResult(val result: List<String>) : SearchResult()
-object EmptyResult : SearchResult()
-object EmptyQuery : SearchResult()
-class ErrorResult(val e: Throwable) : SearchResult()
-object TerminalError : SearchResult()
-
+@ExperimentalCoroutinesApi
+@FlowPreview
 class SearchViewModel(
-    private val searchApi: SearchApi,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) : ViewModel() {
-    companion object {
-        const val SEARCH_DELAY_MS = 500L
-        const val MIN_QUERY_LENGTH = 3
-    }
+    application: Application
+) : AndroidViewModel(application) {
 
-    @ExperimentalCoroutinesApi
-    @VisibleForTesting
-    internal val queryChannel = BroadcastChannel<String>(Channel.CONFLATED)
+    private val SEARCH_TIMEOUT = 300L
 
-    @FlowPreview
-    @ExperimentalCoroutinesApi
-    @VisibleForTesting
-    internal val internalSearchResult = queryChannel
-        .asFlow()
-        .debounce(SEARCH_DELAY_MS)
-        .mapLatest {
-            try {
-                if (it.length >= MIN_QUERY_LENGTH) {
-                    val searchResult = withContext(ioDispatcher) {
-                        searchApi.performSearch(it)
-                    }
-                    println("Search result: ${searchResult.size} hits")
+    /*
+    Channel.CONFLATED는 ConflatedChannel를 생성
+    ConflatedChannel:
+        보내진 element 중에서 하나의 element만 버퍼링하므로서
+        Receiver가 항상 최근에 보내진 element를 가져올 수 있도록함
+     */
+    val queryChannel = BroadcastChannel<String>(Channel.CONFLATED)
 
-                    if (searchResult.isNotEmpty()) {
-                        ValidResult(searchResult)
-                    } else {
-                        EmptyResult
-                    }
-                } else {
-                    EmptyQuery
-                }
-            } catch (e: Throwable) {
-                if (e is CancellationException) {
-                    println("Search was cancelled!")
-                    throw e
-                } else {
-                    ErrorResult(e)
+    private val _kakaoList = MutableLiveData<MapMarker>()
+    val kakaoList: LiveData<MapMarker>
+        get() = _kakaoList
+    private val _status = MutableLiveData<Boolean>()
+    val status: LiveData<Boolean>
+        get() = _status
+
+    val searchResult = queryChannel
+        .asFlow() // BroadcastChannel을 hot flow로 바꿈
+        .debounce(SEARCH_TIMEOUT) // search() 호출 속도를 조절할 수 있음. 해당 ms동안 새로운 텍스트를 입력하지 않으면 search() 호출
+        .mapLatest { text ->
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    _kakaoList.postValue(
+                        RetrofitBuilder.api.getMap(prefs.newaccesstoken, text)
+                    )
+                    _status.postValue(true)
+                    Log.e("잘 들어옴", "_status true")
+                } catch (e: HttpException) {
+                    Log.e("에러", "_status false")
+                    _status.postValue(false)
                 }
             }
         }
-        .catch { emit(TerminalError) }
-
-    @FlowPreview
-    @ExperimentalCoroutinesApi
-    val searchResult = internalSearchResult.asLiveData()
-
-    class Factory(private val assets: AssetManager, private val dispatcher: CoroutineDispatcher) :
-        ViewModelProvider.NewInstanceFactory() {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SearchViewModel(SearchRepository(assets), dispatcher) as T
+        .catch { e: Throwable ->
+            Log.e("에러", "에러 핸들링")
+            e.printStackTrace()
         }
-    }
+        .asLiveData()
 }
-

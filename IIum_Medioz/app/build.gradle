@@ -218,9 +218,16 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.1'
     implementation 'com.google.android.exoplayer:exoplayer-hls:2.18.1'
 
-    def koin_version = '2.1.6'
-    implementation "org.koin:koin-core:$koin_version"
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
+    implementation "io.insert-koin:koin-android:3.1.6"
+    testImplementation "io.insert-koin:koin-test:3.1.6"
+
+    def lifecycle_version = "2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
+
 
 }
 
