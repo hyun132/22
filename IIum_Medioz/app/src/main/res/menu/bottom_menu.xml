@@ -28,7 +28,7 @@
         android:id="@+id/nav_band"
         android:enabled="true"
         android:icon="@drawable/bottom_band"
-        android:title="건강밴드"
+        android:title="병상일지"
         app:showAsAction="always" />
 
     <item

@@ -35,7 +35,7 @@ class AddressListAdapter(private val datalist: List<AddressDocument>, val contex
     inner class ViewHolder (itemView: View? ) : RecyclerView.ViewHolder(itemView!!){
 
         val name = itemView?.findViewById<TextView>(R.id.resultText)
-        val cl = itemView?.findViewById<ConstraintLayout>(R.id.cl_address_search)
+        private val cl = itemView?.findViewById<ConstraintLayout>(R.id.cl_address_search)
 
         @SuppressLint("SetTextI18n")
         fun bind(itemData: AddressDocument, context: Context){

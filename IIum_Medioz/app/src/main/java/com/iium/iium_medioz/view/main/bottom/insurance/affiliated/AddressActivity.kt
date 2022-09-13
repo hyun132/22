@@ -301,7 +301,7 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
 //        Log.d(TAG,"카메라 카텍 변환 : $tm")
 //        Log.d(TAG,"카메라 카텍 변환 lang : ${tm.toLatLng()}")
 
-        val cameraUpdate: CameraUpdate = CameraUpdate.scrollTo(LatLng(kakao_mapx.toDouble(),kakap_mapy   .toDouble()))
+        val cameraUpdate: CameraUpdate = CameraUpdate.scrollTo(LatLng(kakao_mapx.toDouble(),kakap_mapy.toDouble()))
         naverMap.moveCamera(cameraUpdate)
 
         getAPI()

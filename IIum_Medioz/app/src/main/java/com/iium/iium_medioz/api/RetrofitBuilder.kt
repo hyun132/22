@@ -21,6 +21,7 @@ object RetrofitBuilder {
         .build()
 
     val retrofit = Retrofit.Builder()
+//        .baseUrl("https://dapi.kakao.com/")
         .baseUrl(BASE_URL)
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())

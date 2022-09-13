@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.*
 import com.iium.iium_medioz.api.RetrofitBuilder
+import com.iium.iium_medioz.model.map.KaKaoModel
 import com.iium.iium_medioz.model.map.MapMarker
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import kotlinx.coroutines.*
@@ -24,13 +25,7 @@ class SearchViewModel(
 ) : AndroidViewModel(application) {
 
     private val SEARCH_TIMEOUT = 300L
-
-    /*
-    Channel.CONFLATED는 ConflatedChannel를 생성
-    ConflatedChannel:
-        보내진 element 중에서 하나의 element만 버퍼링하므로서
-        Receiver가 항상 최근에 보내진 element를 가져올 수 있도록함
-     */
+    @OptIn(ObsoleteCoroutinesApi::class)
     val queryChannel = BroadcastChannel<String>(Channel.CONFLATED)
 
     private val _kakaoList = MutableLiveData<MapMarker>()
@@ -40,6 +35,7 @@ class SearchViewModel(
     val status: LiveData<Boolean>
         get() = _status
 
+    @OptIn(ObsoleteCoroutinesApi::class)
     val searchResult = queryChannel
         .asFlow() // BroadcastChannel을 hot flow로 바꿈
         .debounce(SEARCH_TIMEOUT) // search() 호출 속도를 조절할 수 있음. 해당 ms동안 새로운 텍스트를 입력하지 않으면 search() 호출
@@ -47,7 +43,10 @@ class SearchViewModel(
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     _kakaoList.postValue(
-                        RetrofitBuilder.api.getMap(prefs.newaccesstoken, text)
+                        RetrofitBuilder.api.getMap(
+                            prefs.newaccesstoken,
+                            text
+                        )
                     )
                     _status.postValue(true)
                     Log.e("잘 들어옴", "_status true")

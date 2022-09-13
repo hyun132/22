@@ -24,62 +24,56 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout"
-                style="@style/TextInputLayout"
+            <EditText
+                android:id="@+id/textField"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                app:boxBackgroundColor="@color/white"
-                app:endIconDrawable="@drawable/ic_textdelete"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/transparent"
-                app:endIconTintMode="src_over"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_box"
+                android:fontFamily="@font/notosans_medium"
+                android:inputType="text"
+                android:maxLength="20"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:hint="OO동으로 검색해주세요!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textField"
-                    style="@style/TextInputEditText"
-                    android:drawableStart="@drawable/ic_search_address"
-                    android:drawablePadding="15dp"
-                    android:hint="OO동으로 검색해주세요!"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:paddingStart="22dp"
-                    android:textCursorDrawable="@drawable/cursor"
-                    tools:text="OO동으로 검색해주세요!" />
-            </com.google.android.material.textfield.TextInputLayout>
-
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchResult"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout19" />
-
         <TextView
-            android:id="@+id/tv_no_data"
+            android:id="@+id/tvNoData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:text="검색결과가 없습니다."
-            android:textSize="20sp"
             android:fontFamily="@font/gyeonggititle_medium"
+            android:text="데이터가 없습니다"
             android:textColor="@color/black"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clSearchAddress"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout19">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

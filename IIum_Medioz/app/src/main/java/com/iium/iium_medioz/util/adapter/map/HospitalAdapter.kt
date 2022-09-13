@@ -1,10 +1,12 @@
 package com.iium.iium_medioz.util.adapter.map
 
+import android.graphics.Color
 import android.graphics.Typeface
 import android.location.Location
 import android.location.LocationManager
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.model.map.AddressDocument
+import com.iium.iium_medioz.model.map.Documents
 import kotlinx.android.synthetic.main.item_search.view.*
 
 class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
@@ -45,7 +48,7 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.onBind(
             list[position].address_name!!,
-            list[position].region_1depth_name!!,
+            "${list[position].region_1depth_name} ${list[position].region_2depth_name} ${list[position].region_3depth_name} ",
             list[position].x!!,
             list[position].y!!
         )
@@ -60,7 +63,7 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
         var index: Int = document.indexOf(word)
 
         while (index != -1) {
-            indexList.add(index)
+            indexList.add(index.toByte().toInt())
             index = document.indexOf(word, index + word.length)
 
         }
@@ -76,18 +79,23 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
 
         targetLoc.latitude = lat2
         targetLoc.longitude = lng2
-        val roundoff = String.format("%.1f", myLoc.distanceTo(targetLoc) / 1000)
 
-        return roundoff
+        return String.format("%.1f", myLoc.distanceTo(targetLoc) / 1000)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(text_ad: String, text_pl: String, x: String, y: String) {
             var builder = SpannableStringBuilder(text_ad)
 
-            for (i in 0..findIndexes(key, text_ad).size - 1) {
+            for (i in 0 ..findIndexes(key, text_ad).size -1) {
                 builder.setSpan(
                     StyleSpan(Typeface.BOLD),
+                    findIndexes(key, text_ad)[i],
+                    findIndexes(key, text_ad)[i] + key.length,
+                    Spanned.SPAN_INCLUSIVE_INCLUSIVE
+                )
+                builder.setSpan(
+                    ForegroundColorSpan(R.color.red_temp),
                     findIndexes(key, text_ad)[i],
                     findIndexes(key, text_ad)[i] + key.length,
                     Spanned.SPAN_INCLUSIVE_INCLUSIVE
@@ -98,19 +106,24 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
 
             builder = SpannableStringBuilder(text_pl)
 
-            for (i in 0..findIndexes(key, text_pl).size - 1) {
+            for (i in 0 ..findIndexes(key, text_pl).size -1) {
                 builder.setSpan(
                     StyleSpan(Typeface.BOLD),
                     findIndexes(key, text_pl)[i],
                     findIndexes(key, text_pl)[i] + key.length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
                 )
+                builder.setSpan(
+                    ForegroundColorSpan(R.color.red_temp),
+                    findIndexes(key, text_pl)[i],
+                    findIndexes(key, text_pl)[i] + key.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
 
             itemView.tv_place_name.text = builder
 
             itemView.tv_distance.text =
-                getDistance(latitude, longitude, y!!.toDouble(), x!!.toDouble()) + " km"
+                getDistance(latitude, longitude, y.toDouble(), x.toDouble()) + "km"
 
             itemView.setOnClickListener {
                 listener?.invoke(x, y)
