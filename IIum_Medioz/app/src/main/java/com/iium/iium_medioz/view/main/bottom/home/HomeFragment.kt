@@ -16,6 +16,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleObserver
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
@@ -51,7 +52,7 @@ import java.util.*
 import kotlin.concurrent.thread
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), LifecycleObserver {
 
     private lateinit var mBinding : FragmentHomeBinding
     private lateinit var apiServices: APIService
@@ -65,9 +66,16 @@ class HomeFragment : Fragment() {
         apiServices = ApiUtils.apiService
         mBinding.fragment = this
         initView()
-        initAPI()
 //        initTemperature()
         return mBinding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        thread(start = true) {
+            Thread.sleep(1000)
+            initAPI()
+        }
     }
 
 
@@ -209,11 +217,12 @@ class HomeFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+        activity?.lifecycle?.addObserver(this@HomeFragment)
+
     }
 
     override fun onDetach() {
         super.onDetach()
         callback.remove()
     }
-
 }

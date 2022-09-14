@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
@@ -32,7 +33,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class InsuranceFragment : Fragment() {
+class InsuranceFragment : Fragment(),LifecycleObserver {
 
     private lateinit var mBinding : FragmentInsuranceBinding
     private lateinit var apiServices: APIService
@@ -109,6 +110,8 @@ class InsuranceFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+        activity?.lifecycle?.addObserver(this@InsuranceFragment)
+
     }
 
     override fun onDetach() {

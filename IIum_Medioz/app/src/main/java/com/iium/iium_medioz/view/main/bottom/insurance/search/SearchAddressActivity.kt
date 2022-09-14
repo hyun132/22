@@ -41,6 +41,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.IllegalArgumentException
 import java.net.URL
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
@@ -48,7 +49,7 @@ import java.util.concurrent.TimeUnit
 class SearchAddressActivity : BaseActivity() {
     private val tabTitleArray = arrayOf(
         "지역검색",
-        "키워드검색",
+        "병원검색",
     )
     private lateinit var mBinding : ActivitySearchAddressBinding
     private lateinit var apiService: APIService
@@ -70,14 +71,19 @@ class SearchAddressActivity : BaseActivity() {
     }
 
     private fun initView() {
-        val viewPager = mBinding.vpSearch
-        val tabLayout = mBinding.tlSearch
+        try {
+            super.onDetachedFromWindow()
+            val viewPager = mBinding.vpSearch
+            val tabLayout = mBinding.tlSearch
 
-        viewPager.adapter = SearchFragmentAdapter(supportFragmentManager, lifecycle)
+            viewPager.adapter = SearchFragmentAdapter(supportFragmentManager, lifecycle)
 
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = tabTitleArray[position]
-        }.attach()
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = tabTitleArray[position]
+            }.attach()
+        } catch (e: IllegalArgumentException) {
+           Log.d(TAG,e.toString())
+        }
     }
 
     override fun onBackPressed() {

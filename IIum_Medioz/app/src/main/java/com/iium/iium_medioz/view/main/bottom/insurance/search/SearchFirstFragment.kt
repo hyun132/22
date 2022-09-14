@@ -39,7 +39,6 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 class SearchFirstFragment : Fragment() {
 
     private lateinit var mBinding : FragmentSearchFirstBinding
-    private lateinit var apiServices: APIService
     private var readapter: HospitalAdapter?=null
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     private val viewModel: SearchViewModel by viewModels()
@@ -57,7 +56,6 @@ class SearchFirstFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_first, container, false)
-        apiServices = ApiUtils.apiService
         mBinding.fragment = this
         initView()
         init()

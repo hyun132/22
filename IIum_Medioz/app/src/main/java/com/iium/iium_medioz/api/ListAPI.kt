@@ -18,9 +18,16 @@ interface ListAPI {
     ): KaKaoModel
 
 
-    // 제휴병원 좌표
+    // 제휴병원 좌표(동네)
     @GET("v1/map/map/search")
     suspend fun getMap(
+        @Header("Accesstoken")accesstoken: String?,
+        @Query("name")value: String?
+    ): MapMarker
+
+    // 제휴병원 좌표(병원)
+    @GET("v1/map/map/search/hosiptal")
+    suspend fun getHospital(
         @Header("Accesstoken")accesstoken: String?,
         @Query("name")value: String?
     ): MapMarker

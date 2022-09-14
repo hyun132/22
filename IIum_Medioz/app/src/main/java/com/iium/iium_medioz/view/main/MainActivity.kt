@@ -97,18 +97,20 @@ class MainActivity : BaseActivity() {
             override fun onResponse(call: Call<AppPolicy>, response: Response<AppPolicy>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"Policy response SUCCESS -> $result")
+                    Log.d(TAG,"Policy response SUCCESS -> $result")
                 }
                 else {
-                    Log.d(LLog.TAG,"Policy response ERROR -> $result")
+                    Log.d(TAG,"Policy response ERROR -> $result")
                     serverDialog()
                 }
             }
             override fun onFailure(call: Call<AppPolicy>, t: Throwable) {
-                Log.d(LLog.TAG, "Policy error -> $t")
+                Log.d(TAG, "Policy error -> $t")
                 serverDialog()
             }
         })
+
+
     }
 
 

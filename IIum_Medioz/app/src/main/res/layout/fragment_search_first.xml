@@ -36,7 +36,7 @@
                 android:paddingRight="10dp"
                 android:textColor="@color/black"
                 android:textSize="17sp"
-                android:hint="OO동으로 검색해주세요!"
+                android:hint="지역을 검색 해주세요!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

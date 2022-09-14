@@ -1,6 +1,5 @@
 package com.iium.iium_medioz.util.adapter.map
 
-import android.graphics.Color
 import android.graphics.Typeface
 import android.location.Location
 import android.location.LocationManager
@@ -14,11 +13,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.model.map.AddressDocument
-import com.iium.iium_medioz.model.map.Documents
 import kotlinx.android.synthetic.main.item_search.view.*
 
-class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
-
+class HospitalSecondAdapter() : RecyclerView.Adapter<HospitalSecondAdapter.ViewHolder>() {
     private var list = mutableListOf<AddressDocument>()
     private var listener: ((String, String) -> Unit)? = null
     lateinit var key: String
@@ -36,7 +33,7 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
         this.longitude = longitude
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HospitalAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HospitalSecondAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search, null, false)
         return ViewHolder(view)
     }
@@ -124,7 +121,7 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
             itemView.tv_place_name.text = builder
 
             itemView.tv_distance.text =
-                getDistance(latitude, longitude, x.toDouble(), y.toDouble()) + "km"
+                getDistance(latitude, longitude, y.toDouble(), x.toDouble()) + "km"
 
             itemView.setOnClickListener {
                 listener?.invoke(x, y)
