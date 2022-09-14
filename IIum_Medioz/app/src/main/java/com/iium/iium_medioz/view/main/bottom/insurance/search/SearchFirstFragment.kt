@@ -204,7 +204,6 @@ class SearchFirstFragment : Fragment() {
         mBinding.textField.onTextChanged { s, start, before, count ->
             val queryText = s.toString()
             readapter!!.submitVariable(queryText, latitude, longitude)
-            // Channel에 queryText 전송, Channel 용량을 침범하지 않았다면 true 아니면 false 리턴
             viewModel.queryChannel.trySend(queryText).isSuccess
         }
     }

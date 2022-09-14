@@ -1,19 +1,15 @@
 package com.iium.iium_medioz.viewmodel.map
 
 import android.app.Application
-import android.content.res.AssetManager
 import android.util.Log
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.*
 import com.iium.iium_medioz.api.RetrofitBuilder
-import com.iium.iium_medioz.model.map.KaKaoModel
 import com.iium.iium_medioz.model.map.MapMarker
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.mapLatest
 import retrofit2.HttpException
@@ -51,14 +47,15 @@ class SearchViewModel(
                     _status.postValue(true)
                     Log.e("잘 들어옴", "_status true")
                 } catch (e: HttpException) {
-                    Log.e("에러", "_status false")
-                    _status.postValue(false)
+                    if(e is CancellationException){
+                        throw e
+                    }else{
+                        // 검색어가 비었을 경우만 _status = false
+                        Log.e("에러", "_status false")
+                        _status.postValue(false)
+                    }
                 }
             }
-        }
-        .catch { e: Throwable ->
-            Log.e("에러", "에러 핸들링")
-            e.printStackTrace()
         }
         .asLiveData()
 }

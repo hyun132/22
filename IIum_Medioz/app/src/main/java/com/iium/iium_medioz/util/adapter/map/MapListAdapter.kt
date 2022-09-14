@@ -32,8 +32,8 @@ class MapListAdapter(val itemClickListener : (AddressDocument) -> Unit) : ListAd
             val thumbnailImageView = view.findViewById<ImageView>(R.id.thumbnailImageView)
             val btn = view.findViewById<AppCompatButton>(R.id.btn_map_ok)
 
-            titleTextView.text = houseModel.address_name
-            addressTextView.text = "${houseModel.region_1depth_name} ${houseModel.region_2depth_name} ${houseModel.region_3depth_name} ${houseModel.region_4depth_name}"
+            titleTextView.text = houseModel.place_name
+            addressTextView.text = houseModel.address_name
             callTextView.text = houseModel.call
 
             Glide.with(thumbnailImageView.context)

@@ -39,7 +39,7 @@ class AddressListAdapter(private val datalist: List<AddressDocument>, val contex
 
         @SuppressLint("SetTextI18n")
         fun bind(itemData: AddressDocument, context: Context){
-            name?.text = "${itemData.region_1depth_name} ${itemData.region_2depth_name} ${itemData.region_3depth_name} ${itemData.region_4depth_name}"
+            name?.text = itemData.address_name.toString()
 
             cl?.setOnClickListener {
                 val intent = Intent(context, AddressActivity::class.java)

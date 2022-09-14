@@ -69,8 +69,8 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
         val intent = Intent(this, DocumentActivity::class.java)
 
         intent.apply {
-            intent.putExtra(Constant.DOCUMENT_NAME, it.address_name.toString())
-            intent.putExtra(Constant.DOCUMENT_ADDRESS, "${it.region_1depth_name} ${it.region_2depth_name} ${it.region_3depth_name} ${it.region_4depth_name}")
+            intent.putExtra(Constant.DOCUMENT_NAME, it.place_name.toString())
+            intent.putExtra(Constant.DOCUMENT_ADDRESS, it.address_name)
             intent.putExtra(Constant.DOCUMENT_CALL, it.call.toString())
             intent.putExtra(Constant.DOCUMENT_IMGURL, it.imgURL.toString())
         }
@@ -80,7 +80,7 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
     private val viewPagerAdapter = MapViewPagerAdapter(itemClickListener = {
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, "[지금 이 가격에 예약하세요!!] ${it.address_name} ${it.region_1depth_name} 사진보기 : ${it.imgURL}")
+            putExtra(Intent.EXTRA_TEXT, "[지금 이 가격에 예약하세요!!] ${it.address_name} ${it.place_name} 사진보기 : ${it.imgURL}")
             type = "text/plain"
         }
         startActivity(Intent.createChooser(intent, null))

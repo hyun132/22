@@ -48,7 +48,7 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.onBind(
             list[position].address_name!!,
-            "${list[position].region_1depth_name} ${list[position].region_2depth_name} ${list[position].region_3depth_name} ",
+            list[position].place_name!!,
             list[position].x!!,
             list[position].y!!
         )
@@ -61,11 +61,12 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
     fun findIndexes(word: String, document: String): MutableList<Int> {
         val indexList = mutableListOf<Int>()
         var index: Int = document.indexOf(word)
+        // 이 부분으로 검색어가 ""일 때 예외처리
+        if (word.isEmpty()) index = -1
 
         while (index != -1) {
-            indexList.add(index.toByte().toInt())
+            indexList.add(index)
             index = document.indexOf(word, index + word.length)
-
         }
         return indexList
     }
@@ -87,7 +88,7 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
         fun onBind(text_ad: String, text_pl: String, x: String, y: String) {
             var builder = SpannableStringBuilder(text_ad)
 
-            for (i in 0 ..findIndexes(key, text_ad).size -1) {
+            for (i in 0 until findIndexes(key, text_ad).size) {
                 builder.setSpan(
                     StyleSpan(Typeface.BOLD),
                     findIndexes(key, text_ad)[i],
@@ -106,7 +107,7 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
 
             builder = SpannableStringBuilder(text_pl)
 
-            for (i in 0 ..findIndexes(key, text_pl).size -1) {
+            for (i in 0 until findIndexes(key, text_pl).size) {
                 builder.setSpan(
                     StyleSpan(Typeface.BOLD),
                     findIndexes(key, text_pl)[i],

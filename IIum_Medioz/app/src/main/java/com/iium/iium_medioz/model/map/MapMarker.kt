@@ -10,10 +10,8 @@ data class MapMarker (
 data class AddressDocument(
     val id: String?= null,
     val address_name : String?= null,
-    val region_1depth_name: String?= null,
-    val region_2depth_name: String?= null,
-    val region_3depth_name: String?= null,
-    val region_4depth_name: String?= null,
+    val place_name: String?= null,
+    val road_address_name: String?= null,
     val call: String?= null,
     val x: String?= null,
     val y: String?= null,

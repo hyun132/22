@@ -79,8 +79,8 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
         val intent = Intent(this, DocumentActivity::class.java)
 
         intent.apply {
-            intent.putExtra(DOCUMENT_NAME, it.address_name.toString())
-            intent.putExtra(DOCUMENT_ADDRESS, "${it.region_1depth_name} ${it.region_2depth_name} ${it.region_3depth_name} ${it.region_4depth_name}")
+            intent.putExtra(DOCUMENT_NAME, it.place_name.toString())
+            intent.putExtra(DOCUMENT_ADDRESS, it.address_name)
             intent.putExtra(DOCUMENT_CALL, it.call.toString())
             intent.putExtra(DOCUMENT_IMGURL, it.imgURL.toString())
         }
@@ -90,7 +90,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
     private val viewPagerAdapter = MapViewPagerAdapter(itemClickListener = {
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, "[지금 이 가격에 예약하세요!!] ${it.address_name} ${it.region_1depth_name} 사진보기 : ${it.imgURL}")
+            putExtra(Intent.EXTRA_TEXT, "[지금 이 가격에 예약하세요!!] ${it.address_name} ${it.place_name} 사진보기 : ${it.imgURL}")
             type = "text/plain"
         }
         startActivity(Intent.createChooser(intent, null))
