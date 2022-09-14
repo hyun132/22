@@ -61,7 +61,6 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
     fun findIndexes(word: String, document: String): MutableList<Int> {
         val indexList = mutableListOf<Int>()
         var index: Int = document.indexOf(word)
-        // 이 부분으로 검색어가 ""일 때 예외처리
         if (word.isEmpty()) index = -1
 
         while (index != -1) {
@@ -71,7 +70,6 @@ class HospitalAdapter() : RecyclerView.Adapter<HospitalAdapter.ViewHolder>() {
         return indexList
     }
 
-    // 좌표로 거리구하기
     fun getDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double): String {
         val myLoc = Location(LocationManager.NETWORK_PROVIDER)
         val targetLoc = Location(LocationManager.NETWORK_PROVIDER)

@@ -75,14 +75,11 @@ class SearchSecondFragment : Fragment() {
         }
     }
 
-    // 위치 권한이 있는지 확인하는 메서드
     private fun checkPermissionForLocation(context: Context): Boolean {
-        // Android 6.0 Marshmallow 이상에서는 위치 권한에 추가 런타임 권한이 필요
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 true
             } else {
-                // 권한이 없으므로 권한 요청 알림 보내기
                 ActivityCompat.requestPermissions(
                     activity!!,
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
@@ -97,7 +94,6 @@ class SearchSecondFragment : Fragment() {
 
     private fun startLocationUpdates() {
 
-        //FusedLocationProviderClient의 인스턴스를 생성.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity!!)
         if (ActivityCompat.checkSelfPermission(
                 context!!,
@@ -110,8 +106,6 @@ class SearchSecondFragment : Fragment() {
         ) {
             return
         }
-        // 기기의 위치에 관한 정기 업데이트를 요청하는 메서드 실행
-        // 지정한 루퍼 스레드(Looper.myLooper())에서 콜백(mLocationCallback)으로 위치 업데이트를 요청
         mFusedLocationProviderClient!!.requestLocationUpdates(
             mLocationRequest,
             mLocationCallback,
@@ -119,16 +113,13 @@ class SearchSecondFragment : Fragment() {
         )
     }
 
-    // 시스템으로 부터 위치 정보를 콜백으로 받음
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            // 시스템에서 받은 location 정보를 onLocationChanged()에 전달
             locationResult.lastLocation
             onLocationChanged(locationResult.lastLocation!!)
         }
     }
 
-    // 사용자에게 권한 요청 후 결과에 대한 처리 로직
     @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -147,13 +138,12 @@ class SearchSecondFragment : Fragment() {
         }
     }
 
-    // 시스템으로 부터 받은 위치정보를 화면에 갱신해주는 메소드
     fun onLocationChanged(location: Location) {
         mLastLocation = location
         latitude = mLastLocation.latitude
         longitude = mLastLocation.longitude
-        println("위도 : " + mLastLocation.latitude) // 갱신 된 위도
-        println("경도 : " + mLastLocation.longitude) // 갱신 된 경도
+        println("위도 : " + mLastLocation.latitude)
+        println("경도 : " + mLastLocation.longitude)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
@@ -189,7 +179,6 @@ class SearchSecondFragment : Fragment() {
     @OptIn(ObsoleteCoroutinesApi::class, ExperimentalCoroutinesApi::class, FlowPreview::class)
     private fun init() {
         readapter = HospitalSecondAdapter()
-        // RecyclerView 설정
         mBinding.rvResult.adapter = readapter
         mBinding.rvResult.setHasFixedSize(true)
         mBinding.rvResult.layoutManager = LinearLayoutManager(context)
@@ -200,7 +189,6 @@ class SearchSecondFragment : Fragment() {
             startActivity(intent)
         }
 
-        // EditText 입력 값에 변화가 있으면 BroadcastChannel로 값 전송
         mBinding.textField.onTextChanged { s, start, before, count ->
             val queryText = s.toString()
             readapter!!.submitVariable(queryText, latitude, longitude)
