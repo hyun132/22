@@ -48,6 +48,7 @@ import retrofit2.Response
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.thread
 
 
 class HomeFragment : Fragment() {
