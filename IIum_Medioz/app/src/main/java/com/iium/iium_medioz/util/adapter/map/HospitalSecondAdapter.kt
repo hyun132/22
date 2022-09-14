@@ -121,7 +121,7 @@ class HospitalSecondAdapter() : RecyclerView.Adapter<HospitalSecondAdapter.ViewH
             itemView.tv_place_name.text = builder
 
             itemView.tv_distance.text =
-                getDistance(latitude, longitude, y.toDouble(), x.toDouble()) + "km"
+                getDistance(latitude, longitude, x.toDouble(), y.toDouble()) + "km"
 
             itemView.setOnClickListener {
                 listener?.invoke(x, y)
