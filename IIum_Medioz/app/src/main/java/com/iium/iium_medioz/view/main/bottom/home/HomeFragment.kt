@@ -1,10 +1,8 @@
 package com.iium.iium_medioz.view.main.bottom.home
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -73,7 +71,9 @@ class HomeFragment : BaseFragment(), LifecycleObserver {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initAPI()
+        Runnable {
+            initAPI()
+        }.run()
     }
 
     private fun initView() {            // 메인 상단 Background 변경
@@ -105,7 +105,7 @@ class HomeFragment : BaseFragment(), LifecycleObserver {
 
                 }
                 else {
-                    Log.d(TAG,"GetUser Second API ERROR -> ${response.errorBody()}")
+                    Log.d(TAG,"GetUser Second API ERROR -> ${response.errorBody()} ${response.code()} ${response.message()}")
                 }
             }
 
@@ -124,7 +124,7 @@ class HomeFragment : BaseFragment(), LifecycleObserver {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     if (response.code() == 404 || response.code() == 400 || response.code() == 401) {
-                        return initList()
+                        return
                     } else {
                         val allscore = result.datalist?.map { it.allscore }
                         if(allscore?.size!! > 0) {
@@ -135,11 +135,13 @@ class HomeFragment : BaseFragment(), LifecycleObserver {
                     }
                 }
                 else {
-                    Log.d(TAG,"메인 데이터 조회 에러 -> ${response.errorBody()}")
+                    Log.d(TAG,"메인 데이터 조회 에러 -> ${response.errorBody()} ${response.code()} ${response.message()}")
+                    initAPI()
                 }
             }
             override fun onFailure(call: Call<MedicalData>, t: Throwable) {
                 Log.d(TAG, "List Second Fail -> $t")
+                initAPI()
             }
         })
     }

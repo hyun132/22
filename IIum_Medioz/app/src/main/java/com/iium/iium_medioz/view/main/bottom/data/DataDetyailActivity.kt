@@ -49,7 +49,7 @@ class DataDetyailActivity : BaseActivity() {
         mBinding.activity = this
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
-        initView()
+       Runnable {  initView() }.run()
         inStatusBar()
     }
 

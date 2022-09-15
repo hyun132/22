@@ -14,16 +14,12 @@ object RetrofitClient {
     private var okhttp: OkHttpClient? = null
     var gson =GsonBuilder().setLenient().create()
 
-    init { //로그 설정
-        val interceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
-        okhttp = OkHttpClient.Builder()
-            .addInterceptor(interceptor)
-            .build()
-    }
     fun getClient(baseUrl: String): Retrofit {
-        if (retrofit ==  null) {
+
+        if(retrofit == null) {
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+
             retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(OkHttpClient())
@@ -36,9 +32,9 @@ object RetrofitClient {
                 .connectTimeout(10000, TimeUnit.MILLISECONDS)
                 .readTimeout(10000, TimeUnit.MILLISECONDS)
                 .writeTimeout(10000, TimeUnit.MILLISECONDS)
+                .addInterceptor(interceptor)
                 .build()
         }
         return retrofit!!
-
     }
 }
