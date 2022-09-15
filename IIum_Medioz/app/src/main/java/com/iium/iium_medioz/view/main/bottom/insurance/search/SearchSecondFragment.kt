@@ -27,6 +27,7 @@ import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.FragmentSearchSecondBinding
 import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.util.adapter.map.HospitalSecondAdapter
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.extensions.onTextChanged
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
 import com.iium.iium_medioz.viewmodel.map.HospitalViewModel
@@ -34,10 +35,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
-class SearchSecondFragment : Fragment() {
+class SearchSecondFragment : BaseFragment() {
 
     private lateinit var mBinding : FragmentSearchSecondBinding
-    private lateinit var apiServices: APIService
     private var readapter: HospitalSecondAdapter?=null
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
@@ -57,7 +57,6 @@ class SearchSecondFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_second, container, false)
-        apiServices = ApiUtils.apiService
         mBinding.fragment = this
         initView()
         init()

@@ -21,16 +21,16 @@ import com.iium.iium_medioz.model.recycler.*
 import com.iium.iium_medioz.model.rest.login.GetUser
 import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.adapter.TestAdapter
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AllFragment : Fragment() {
+class AllFragment : BaseFragment() {
 
     private lateinit var mBinding : FragmentAllBinding
-    private lateinit var apiServices: APIService
     private var readapter: TestAdapter?=null
     private lateinit var callback: OnBackPressedCallback
 
@@ -39,7 +39,6 @@ class AllFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_all, container, false)
-        apiServices = ApiUtils.apiService
         mBinding.fragment = this
         return mBinding.root
     }

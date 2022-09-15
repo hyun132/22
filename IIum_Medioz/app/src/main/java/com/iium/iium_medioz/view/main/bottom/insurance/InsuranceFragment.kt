@@ -22,6 +22,7 @@ import com.iium.iium_medioz.model.document.DocumentList
 import com.iium.iium_medioz.model.document.DocumentListModel
 import com.iium.iium_medioz.model.recycler.MedicalData
 import com.iium.iium_medioz.util.adapter.document.DocumentAdapter
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.base.MyApplication
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
@@ -33,10 +34,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class InsuranceFragment : Fragment(),LifecycleObserver {
+class InsuranceFragment : BaseFragment(),LifecycleObserver {
 
     private lateinit var mBinding : FragmentInsuranceBinding
-    private lateinit var apiServices: APIService
     private var readapter: DocumentAdapter?=null
     private lateinit var callback: OnBackPressedCallback
 
@@ -45,7 +45,6 @@ class InsuranceFragment : Fragment(),LifecycleObserver {
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_insurance, container, false)
-        apiServices = ApiUtils.apiService
         mBinding.fragment = this
         initView()
         return mBinding.root

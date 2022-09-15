@@ -11,17 +11,16 @@ import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.FragmentBandBinding
 import com.iium.iium_medioz.databinding.FragmentMyBandBinding
+import com.iium.iium_medioz.util.base.BaseFragment
 
-class MyBandFragment : Fragment() {
+class MyBandFragment : BaseFragment() {
     private lateinit var mBinding : FragmentMyBandBinding
-    private lateinit var apiServices: APIService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_band, container, false)
-        apiServices = ApiUtils.apiService
         mBinding.fragment = this
         return mBinding.root
     }

@@ -11,11 +11,11 @@ import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.FragmentAllBandBinding
 import com.iium.iium_medioz.databinding.FragmentBandBinding
+import com.iium.iium_medioz.util.base.BaseFragment
 
 
-class AllBandFragment : Fragment() {
+class AllBandFragment : BaseFragment() {
     private lateinit var mBinding : FragmentAllBandBinding
-    private lateinit var apiServices: APIService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

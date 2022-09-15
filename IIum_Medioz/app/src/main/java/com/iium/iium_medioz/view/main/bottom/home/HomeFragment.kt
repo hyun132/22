@@ -27,6 +27,7 @@ import com.iium.iium_medioz.model.rest.base.Policy
 import com.iium.iium_medioz.model.rest.login.GetUser
 import com.iium.iium_medioz.model.rest.login.PutUser
 import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.base.MyApplication
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.feel.dp
@@ -52,10 +53,10 @@ import java.util.*
 import kotlin.concurrent.thread
 
 
-class HomeFragment : Fragment(), LifecycleObserver {
+class HomeFragment : BaseFragment(), LifecycleObserver {
 
     private lateinit var mBinding : FragmentHomeBinding
-    private lateinit var apiServices: APIService
+//    private lateinit var apiServices: APIService
     private lateinit var callback: OnBackPressedCallback
 
     override fun onCreateView(
@@ -63,21 +64,17 @@ class HomeFragment : Fragment(), LifecycleObserver {
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        apiServices = ApiUtils.apiService
+//        apiServices = ApiUtils.apiService
         mBinding.fragment = this
         initView()
 //        initTemperature()
         return mBinding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        thread(start = true) {
-            Thread.sleep(1000)
-            initAPI()
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initAPI()
     }
-
 
     private fun initView() {            // 메인 상단 Background 변경
         val images = intArrayOf(
@@ -218,11 +215,11 @@ class HomeFragment : Fragment(), LifecycleObserver {
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
         activity?.lifecycle?.addObserver(this@HomeFragment)
-
     }
 
     override fun onDetach() {
         super.onDetach()
         callback.remove()
+
     }
 }

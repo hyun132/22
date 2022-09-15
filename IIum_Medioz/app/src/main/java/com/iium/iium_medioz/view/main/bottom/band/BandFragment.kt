@@ -17,22 +17,21 @@ import com.iium.iium_medioz.databinding.FragmentBandBinding
 import com.iium.iium_medioz.databinding.FragmentInsuranceBinding
 import com.iium.iium_medioz.util.adapter.ViewPagerAdapter
 import com.iium.iium_medioz.util.adapter.band.BandViewPagerAdapter
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.view.main.bottom.band.upload.BandUploadActivity
 import com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity
 import com.iium.iium_medioz.view.main.bottom.data.tablayout.AllFragment
 import com.iium.iium_medioz.view.main.bottom.data.tablayout.SendFragment
 
-class BandFragment : Fragment() {
+class BandFragment : BaseFragment() {
 
     private lateinit var mBinding : FragmentBandBinding
-    private lateinit var apiServices: APIService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_band, container, false)
-        apiServices = ApiUtils.apiService
         mBinding.fragment = this
 
         return mBinding.root

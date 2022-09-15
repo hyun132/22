@@ -15,15 +15,15 @@ import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.FragmentFeelingBinding
 import com.iium.iium_medioz.databinding.FragmentHomeBinding
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.view.main.MainActivity
 import com.iium.iium_medioz.view.main.banner.GuideActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FeelingFragment : Fragment(), DatePickerDialog.OnDateSetListener {
+class FeelingFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var mBinding : FragmentFeelingBinding
-    private lateinit var apiServices: APIService
     private val formatter = SimpleDateFormat("yyyy년 MMM dd일, EEE요일")
 
     override fun onCreateView(
@@ -31,7 +31,6 @@ class FeelingFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_feeling, container, false)
-        apiServices = ApiUtils.apiService
         mBinding.fragment = this
         initView()
         return mBinding.root

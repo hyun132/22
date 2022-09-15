@@ -18,16 +18,16 @@ import com.iium.iium_medioz.databinding.FragmentSendBinding
 import com.iium.iium_medioz.model.send.SendList
 import com.iium.iium_medioz.model.send.SendTestModel
 import com.iium.iium_medioz.util.adapter.SendAdapter
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SendFragment : Fragment() {
+class SendFragment : BaseFragment() {
 
     private lateinit var mBinding : FragmentSendBinding
-    private lateinit var apiServices: APIService
     private var sendadapter : SendAdapter? = null
     private lateinit var callback: OnBackPressedCallback
 
@@ -36,7 +36,6 @@ class SendFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_send, container, false)
-        apiServices = ApiUtils.apiService
         mBinding.fragment = this
         initView()
         return mBinding.root

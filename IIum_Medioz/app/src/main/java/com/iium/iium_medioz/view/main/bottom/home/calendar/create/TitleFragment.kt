@@ -14,19 +14,18 @@ import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.FragmentFeelingBinding
 import com.iium.iium_medioz.databinding.FragmentTitleBinding
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.view.main.bottom.home.calendar.edit.CalendarEditActivity
 
-class TitleFragment : Fragment() {
+class TitleFragment : BaseFragment() {
 
     private lateinit var mBinding : FragmentTitleBinding
-    private lateinit var apiServices: APIService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_title, container, false)
-        apiServices = ApiUtils.apiService
         mBinding.fragment = this
         initView()
         return mBinding.root
