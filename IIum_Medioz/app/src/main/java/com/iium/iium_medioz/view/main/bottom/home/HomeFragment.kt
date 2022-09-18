@@ -78,7 +78,6 @@ class HomeFragment : Fragment(), LifecycleObserver {
         }
     }
 
-
     private fun initView() {            // 메인 상단 Background 변경
         val images = intArrayOf(
             R.drawable.main_first,
