@@ -217,31 +217,17 @@
                                                 app:layout_constraintStart_toStartOf="parent"
                                                 app:layout_constraintTop_toTopOf="parent"/>
 
-                                            <SeekBar
-                                                android:id="@+id/sb_first"
-                                                android:layout_width="300dp"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginTop="10dp"
-                                                android:layout_marginBottom="10dp"
-                                                android:max="100"
-                                                android:progress="0"
-                                                android:progressDrawable="@drawable/seek_bar_progress"
-                                                android:thumb="@drawable/seek_bar_thumb"
-                                                app:layout_constraintBottom_toBottomOf="parent"
-                                                app:layout_constraintEnd_toEndOf="parent"
-                                                app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toBottomOf="@+id/textView18" />
-
                                             <TextView
                                                 android:id="@+id/textView18"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginTop="20dp"
-                                                android:text="데이터 민감도"
-                                                android:textSize="15dp"
-                                                android:textColor="@color/black"
-                                                android:fontFamily="@font/gyeonggititle_medium"
                                                 android:layout_marginStart="30dp"
+                                                android:layout_marginTop="20dp"
+                                                android:fontFamily="@font/gyeonggititle_medium"
+                                                android:text="데이터 민감도"
+                                                android:textColor="@color/black"
+                                                android:textSize="15dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintStart_toStartOf="parent"
                                                 app:layout_constraintTop_toBottomOf="@+id/image1" />
 
@@ -250,29 +236,32 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginTop="20dp"
-                                                android:text="%"
-                                                android:textSize="15dp"
                                                 android:layout_marginEnd="50dp"
-                                                android:textColor="@color/black"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:layout_marginStart="10dp"
+                                                android:text="%"
+                                                android:textColor="@color/black"
+                                                android:textSize="15dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toEndOf="parent"
                                                 app:layout_constraintTop_toBottomOf="@+id/image1" />
 
-                                            <TextView
-                                                android:id="@+id/tv_sk_first"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                            <EditText
+                                                android:id="@+id/et_data_first"
+                                                android:layout_width="40dp"
+                                                android:layout_height="30dp"
                                                 android:layout_marginTop="20dp"
                                                 android:layout_marginEnd="10dp"
-                                                android:text="100"
-                                                tools:text ="100"
-                                                android:textSize="15dp"
-                                                android:textColor="@color/colorPrimary"
+                                                android:background="@drawable/edit_box"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:layout_marginStart="10dp"
+                                                android:textColor="@color/colorPrimary"
+                                                android:textSize="15dp"
+                                                android:inputType="number"
+                                                android:maxLength="3"
+                                                android:gravity="center"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toStartOf="@+id/textView19"
-                                                app:layout_constraintTop_toBottomOf="@+id/image1" />
+                                                app:layout_constraintTop_toBottomOf="@+id/image1"
+                                                android:text="0" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </LinearLayout>
 
@@ -296,33 +285,19 @@
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
                                                 app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toTopOf="parent"/>
-
-                                            <SeekBar
-                                                android:id="@+id/sb_second"
-                                                android:layout_width="300dp"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginTop="10dp"
-                                                android:layout_marginBottom="10dp"
-                                                android:max="100"
-                                                android:progress="0"
-                                                android:progressDrawable="@drawable/seek_bar_progress"
-                                                android:thumb="@drawable/seek_bar_thumb"
-                                                app:layout_constraintBottom_toBottomOf="parent"
-                                                app:layout_constraintEnd_toEndOf="parent"
-                                                app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                                                app:layout_constraintTop_toTopOf="parent" />
 
                                             <TextView
                                                 android:id="@+id/textView21"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginTop="20dp"
-                                                android:text="데이터 민감도"
-                                                android:textSize="15dp"
-                                                android:textColor="@color/black"
-                                                android:fontFamily="@font/gyeonggititle_medium"
                                                 android:layout_marginStart="30dp"
+                                                android:layout_marginTop="20dp"
+                                                android:fontFamily="@font/gyeonggititle_medium"
+                                                android:text="데이터 민감도"
+                                                android:textColor="@color/black"
+                                                android:textSize="15dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintStart_toStartOf="parent"
                                                 app:layout_constraintTop_toBottomOf="@+id/image2" />
 
@@ -331,29 +306,32 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginTop="20dp"
-                                                android:text="%"
-                                                android:textSize="15dp"
                                                 android:layout_marginEnd="50dp"
-                                                android:textColor="@color/black"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:layout_marginStart="10dp"
+                                                android:text="%"
+                                                android:textColor="@color/black"
+                                                android:textSize="15dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toEndOf="parent"
                                                 app:layout_constraintTop_toBottomOf="@+id/image2" />
 
-                                            <TextView
-                                                android:id="@+id/tv_sk_second"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                            <EditText
+                                                android:id="@+id/et_data_second"
+                                                android:layout_width="40dp"
+                                                android:layout_height="30dp"
                                                 android:layout_marginTop="20dp"
                                                 android:layout_marginEnd="10dp"
-                                                android:text="100"
-                                                tools:text ="100"
-                                                android:textSize="15dp"
-                                                android:textColor="@color/colorPrimary"
+                                                android:background="@drawable/edit_box"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:layout_marginStart="10dp"
+                                                android:gravity="center"
+                                                android:textColor="@color/colorPrimary"
+                                                android:textSize="15dp"
+                                                android:inputType="number"
+                                                android:maxLength="3"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toStartOf="@+id/textView22"
-                                                app:layout_constraintTop_toBottomOf="@+id/image2" />
+                                                app:layout_constraintTop_toBottomOf="@+id/image2"
+                                                android:text="0" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </LinearLayout>
 
@@ -377,33 +355,19 @@
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
                                                 app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toTopOf="parent"/>
-
-                                            <SeekBar
-                                                android:id="@+id/sb_third"
-                                                android:layout_width="300dp"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginTop="10dp"
-                                                android:max="100"
-                                                android:progress="0"
-                                                android:layout_marginBottom="10dp"
-                                                android:progressDrawable="@drawable/seek_bar_progress"
-                                                android:thumb="@drawable/seek_bar_thumb"
-                                                app:layout_constraintBottom_toBottomOf="parent"
-                                                app:layout_constraintEnd_toEndOf="parent"
-                                                app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toBottomOf="@+id/textView24" />
+                                                app:layout_constraintTop_toTopOf="parent" />
 
                                             <TextView
                                                 android:id="@+id/textView24"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginTop="20dp"
-                                                android:text="데이터 민감도"
-                                                android:textSize="15dp"
-                                                android:textColor="@color/black"
-                                                android:fontFamily="@font/gyeonggititle_medium"
                                                 android:layout_marginStart="30dp"
+                                                android:layout_marginTop="20dp"
+                                                android:fontFamily="@font/gyeonggititle_medium"
+                                                android:text="데이터 민감도"
+                                                android:textColor="@color/black"
+                                                android:textSize="15dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintStart_toStartOf="parent"
                                                 app:layout_constraintTop_toBottomOf="@+id/image3" />
 
@@ -412,29 +376,32 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginTop="20dp"
-                                                android:text="%"
-                                                android:textSize="15dp"
                                                 android:layout_marginEnd="50dp"
-                                                android:textColor="@color/black"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:layout_marginStart="10dp"
+                                                android:text="%"
+                                                android:textColor="@color/black"
+                                                android:textSize="15dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toEndOf="parent"
                                                 app:layout_constraintTop_toBottomOf="@+id/image3" />
 
-                                            <TextView
-                                                android:id="@+id/tv_sk_third"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                            <EditText
+                                                android:id="@+id/et_data_third"
+                                                android:layout_width="40dp"
+                                                android:layout_height="30dp"
                                                 android:layout_marginTop="20dp"
                                                 android:layout_marginEnd="10dp"
-                                                android:text="100"
-                                                tools:text ="100"
-                                                android:textSize="15dp"
-                                                android:textColor="@color/colorPrimary"
+                                                android:background="@drawable/edit_box"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:layout_marginStart="10dp"
+                                                android:gravity="center"
+                                                android:textColor="@color/colorPrimary"
+                                                android:textSize="15dp"
+                                                android:inputType="number"
+                                                android:maxLength="3"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toStartOf="@+id/textView25"
-                                                app:layout_constraintTop_toBottomOf="@+id/image3" />
+                                                app:layout_constraintTop_toBottomOf="@+id/image3"
+                                                android:text="0" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </LinearLayout>
 
@@ -459,33 +426,19 @@
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
                                                 app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toTopOf="parent"/>
-
-                                            <SeekBar
-                                                android:id="@+id/sb_four"
-                                                android:layout_width="300dp"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginTop="10dp"
-                                                android:max="100"
-                                                android:progress="0"
-                                                android:layout_marginBottom="10dp"
-                                                android:progressDrawable="@drawable/seek_bar_progress"
-                                                android:thumb="@drawable/seek_bar_thumb"
-                                                app:layout_constraintBottom_toBottomOf="parent"
-                                                app:layout_constraintEnd_toEndOf="parent"
-                                                app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toBottomOf="@+id/textView28" />
+                                                app:layout_constraintTop_toTopOf="parent" />
 
                                             <TextView
                                                 android:id="@+id/textView28"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginTop="20dp"
-                                                android:text="데이터 민감도"
-                                                android:textSize="15dp"
-                                                android:textColor="@color/black"
-                                                android:fontFamily="@font/gyeonggititle_medium"
                                                 android:layout_marginStart="30dp"
+                                                android:layout_marginTop="20dp"
+                                                android:fontFamily="@font/gyeonggititle_medium"
+                                                android:text="데이터 민감도"
+                                                android:textColor="@color/black"
+                                                android:textSize="15dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintStart_toStartOf="parent"
                                                 app:layout_constraintTop_toBottomOf="@+id/image4" />
 
@@ -494,29 +447,32 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginTop="20dp"
-                                                android:text="%"
-                                                android:textSize="15dp"
                                                 android:layout_marginEnd="50dp"
-                                                android:textColor="@color/black"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:layout_marginStart="10dp"
+                                                android:text="%"
+                                                android:textColor="@color/black"
+                                                android:textSize="15dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toEndOf="parent"
                                                 app:layout_constraintTop_toBottomOf="@+id/image4" />
 
-                                            <TextView
-                                                android:id="@+id/tv_sk_four"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                            <EditText
+                                                android:id="@+id/et_data_four"
+                                                android:layout_width="40dp"
+                                                android:layout_height="30dp"
                                                 android:layout_marginTop="20dp"
                                                 android:layout_marginEnd="10dp"
-                                                android:text="100"
-                                                tools:text ="100"
-                                                android:textSize="15dp"
-                                                android:textColor="@color/colorPrimary"
+                                                android:background="@drawable/edit_box"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:layout_marginStart="10dp"
+                                                android:gravity="center"
+                                                android:textColor="@color/colorPrimary"
+                                                android:textSize="15dp"
+                                                android:inputType="number"
+                                                android:maxLength="3"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toStartOf="@+id/textView29"
-                                                app:layout_constraintTop_toBottomOf="@+id/image4" />
+                                                app:layout_constraintTop_toBottomOf="@+id/image4"
+                                                android:text="0" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </LinearLayout>
 
@@ -541,33 +497,19 @@
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
                                                 app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toTopOf="parent"/>
-
-                                            <SeekBar
-                                                android:id="@+id/sb_five"
-                                                android:layout_width="300dp"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginTop="10dp"
-                                                android:layout_marginBottom="10dp"
-                                                android:max="100"
-                                                android:progress="0"
-                                                android:progressDrawable="@drawable/seek_bar_progress"
-                                                android:thumb="@drawable/seek_bar_thumb"
-                                                app:layout_constraintBottom_toBottomOf="parent"
-                                                app:layout_constraintEnd_toEndOf="parent"
-                                                app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toBottomOf="@+id/textView31" />
+                                                app:layout_constraintTop_toTopOf="parent" />
 
                                             <TextView
                                                 android:id="@+id/textView31"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginTop="20dp"
-                                                android:text="데이터 민감도"
-                                                android:textSize="15dp"
-                                                android:textColor="@color/black"
-                                                android:fontFamily="@font/gyeonggititle_medium"
                                                 android:layout_marginStart="30dp"
+                                                android:layout_marginTop="20dp"
+                                                android:fontFamily="@font/gyeonggititle_medium"
+                                                android:text="데이터 민감도"
+                                                android:textColor="@color/black"
+                                                android:textSize="15dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintStart_toStartOf="parent"
                                                 app:layout_constraintTop_toBottomOf="@+id/image5" />
 
@@ -576,29 +518,32 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginTop="20dp"
-                                                android:text="%"
-                                                android:textSize="15dp"
                                                 android:layout_marginEnd="50dp"
-                                                android:textColor="@color/black"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:layout_marginStart="10dp"
+                                                android:text="%"
+                                                android:textColor="@color/black"
+                                                android:textSize="15dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toEndOf="parent"
                                                 app:layout_constraintTop_toBottomOf="@+id/image5" />
 
-                                            <TextView
-                                                android:id="@+id/tv_sk_five"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                            <EditText
+                                                android:id="@+id/et_data_five"
+                                                android:layout_width="40dp"
+                                                android:layout_height="30dp"
                                                 android:layout_marginTop="20dp"
                                                 android:layout_marginEnd="10dp"
-                                                android:text="100"
-                                                tools:text ="100"
-                                                android:textSize="15dp"
-                                                android:textColor="@color/colorPrimary"
+                                                android:background="@drawable/edit_box"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:layout_marginStart="10dp"
+                                                android:gravity="center"
+                                                android:textColor="@color/colorPrimary"
+                                                android:textSize="15dp"
+                                                android:inputType="number"
+                                                android:maxLength="3"
+                                                app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toStartOf="@+id/textView32"
-                                                app:layout_constraintTop_toBottomOf="@+id/image5" />
+                                                app:layout_constraintTop_toBottomOf="@+id/image5"
+                                                android:text="0" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </LinearLayout>
 

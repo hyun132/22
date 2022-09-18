@@ -18,15 +18,15 @@ import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.FragmentDataBinding
 import com.iium.iium_medioz.util.adapter.ViewPagerAdapter
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.view.main.banner.AchievementActivity
 import com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity
 import com.iium.iium_medioz.view.main.bottom.data.tablayout.AllFragment
 import com.iium.iium_medioz.view.main.bottom.data.tablayout.SendFragment
 
-class DataFragment : Fragment() {
+class DataFragment : BaseFragment() {
 
     private lateinit var mBinding : FragmentDataBinding
-    private lateinit var apiServices: APIService
     private lateinit var callback: OnBackPressedCallback
 
     override fun onCreateView(
@@ -34,7 +34,6 @@ class DataFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_data, container, false)
-        apiServices = ApiUtils.apiService
         mBinding.fragment = this
         return mBinding.root
     }

@@ -134,96 +134,26 @@ class SendActivity : BaseActivity() {
             if (mBinding.llFirst.visibility == View.GONE) {
                 mBinding.llFirst.visibility = View.VISIBLE
             }
-            mBinding.sbFirst.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                   mBinding.tvSkFirst.text = p1.toString()
-                }
-
-                override fun onStartTrackingTouch(p0: SeekBar?) {
-
-                }
-
-                override fun onStopTrackingTouch(p0: SeekBar?) {
-
-                }
-
-            })
         }
         if(strIdx == "1") {
             if (mBinding.llSecond.visibility == View.GONE) {
                 mBinding.llSecond.visibility = View.VISIBLE
             }
-            mBinding.sbSecond.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    mBinding.tvSkSecond.text = p1.toString()
-                }
-
-                override fun onStartTrackingTouch(p0: SeekBar?) {
-
-                }
-
-                override fun onStopTrackingTouch(p0: SeekBar?) {
-
-                }
-
-            })
         }
         if(strIdx == "2") {
             if (mBinding.llThird.visibility == View.GONE) {
                 mBinding.llThird.visibility = View.VISIBLE
             }
-            mBinding.sbThird.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    mBinding.tvSkThird.text = p1.toString()
-                }
-
-                override fun onStartTrackingTouch(p0: SeekBar?) {
-
-                }
-
-                override fun onStopTrackingTouch(p0: SeekBar?) {
-
-                }
-
-            })
         }
         if(strIdx == "3") {
             if (mBinding.llFour.visibility == View.GONE) {
                 mBinding.llFour.visibility = View.VISIBLE
             }
-            mBinding.sbFour.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    mBinding.tvSkFour.text = p1.toString()
-                }
-
-                override fun onStartTrackingTouch(p0: SeekBar?) {
-
-                }
-
-                override fun onStopTrackingTouch(p0: SeekBar?) {
-
-                }
-
-            })
         }
         if(strIdx == "4") {
             if (mBinding.llFive.visibility == View.GONE) {
                 mBinding.llFive.visibility = View.VISIBLE
             }
-            mBinding.sbFive.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    mBinding.tvSkFive.text = p1.toString()
-                }
-
-                override fun onStartTrackingTouch(p0: SeekBar?) {
-
-                }
-
-                override fun onStopTrackingTouch(p0: SeekBar?) {
-
-                }
-
-            })
         }
     }
 
@@ -557,12 +487,30 @@ class SendActivity : BaseActivity() {
         val id = intent.getStringExtra(SEND_ID)
         val send_sendcode = SEND_CODE_TRUE
         val send_default = DEFAULT_CODE_FALSE
-        val send_sensitivity = "0"
+        val sensitivity_first_code = mBinding.etDataFirst.text.toString()
+        val sensitivity_two_code = mBinding.etDataSecond.text.toString()
+        val sensitivity_third_code = mBinding.etDataThird.text.toString()
+        val sensitivity_four_code = mBinding.etDataFour.text.toString()
+        val sensitivity_five_type = mBinding.etDataFive.text.toString()
         val textList = intent.getStringExtra(SEND_TEXTIMG)
         val normalList = intent.getStringExtra(SEND_NORMAL)
         val videoList = intent.getStringExtra(SEND_VIDEO)
 
-        val send = DataSend(title, keyword,textList,normalList,videoList, timestamp, send_default,send_sensitivity, send_sendcode,id)
+        val send = DataSend(
+            title,
+            keyword,
+            textList,
+            normalList,
+            videoList,
+            timestamp,
+            send_default,
+            sensitivity_first_code,
+            sensitivity_two_code,
+            sensitivity_third_code,
+            sensitivity_four_code,
+            sensitivity_five_type,
+            send_sendcode,
+            id)
         LLog.e("판매 데이터 API")
         val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,send)
         vercall.enqueue(object : Callback<SendModel> {
@@ -663,24 +611,12 @@ class SendActivity : BaseActivity() {
 
 
     fun onBackPressed(v: View?) {
-        moveDetail()
+        moveMain()
     }
 
     fun onSendClick(v: View?) {
 //        naverOCRAPI()
         sendAPI()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        if (doubleBackToExit) {
-            finishAffinity()
-        } else {
-            doubleBackToExit = true
-            runDelayed(1500L) {
-                doubleBackToExit = false
-            }
-        }
     }
 
     private fun runDelayed(millis: Long, function: () -> Unit) {

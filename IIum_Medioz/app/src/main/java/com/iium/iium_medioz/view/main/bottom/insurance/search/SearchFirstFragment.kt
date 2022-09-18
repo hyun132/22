@@ -28,6 +28,7 @@ import com.iium.iium_medioz.databinding.FragmentSearchFirstBinding
 import com.iium.iium_medioz.util.`object`.Constant.KAKAO_MAPX
 import com.iium.iium_medioz.util.`object`.Constant.KAKAO_MAPY
 import com.iium.iium_medioz.util.adapter.map.HospitalAdapter
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.extensions.onTextChanged
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
 import com.iium.iium_medioz.viewmodel.map.SearchViewModel
@@ -36,7 +37,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 
-class SearchFirstFragment : Fragment() {
+class SearchFirstFragment : BaseFragment() {
 
     private lateinit var mBinding : FragmentSearchFirstBinding
     private var readapter: HospitalAdapter?=null

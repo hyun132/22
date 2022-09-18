@@ -12,12 +12,14 @@ import java.util.concurrent.TimeUnit
 object RetrofitBuilder {
     val interceptor = HttpLoggingInterceptor()
     val gson = GsonBuilder().setLenient().create()
+    val ins = interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
     val client = OkHttpClient.Builder()
         .connectTimeout(10000, TimeUnit.MILLISECONDS)
         .readTimeout(10000, TimeUnit.MILLISECONDS)
         .writeTimeout(10000, TimeUnit.MILLISECONDS)
         .addInterceptor(interceptor)
+        .addInterceptor(ins)
         .build()
 
     val retrofit = Retrofit.Builder()
@@ -27,6 +29,7 @@ object RetrofitBuilder {
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(gson))
+
         .build()
 
     val api = retrofit.create(ListAPI::class.java)

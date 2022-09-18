@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.databinding.FragmentFeelBinding
+import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.dialog.LoadingDialog
 import com.iium.iium_medioz.view.main.bottom.home.calendar.CalendarActivity
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class FeelFragment : Fragment() {
+class FeelFragment : BaseFragment() {
 
     private lateinit var mBinding : FragmentFeelBinding
 
