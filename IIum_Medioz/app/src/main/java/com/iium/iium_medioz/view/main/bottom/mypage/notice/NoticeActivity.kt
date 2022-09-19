@@ -39,7 +39,9 @@ class NoticeActivity : BaseActivity() {
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
         inStatusBar()
-        initAPI()
+        runOnUiThread {
+            initAPI()
+        }
     }
 
     private fun inStatusBar() {

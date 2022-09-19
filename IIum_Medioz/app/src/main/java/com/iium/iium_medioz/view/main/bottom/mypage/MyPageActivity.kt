@@ -15,6 +15,7 @@ import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityMainBinding
 import com.iium.iium_medioz.databinding.ActivityMyPageBinding
 import com.iium.iium_medioz.model.rest.login.GetUser
+import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication
 import com.iium.iium_medioz.util.log.LLog
@@ -33,6 +34,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
+import java.lang.IllegalArgumentException
 
 class MyPageActivity : BaseActivity() {
     private lateinit var mBinding : ActivityMyPageBinding
@@ -44,7 +46,9 @@ class MyPageActivity : BaseActivity() {
         mBinding.activity = this
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
-        initAPI()
+        runOnUiThread {
+            initAPI()
+        }
         inStatusBar()
     }
 
@@ -153,6 +157,15 @@ class MyPageActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         finishAffinity()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        try {
+
+        } catch (e: IllegalArgumentException) {
+            Log.d(TAG,e.toString())
+        }
     }
 
 }

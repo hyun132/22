@@ -76,10 +76,12 @@ class InsuranceFragment : BaseFragment(),LifecycleObserver {
                 }
                 else {
                     Log.d(LLog.TAG,"서류신청 조회 response ERROR -> $result")
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<DocumentListModel>, t: Throwable) {
                 Log.d(LLog.TAG, "서류신청 조회 Fail -> $t")
+                ErrorDialog()
             }
         })
     }

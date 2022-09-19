@@ -60,6 +60,7 @@ class SendFragment : BaseFragment() {
                 }
                 else {
                     Log.d(LLog.TAG,"판매 데이터 조회 API ERROR -> $result")
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<SendTestModel>, t: Throwable) {

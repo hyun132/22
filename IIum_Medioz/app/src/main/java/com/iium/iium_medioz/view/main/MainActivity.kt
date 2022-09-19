@@ -19,6 +19,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
@@ -65,6 +66,7 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         supportFragmentManager.beginTransaction().replace(R.id.fl_container, HomeFragment()).commit()     //초기 fragment 세팅
         mBinding.bottomNavigationView.run {
             setOnNavigationItemSelectedListener{
@@ -87,40 +89,10 @@ class MainActivity : BaseActivity() {
             }
             selectedItemId = R.id.nav_home
         }
-        initAPI()
-    }
-
-    private fun initAPI() {
-        LLog.e("정책 API")
-        val vercall: Call<AppPolicy> = apiServices.getPolicy()
-        vercall.enqueue(object : Callback<AppPolicy> {
-            override fun onResponse(call: Call<AppPolicy>, response: Response<AppPolicy>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"Policy response SUCCESS -> $result")
-                }
-                else {
-                    Log.d(TAG,"Policy response ERROR -> $result")
-                    serverDialog()
-                }
-            }
-            override fun onFailure(call: Call<AppPolicy>, t: Throwable) {
-                Log.d(TAG, "Policy error -> $t")
-                serverDialog()
-            }
-        })
-
-
-    }
-
-
-
-    private fun showNoticePopup(url: String, endDate: String) {
-        val intent = Intent(this, ImageNoticePopup::class.java)
-        intent.putExtra(INTENT_NOTICE_URL, url)
-        intent.putExtra(INTENT_NOTICE_END_DATE, endDate)
-        startActivity(intent)
-        overridePendingTransition(0, 0)
+//        transaction.addToBackStack(null)
+//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//        transaction.commit()
+        return
     }
 
     private fun inStatusBar() {

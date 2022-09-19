@@ -27,7 +27,9 @@ class SignUpActivity : BaseActivity() {
         mBinding.activity = this
         apiServices = ApiUtils.apiService
         inStatusBar()
-        changeImg()
+        runOnUiThread {
+            changeImg()
+        }
     }
 
     private fun inStatusBar() {

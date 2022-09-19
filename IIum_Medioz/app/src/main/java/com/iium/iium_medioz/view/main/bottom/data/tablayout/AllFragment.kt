@@ -68,6 +68,7 @@ class AllFragment : BaseFragment() {
                 }
                 else {
                     Log.d(LLog.TAG,"List Second response ERROR -> $result")
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<MedicalData>, t: Throwable) {

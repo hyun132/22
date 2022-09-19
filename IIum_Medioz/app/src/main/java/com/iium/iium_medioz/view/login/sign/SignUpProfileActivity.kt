@@ -162,12 +162,13 @@ class SignUpProfileActivity : BaseActivity() {
                 }
                 else {
                     Log.d(TAG,"getSignUp API ERROR -> ${response.errorBody()}")
+                    ErrorDialog()
                 }
             }
 
             override fun onFailure(call: Call<LoginResult>, t: Throwable) {
                 Log.d(TAG,"getSignUp Fail -> $t")
-                Toast.makeText(this@SignUpProfileActivity,"다시 시도해 주세요",Toast.LENGTH_SHORT).show()
+                ErrorDialog()
             }
         })
 

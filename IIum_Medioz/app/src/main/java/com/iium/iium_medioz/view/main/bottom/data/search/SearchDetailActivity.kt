@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.view.main.bottom.data.search
 
+import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
@@ -453,6 +454,20 @@ class SearchDetailActivity : BaseActivity() {
 
     ////////////////데이터 삭제 API/////////////////////
     fun onDeleteClick(v: View) {
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+        dlg.setTitle("판매 해제") //제목
+        dlg.setMessage("판매를 해제하시겠습니까?") // 메시지
+        dlg.setPositiveButton("확인") { dialog, which ->
+            initDelete()
+            dialog.dismiss()
+        }
+        dlg.setNegativeButton("취소") { dialog, which ->
+            dialog.dismiss()
+        }
+        dlg.show()
+    }
+
+    private fun initDelete() {
         val id = intent.getStringExtra(Constant.DATA_ID)
         LLog.e("데이터 삭제 API")
         val vercall: Call<DeleteModel> = apiServices.getDataDelete(MyApplication.prefs.newaccesstoken,id)
@@ -465,12 +480,12 @@ class SearchDetailActivity : BaseActivity() {
                 }
                 else {
                     Log.d(LLog.TAG,"데이터 삭제  response ERROR -> $id")
-                    serverDialog()
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<DeleteModel>, t: Throwable) {
                 Log.d(LLog.TAG, "데이터 삭제 Fail -> ${t.localizedMessage}")
-                serverDialog()
+                ErrorDialog()
             }
         })
     }

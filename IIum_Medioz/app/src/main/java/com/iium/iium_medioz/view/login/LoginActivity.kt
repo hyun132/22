@@ -64,12 +64,13 @@ class LoginActivity : BaseActivity() {
         mBinding.viewModel = mViewModel
         mViewModel = LoginViewModel(prefs)
 
-        mBinding.tvTitle.text = Html.fromHtml(getString(R.string.login_desc1))
-        mBinding.tvTitleSub.text = getText(R.string.login_subtitle1)
-
         inStatusBar()
-        initView()
-        mViewModel!!.setAuthNum("1234")
+        runOnUiThread {
+            mBinding.tvTitle.text = Html.fromHtml(getString(R.string.login_desc1))
+            mBinding.tvTitleSub.text = getText(R.string.login_subtitle1)
+            mViewModel!!.setAuthNum("1234")
+            initView()
+        }
     }
 
     private fun inStatusBar() {
@@ -139,7 +140,9 @@ class LoginActivity : BaseActivity() {
             }
 
             override fun onClick(widget: View) {
-                phoneFirst(true)
+               runOnUiThread {
+                   phoneFirst(true)
+               }
             }
         }
 
@@ -405,10 +408,12 @@ class LoginActivity : BaseActivity() {
                 }
                 else {
                     Log.d(TAG,"sendsms API ERROR -> ${response.errorBody()}")
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<LoginSMS>, t: Throwable) {
                 Log.d(TAG,"sendsms ERROR -> $t")
+                ErrorDialog()
             }
         })
     }
@@ -441,6 +446,7 @@ class LoginActivity : BaseActivity() {
             }
             override fun onFailure(call: Call<LoginSend>, t: Throwable) {
                 Log.d(TAG,"authrequest ERROR -> $t")
+                ErrorDialog()
             }
         })
     }

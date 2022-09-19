@@ -40,7 +40,9 @@ class ProfileModifyActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        initAPI()
+        runOnUiThread {
+            initAPI()
+        }
     }
 
     private fun initAPI() {

@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.view.main.bottom.data.send
 
+import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
@@ -43,7 +45,9 @@ class SendDetailActivity : BaseActivity() {
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
         inStatusBar()
-        initView()
+        runOnUiThread {
+            initView()
+        }
     }
 
     override fun onResume() {
@@ -454,6 +458,20 @@ class SendDetailActivity : BaseActivity() {
 
     ////////////////판매 데이터 해제 API/////////////////////
     fun onDeleteClick(v: View) {
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+        dlg.setTitle("판매 해제") //제목
+        dlg.setMessage("판매를 해제하시겠습니까?") // 메시지
+        dlg.setPositiveButton("확인") { dialog, which ->
+            initDelete()
+            dialog.dismiss()
+        }
+        dlg.setNegativeButton("취소") { dialog, which ->
+            dialog.dismiss()
+        }
+        dlg.show()
+    }
+
+    private fun initDelete() {
         val id = intent.getStringExtra(SEND_DETAIL_ID)
 
         LLog.e("판매 데이터 해제 API")
@@ -463,16 +481,15 @@ class SendDetailActivity : BaseActivity() {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(LLog.TAG,"판매 데이터 해제 response SUCCESS -> $result")
-                    moveMain()
                 }
                 else {
                     Log.d(LLog.TAG,"판매 데이터 해제  response ERROR -> $id")
+                    Toast.makeText(this@SendDetailActivity, "판매 해제가 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     moveMain()
                 }
             }
             override fun onFailure(call: Call<DeleteModel>, t: Throwable) {
                 Log.d(LLog.TAG, "판매 데이터 해제 Fail -> ${t.localizedMessage}")
-                serverDialog()
             }
         })
     }

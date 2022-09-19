@@ -106,6 +106,7 @@ class HomeFragment : BaseFragment(), LifecycleObserver {
                 }
                 else {
                     Log.d(TAG,"GetUser Second API ERROR -> ${response.errorBody()} ${response.code()} ${response.message()}")
+                    ErrorDialog()
                 }
             }
 
@@ -136,7 +137,7 @@ class HomeFragment : BaseFragment(), LifecycleObserver {
                 }
                 else {
                     Log.d(TAG,"메인 데이터 조회 에러 -> ${response.errorBody()} ${response.code()} ${response.message()}")
-                    initAPI()
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<MedicalData>, t: Throwable) {

@@ -14,7 +14,6 @@ object RetrofitClient {
     private var okhttp: OkHttpClient? = null
     var gson =GsonBuilder().setLenient().create()
 
-<<<<<<< HEAD
     init { //로그 설정
         val interceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -24,8 +23,6 @@ object RetrofitClient {
             .build()
     }
 
-=======
->>>>>>> 82c5e9611e2b428117cc5836bbbbd1b60e8ba8fa
     fun getClient(baseUrl: String): Retrofit {
 
         if(retrofit == null) {

@@ -60,7 +60,9 @@ class SearchAddressActivity : BaseActivity() {
         mBinding.activity = this
         apiService = ApiUtils.apiService
         mBinding.lifecycleOwner = this
-        initView()
+        runOnUiThread {
+            initView()
+        }
         inStatusBar()
 
     }

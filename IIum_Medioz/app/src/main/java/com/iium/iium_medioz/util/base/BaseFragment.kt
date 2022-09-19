@@ -1,6 +1,8 @@
 package com.iium.iium_medioz.util.base
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,7 +14,11 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.LifecycleObserver
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
+import com.iium.iium_medioz.util.activity.ActivityController
 import com.iium.iium_medioz.util.log.LLog
+import com.iium.iium_medioz.view.intro.splash.SplashActivity
+import com.iium.iium_medioz.view.main.MainActivity
+import kotlin.system.exitProcess
 
 open class BaseFragment : Fragment() , LifecycleObserver {
 
@@ -85,5 +91,16 @@ open class BaseFragment : Fragment() , LifecycleObserver {
         super.onStart()
         Log.i(LLog.TAG,"onStart Fragment")
 
+    }
+
+    internal fun ErrorDialog() {
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(context,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+        dlg.setTitle("에러메시지") //제목
+        dlg.setMessage("데이터 연결이 원할하지 않습니다. 앱을 다시 실행시켜주세요") // 메시지
+        dlg.setPositiveButton("확인") { dialog, which ->
+            dialog.dismiss()
+            exitProcess(0)
+        }
+        dlg.show()
     }
 }

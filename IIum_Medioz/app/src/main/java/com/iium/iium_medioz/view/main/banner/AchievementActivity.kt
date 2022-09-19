@@ -80,7 +80,7 @@ class AchievementActivity : BaseActivity() {
 
             override fun onFailure(call: Call<GetUser>, t: Throwable) {
                 Log.d(LLog.TAG,"GetUser ERROR -> $t")
-
+                ErrorDialog()
             }
         })
     }
@@ -101,11 +101,13 @@ class AchievementActivity : BaseActivity() {
                 }
                 else {
                     Log.d(LLog.TAG,"GetUser Second API ERROR -> ${response.errorBody()}")
+                    ErrorDialog()
                 }
             }
 
             override fun onFailure(call: Call<GetUser>, t: Throwable) {
                 Log.d(LLog.TAG,"GetUser Second ERROR -> $t")
+                ErrorDialog()
 
             }
         })
@@ -138,6 +140,7 @@ class AchievementActivity : BaseActivity() {
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d(LLog.TAG, "getProfileImg Fail -> ${t.localizedMessage}")
+                ErrorDialog()
             }
         })
     }
@@ -163,10 +166,12 @@ class AchievementActivity : BaseActivity() {
                 }
                 else {
                     Log.d(LLog.TAG,"getProfileImg second response ERROR -> $result")
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d(LLog.TAG, "getProfileImg second Fail -> ${t.localizedMessage}")
+                ErrorDialog()
             }
         })
     }
@@ -194,11 +199,13 @@ class AchievementActivity : BaseActivity() {
                 }
                 else {
                     Log.d(LLog.TAG,"나의 의료데이터 조회ERROR -> ${response.errorBody()}")
+                    ErrorDialog()
                 }
             }
 
             override fun onFailure(call: Call<MedicalData>, t: Throwable) {
                 Log.d(LLog.TAG,"나의 의료데이터 조회 ERROR -> $t")
+                ErrorDialog()
 
             }
         })
@@ -223,11 +230,13 @@ class AchievementActivity : BaseActivity() {
                 }
                 else {
                     Log.d(LLog.TAG,"캘린더 조회 ERROR -> ${response.errorBody()}")
+                    ErrorDialog()
                 }
             }
 
             override fun onFailure(call: Call<CalendarModel>, t: Throwable) {
                 Log.d(LLog.TAG,"캘린더 조회 ERROR -> $t")
+                ErrorDialog()
 
             }
         })
@@ -252,11 +261,13 @@ class AchievementActivity : BaseActivity() {
                 }
                 else {
                     Log.d(LLog.TAG,"의료데이터 판매 조회 ERROR -> ${response.errorBody()}")
+                    ErrorDialog()
                 }
             }
 
             override fun onFailure(call: Call<SendTestModel>, t: Throwable) {
                 Log.d(LLog.TAG,"의료데이터 판매 조회 ERROR -> $t")
+                ErrorDialog()
 
             }
         })
@@ -281,11 +292,13 @@ class AchievementActivity : BaseActivity() {
                 }
                 else {
                     Log.d(LLog.TAG,"제휴병원 서류 조회 ERROR -> ${response.errorBody()}")
+                    ErrorDialog()
                 }
             }
 
             override fun onFailure(call: Call<DocumentListModel>, t: Throwable) {
                 Log.d(LLog.TAG,"제휴병원 서류 조회 ERROR -> $t")
+                ErrorDialog()
 
             }
         })

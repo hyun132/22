@@ -315,10 +315,12 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
                 }
                 else {
                     Log.d(LLog.TAG,"제휴병원 response ERROR -> $result")
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<MapMarker>, t: Throwable) {
                 Log.d(LLog.TAG, "제휴병원 Fail -> ${t.localizedMessage}")
+                ErrorDialog()
             }
         })
     }

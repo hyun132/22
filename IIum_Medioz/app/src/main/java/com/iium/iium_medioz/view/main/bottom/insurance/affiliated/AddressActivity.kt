@@ -97,9 +97,12 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
             it.setDisplayHomeAsUpEnabled(true)
             it.setDisplayShowHomeEnabled(true)
         }
-        initAdapter()
+
         inStatusBar()
-        initView()
+        runOnUiThread {
+            initView()
+            initAdapter()
+        }
     }
 
 
@@ -324,10 +327,12 @@ class AddressActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickListe
                 }
                 else {
                     Log.d(LLog.TAG,"제휴병원 response ERROR -> $result")
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<MapMarker>, t: Throwable) {
                 Log.d(LLog.TAG, "제휴병원 Fail -> ${t.localizedMessage}")
+                ErrorDialog()
             }
         })
     }

@@ -58,6 +58,7 @@ import kotlinx.coroutines.Dispatchers
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
+import kotlin.system.exitProcess
 
 open class BaseActivity : AppCompatActivity() {
     internal open var instance: BaseActivity?=null
@@ -85,7 +86,6 @@ open class BaseActivity : AppCompatActivity() {
         super.onDestroy()
         realm.close()
         mTimeoutHandler = null
-        finish()
     }
 
     override fun onResume() {
@@ -100,7 +100,6 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        finishAffinity()
     }
 
 
@@ -541,4 +540,15 @@ open class BaseActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+    internal fun ErrorDialog() {
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+        dlg.setTitle("에러메시지") //제목
+        dlg.setMessage("데이터 연결이 원할하지 않습니다. 앱을 다시 실행시켜주세요") // 메시지
+        dlg.setPositiveButton("확인") { dialog, which ->
+            finishAffinity()
+            dialog.dismiss()
+            exitProcess(0)
+        }
+        dlg.show()
+    }
 }

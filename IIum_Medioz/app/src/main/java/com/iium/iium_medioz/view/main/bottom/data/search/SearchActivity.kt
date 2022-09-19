@@ -64,6 +64,7 @@ class SearchActivity : BaseActivity() {
             }
             override fun onFailure(call: Call<CreateName>, t: Throwable) {
                 Log.d(TAG, "Search Fail -> $t")
+                ErrorDialog()
             }
         })
     }
@@ -81,10 +82,12 @@ class SearchActivity : BaseActivity() {
                 }
                 else {
                     Log.d(TAG,"Search Second response ERROR -> $result")
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<CreateName>, t: Throwable) {
                 Log.d(TAG, "Search Second Fail -> $t")
+                ErrorDialog()
             }
         })
     }

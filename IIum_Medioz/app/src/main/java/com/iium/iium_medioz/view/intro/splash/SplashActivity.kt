@@ -126,7 +126,7 @@ class SplashActivity : BaseActivity() {
                 return
             }
         } else {
-            serverDialog()
+            ErrorDialog()
             return
         }
     }
@@ -154,12 +154,12 @@ class SplashActivity : BaseActivity() {
                     Log.d(TAG,"Vertification result SUCESS -> $result")
                 }
                 else {
-                    serverDialog()
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<Verification>, t: Throwable) {
                 Log.d(TAG, "loadVerAPI error -> $t")
-                serverDialog()
+                ErrorDialog()
             }
         })
     }
@@ -189,12 +189,12 @@ class SplashActivity : BaseActivity() {
                 }
                 else {
                     Log.d(TAG,"Policy response ERROR -> $result")
-                    serverDialog()
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<AppPolicy>, t: Throwable) {
                 Log.d(TAG, "Policy error -> $t")
-                serverDialog()
+                ErrorDialog()
             }
         })
     }
@@ -227,7 +227,7 @@ class SplashActivity : BaseActivity() {
             }
             override fun onFailure(call: Call<AutoLogin>, t: Throwable) {
                 Log.d(TAG, "requestLogin error -> $t")
-                serverDialog()
+                ErrorDialog()
             }
         })
     }

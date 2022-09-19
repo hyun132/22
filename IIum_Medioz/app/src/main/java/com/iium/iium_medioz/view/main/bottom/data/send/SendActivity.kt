@@ -1,5 +1,8 @@
 package com.iium.iium_medioz.view.main.bottom.data.send
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -9,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
@@ -32,10 +36,12 @@ import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
+import com.iium.iium_medioz.view.main.MainActivity
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,7 +65,9 @@ class SendActivity : BaseActivity() {
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
         inStatusBar()
-        initView()
+        runOnUiThread {
+            initView()
+        }
     }
 
     override fun onResume() {
@@ -102,7 +110,9 @@ class SendActivity : BaseActivity() {
                     LLog.d(e.toString())
                 }
             }.start()
-            initGone(str_idx)
+            runOnUiThread {
+                initGone(str_idx)
+            }
         }
 
         val normal =  normalList?.substring(2)
@@ -510,7 +520,9 @@ class SendActivity : BaseActivity() {
             sensitivity_four_code,
             sensitivity_five_type,
             send_sendcode,
-            id)
+            id
+        )
+
         LLog.e("판매 데이터 API")
         val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,send)
         vercall.enqueue(object : Callback<SendModel> {
@@ -523,6 +535,7 @@ class SendActivity : BaseActivity() {
                 }
                 else {
                     Log.d(LLog.TAG,"판매 데이터 response ERROR -> $result")
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<SendModel>, t: Throwable) {
@@ -616,7 +629,17 @@ class SendActivity : BaseActivity() {
 
     fun onSendClick(v: View?) {
 //        naverOCRAPI()
-        sendAPI()
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+        dlg.setTitle("판매 등록") //제목
+        dlg.setMessage("판매등록을 하시겠습니까?") // 메시지
+        dlg.setPositiveButton("확인") { dialog, which ->
+            sendAPI()
+            dialog.dismiss()
+        }
+        dlg.setNegativeButton("취소") { dialog, which ->
+            dialog.dismiss()
+        }
+        dlg.show()
     }
 
     private fun runDelayed(millis: Long, function: () -> Unit) {

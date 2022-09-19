@@ -25,7 +25,9 @@ class SettingActivity : BaseActivity() {
         mBinding.activity = this
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
-        initView()
+        runOnUiThread {
+            initView()
+        }
         inStatusBar()
     }
 

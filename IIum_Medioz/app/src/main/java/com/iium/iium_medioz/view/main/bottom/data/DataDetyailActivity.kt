@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.view.main.bottom.data
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.iium.iium_medioz.R
@@ -37,6 +39,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.system.exitProcess
 
 class DataDetyailActivity : BaseActivity() {
 
@@ -49,13 +52,16 @@ class DataDetyailActivity : BaseActivity() {
         mBinding.activity = this
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
-       Runnable {  initView() }.run()
+        runOnUiThread {
+            initView()
+        }
         inStatusBar()
     }
 
     override fun onResume() {
         super.onResume()
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        return
     }
 
     private fun initView() {
@@ -551,6 +557,20 @@ class DataDetyailActivity : BaseActivity() {
 
     ////////////////데이터 삭제 API/////////////////////
     fun onDeleteClick(v: View?) {
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+        dlg.setTitle("데이터 삭제") //제목
+        dlg.setMessage("데이터를 삭제하시겠습니까?") // 메시지
+        dlg.setPositiveButton("확인") { dialog, which ->
+            initDelete()
+            dialog.dismiss()
+        }
+        dlg.setNegativeButton("취소") { dialog, which ->
+            dialog.dismiss()
+        }
+        dlg.show()
+    }
+
+    private fun initDelete() {
         val id = intent.getStringExtra(DATA_ID)
         LLog.e("데이터 삭제 API")
         val vercall: Call<DeleteModel> = apiServices.getDataDelete(prefs.newaccesstoken,id)
@@ -559,19 +579,19 @@ class DataDetyailActivity : BaseActivity() {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(TAG,"데이터 삭제 response SUCCESS -> $result")
+                    Toast.makeText(this@DataDetyailActivity, "데이터 삭제가 완료되었습니다.",Toast.LENGTH_SHORT).show()
                     moveMain()
                 }
                 else {
                     Log.d(TAG,"데이터 삭제  response ERROR -> $id")
-                    moveMain()
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<DeleteModel>, t: Throwable) {
                 Log.d(TAG, "데이터 삭제 Fail -> ${t.localizedMessage}")
-                serverDialog()
+                ErrorDialog()
             }
         })
-
     }
 
     override fun onBackPressed() {

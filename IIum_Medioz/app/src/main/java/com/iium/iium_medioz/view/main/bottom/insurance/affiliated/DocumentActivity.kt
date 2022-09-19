@@ -37,7 +37,9 @@ class DocumentActivity : BaseActivity() {
         mBinding.lifecycleOwner = this
 
         inStatusBar()
-        initView()
+        runOnUiThread {
+            initView()
+        }
     }
 
     private fun inStatusBar() {
@@ -94,10 +96,12 @@ class DocumentActivity : BaseActivity() {
                 }
                 else {
                     Log.d(LLog.TAG,"postDocument  API ERROR -> ${response.errorBody()}")
+                    ErrorDialog()
                 }
             }
             override fun onFailure(call: Call<DocumentModel>, t: Throwable) {
                 Log.d(LLog.TAG,"postDocument  Fail -> $t")
+                ErrorDialog()
             }
         })
     }

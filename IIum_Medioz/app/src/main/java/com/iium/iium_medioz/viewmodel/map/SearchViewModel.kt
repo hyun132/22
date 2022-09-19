@@ -33,8 +33,8 @@ class SearchViewModel(
 
     @OptIn(ObsoleteCoroutinesApi::class)
     val searchResult = queryChannel
-        .asFlow() // BroadcastChannel을 hot flow로 바꿈
-        .debounce(SEARCH_TIMEOUT) // search() 호출 속도를 조절할 수 있음. 해당 ms동안 새로운 텍스트를 입력하지 않으면 search() 호출
+        .asFlow()
+        .debounce(SEARCH_TIMEOUT)
         .mapLatest { text ->
             viewModelScope.launch(Dispatchers.IO) {
                 try {
@@ -50,7 +50,6 @@ class SearchViewModel(
                     if(e is CancellationException){
                         throw e
                     }else{
-                        // 검색어가 비었을 경우만 _status = false
                         Log.e("에러", "_status false")
                         _status.postValue(false)
                     }

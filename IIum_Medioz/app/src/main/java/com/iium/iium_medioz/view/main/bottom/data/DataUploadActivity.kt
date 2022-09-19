@@ -2,6 +2,7 @@ package com.iium.iium_medioz.view.main.bottom.data
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -75,10 +76,12 @@ class DataUploadActivity : BaseActivity() {
         mBinding.activity = this
         mBinding.lifecycleOwner = this
         inStatusBar()
-        initView()
-        initSecond()
-        initThird()
-        initKey()
+        runOnUiThread {
+            initView()
+            initSecond()
+            initThird()
+            initKey()
+        }
     }
 
     private fun initKey() {
@@ -91,15 +94,18 @@ class DataUploadActivity : BaseActivity() {
         val textView = TextView(applicationContext)
         val listView = mBinding.llKeyword
         val typeface = resources.getFont(R.font.noto_sans_kr_bold)
+
         textView.text = mBinding.etKeyword.text.toString()
         textView.textSize = 15f
         textView.typeface = typeface
         textView.id = ViewCompat.generateViewId()
+
         val param : LinearLayout.LayoutParams =
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         param.marginStart = 20
         textView.layoutParams = param
         listArray.add(textView.text.toString())
+
         if (listArray.count() == 6) {
             Toast.makeText(this,"키워드는 5개만 등록할 수 있습니다.",Toast.LENGTH_SHORT).show()
             listArray.clear()
@@ -110,6 +116,7 @@ class DataUploadActivity : BaseActivity() {
             mBinding.tvRegisteredKeyword.text = listArray.count().toString()
             mBinding.etKeyword.text = null
         }
+
     }
 
     private fun inStatusBar() {
@@ -390,7 +397,17 @@ class DataUploadActivity : BaseActivity() {
                 Toast.makeText(this,"제목을 입력해 주세요",Toast.LENGTH_SHORT).show().toString()
             }
             else -> {
-                callCreateAPI()
+                val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+                dlg.setTitle("데이터 등록") //제목
+                dlg.setMessage("데이터를 등록 하시겠습니까?")
+                dlg.setPositiveButton("확인") { dialog, which ->
+                    callCreateAPI()
+                    dialog.dismiss()
+                }
+                dlg.setNegativeButton("취소") { dialog, which ->
+                    dialog.dismiss()
+                }
+                dlg.show()
             }
         }
     }
@@ -504,12 +521,13 @@ class DataUploadActivity : BaseActivity() {
                 }
                 else {
                     Log.d(TAG,"getCreate Second API ERROR -> ${response.errorBody()}")
+                    ErrorDialog()
                 }
             }
 
             override fun onFailure(call: Call<CreateMedical>, t: Throwable) {
                 Log.d(TAG,"getCreate Second Fail -> $t")
-                serverDialog()
+                ErrorDialog()
             }
         })
     }
