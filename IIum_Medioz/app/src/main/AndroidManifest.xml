@@ -22,6 +22,7 @@
     <application
         android:name=".util.base.MyApplication"
         android:allowBackup="false"
+        android:fullBackupOnly="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
