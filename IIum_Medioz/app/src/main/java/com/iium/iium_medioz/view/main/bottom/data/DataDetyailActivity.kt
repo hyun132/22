@@ -137,7 +137,7 @@ class DataDetyailActivity : BaseActivity() {
                 else -> Log.d(TAG,"실패")
             }
 
-            if (videostart.count() in 1..3) {
+            if (videostart.count() in 0..3) {
                if( mBinding.pvFirst.visibility == View.GONE) {
                    mBinding.pvFirst.visibility = View.VISIBLE
                } else if(mBinding.pvSecond.visibility == View.GONE) {
@@ -579,12 +579,11 @@ class DataDetyailActivity : BaseActivity() {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
                     Log.d(TAG,"데이터 삭제 response SUCCESS -> $result")
-                    Toast.makeText(this@DataDetyailActivity, "데이터 삭제가 완료되었습니다.",Toast.LENGTH_SHORT).show()
-                    moveMain()
                 }
                 else {
                     Log.d(TAG,"데이터 삭제  response ERROR -> $id")
-                    ErrorDialog()
+                    Toast.makeText(this@DataDetyailActivity, "데이터 삭제가 완료되었습니다.",Toast.LENGTH_SHORT).show()
+                    moveMain()
                 }
             }
             override fun onFailure(call: Call<DeleteModel>, t: Throwable) {

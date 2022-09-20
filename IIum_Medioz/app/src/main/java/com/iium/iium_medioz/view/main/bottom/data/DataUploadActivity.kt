@@ -113,6 +113,16 @@ class DataUploadActivity : BaseActivity() {
             listView.removeAllViews()
         } else {
             listView.addView(textView)
+            mBinding.clTextDelete.setOnClickListener {
+                if(listArray.size == 0) {
+                    Toast.makeText(this,"키워드를 등록해주세요",Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                } else {
+                    listArray.removeLastOrNull()
+                    listView.removeViewAt(listArray.size -0)
+                    mBinding.tvRegisteredKeyword.text = listArray.count().toString()
+                }
+            }
             mBinding.tvRegisteredKeyword.text = listArray.count().toString()
             mBinding.etKeyword.text = null
         }

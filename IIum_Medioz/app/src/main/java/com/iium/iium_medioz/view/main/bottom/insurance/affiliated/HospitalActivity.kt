@@ -109,9 +109,12 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
             it.setDisplayShowHomeEnabled(true)
         }
 
-        initAdapter()
+
         inStatusBar()
-        initView()
+        runOnUiThread {
+            initView()
+            initAdapter()
+        }
     }
 
     override fun onResume() {

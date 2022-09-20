@@ -55,7 +55,8 @@ class SplashActivity : BaseActivity() {
     private fun checkNetwork() {
         LLog.e("1. 네트워크 확인")
         if(isInternetAvailable(this)) {
-            checkVerification()
+//            checkVerification()
+            checkLoot()
         } else {
             networkDialog()
             return
@@ -65,11 +66,12 @@ class SplashActivity : BaseActivity() {
     // 2. 루팅 확인
     private fun checkLoot() {
         LLog.e("2. 루팅 확인")
-        if (!BuildConfig.DEBUG && RootUtil.isDeviceRooted) {
+        if (!BuildConfig.DEBUG && RootUtil(applicationContext).isDeviceRooted()) {
             rootingDialog()
             return
         }
-        moveLogin()
+//        moveLogin()
+        checkVerification()
     }
 
     // 3. 검증 API 호출키 및 Hash키 검증

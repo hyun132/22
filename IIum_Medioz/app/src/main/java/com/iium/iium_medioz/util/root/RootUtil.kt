@@ -1,70 +1,113 @@
 package com.iium.iium_medioz.util.root
 
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import com.iium.iium_medioz.util.log.LLog.e
 import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
+import java.nio.charset.Charset
 
-object RootUtil {
-    val isDeviceRooted: Boolean
-        get() = checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
+class RootUtil (
+    private val context: Context
+) {
 
-    private fun checkRootMethod1(): Boolean {
-        val buildTags = Build.TAGS
-        return buildTags != null && buildTags.contains("test-keys")
+    private val rootFiles = arrayOf(
+        "/system/app/Superuser.apk",
+        "/sbin/su",
+        "/system/bin/su",
+        "/system/xbin/su",
+        "/system/usr/we-need-root/",
+        "/data/local/xbin/su",
+        "/data/local/bin/su",
+        "/system/sd/xbin/su",
+        "/system/bin/failsafe/su",
+        "/data/local/su",
+        "/su/bin/su",
+        "/su/bin",
+        "/system/xbin/daemonsu"
+    )
+
+    private val rootPackages = arrayOf(
+        "com.devadvance.rootcloak",
+        "com.devadvance.rootcloakplus",
+        "com.koushikdutta.superuser",
+        "com.thirdparty.superuser",
+        "eu.chainfire.supersu",
+        "de.robv.android.xposed.installer",
+        "com.saurik.substrate",
+        "com.zachspong.temprootremovejb",
+        "com.amphoras.hidemyroot",
+        "com.amphoras.hidemyrootadfree",
+        "com.formyhm.hiderootPremium",
+        "com.formyhm.hideroot",
+        "com.noshufou.android.su",
+        "com.noshufou.android.su.elite",
+        "com.yellowes.su",
+        "com.topjohnwu.magisk",
+        "com.kingroot.kinguser",
+        "com.kingo.root",
+        "com.smedialink.oneclickroot",
+        "com.zhiqupk.root.global",
+        "com.alephzain.framaroot"
+    )
+
+    private val runtime by lazy {
+        Runtime.getRuntime()
     }
 
-    private fun checkRootMethod2(): Boolean {
-        val paths = arrayOf(
-            "/system/app/Superuser.apk",
-            "/sbin/su",
-            "/system/bin/su",
-            "/system/xbin/su",
-            "/data/local/xbin/su",
-            "/data/local/bin/su",
-            "/system/sd/xbin/su",
-            "/system/bin/failsafe/su",
-            "/data/local/su",
-            "/su/bin/su"
-        )
-        for (path in paths) {
-            if (File(path).exists()) {
-                return true
+    fun isDeviceRooted(): Boolean {
+        return checkRootFiles() || checkSUExist() || checkRootPackages()
+    }
+
+    private fun checkRootFiles(): Boolean {
+        for (path in rootFiles) {
+            try {
+                if (File(path).exists()) {
+                    return true
+                }
+            } catch (e: RuntimeException) {
+
             }
         }
         return false
     }
 
-    private fun checkRootMethod3(): Boolean {
+    private fun checkSUExist(): Boolean {
         var process: Process? = null
-        var `in`: BufferedReader? = null
-        var inputStreamReader: InputStreamReader? = null
-        return try {
-            process = Runtime.getRuntime().exec(arrayOf("/system/xbin/which", "su"))
-            inputStreamReader = InputStreamReader(process.inputStream)
-            `in` = BufferedReader(inputStreamReader)
-            val read = `in`.readLine()
-            read != null
+        val su = arrayOf("/system/xbin/which", "su")
+        try {
+            process = runtime.exec(su)
+            BufferedReader(
+                InputStreamReader(
+                    process.inputStream,
+                    Charset.forName("UTF-8")
+                )
+            ).use { reader -> return reader.readLine() != null }
         } catch (e: IOException) {
-            false
+
+        } catch (e: Exception) {
+
         } finally {
-            if (`in` != null) {
-                try {
-                    `in`.close()
-                } catch (e: IOException) {
-                    e(e.localizedMessage)
-                }
-            }
             process?.destroy()
-            if (inputStreamReader != null) {
+        }
+        return false
+    }
+
+    private fun checkRootPackages(): Boolean {
+        val pm = context.packageManager
+        if (pm != null) {
+            for (pkg in rootPackages) {
                 try {
-                    inputStreamReader.close()
-                } catch (e: IOException) {
-                    e("inputStreamReader: IOException")
+                    pm.getPackageInfo(pkg, 0)
+                    return true
+                } catch (ignored: PackageManager.NameNotFoundException) {
+                    // fine, package doesn't exist.
                 }
             }
         }
+        return false
     }
 }

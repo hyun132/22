@@ -210,6 +210,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:orientation="vertical">
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
@@ -248,6 +249,23 @@
                                     app:layout_constraintLeft_toRightOf="@id/tv_registered_keyword"
                                     app:layout_constraintTop_toTopOf="@+id/tv_registered_keyword" />
 
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/cl_text_delete"
+                                    android:layout_width="60dp"
+                                    android:layout_height="match_parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+                                    <ImageView
+                                        android:id="@+id/iv_text_delete"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_marginEnd="15dp"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:srcCompat="@drawable/clear" />
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
                                 <LinearLayout
                                     android:id="@+id/ll_keyword"
                                     android:layout_width="match_parent"
@@ -258,6 +276,7 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintLeft_toLeftOf="parent"
                                     app:layout_constraintTop_toBottomOf="@id/tv_guide" />
+
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
 

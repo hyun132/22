@@ -24,12 +24,17 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialog
+import androidx.lifecycle.*
 import com.iium.iium_medioz.R
+import com.iium.iium_medioz.model.network.MyState
 import com.iium.iium_medioz.util.`object`.ActivityControlManager
 import com.iium.iium_medioz.util.`object`.Constant.PROGRESS_TIMEOUT
 import com.iium.iium_medioz.util.common.CommonData
 import com.iium.iium_medioz.util.log.LLog.TAG
 import com.iium.iium_medioz.util.log.LLog.e
+import com.iium.iium_medioz.util.network.NetworkStatusTracker
+import com.iium.iium_medioz.util.network.NetworkStatusViewModel
+import com.iium.iium_medioz.util.network.map
 import com.iium.iium_medioz.view.login.LoginActivity
 import com.iium.iium_medioz.view.login.StartLoginActivity
 import com.iium.iium_medioz.view.login.sign.SignUpActivity
@@ -65,14 +70,23 @@ open class BaseActivity : AppCompatActivity() {
     val comm: CommonData = CommonData().getInstance()
     var ResultView: ActivityResultLauncher<Intent>? = null
     private var doubleBackToExit = false
-    val commonApi: CommonData? = null
-    protected val scopeMain = CoroutineScope(Dispatchers.Main)
     var progress: AppCompatDialog? = null
     private var mTimeoutHandler: Handler? = null
 
-
     internal val realm by lazy {
         Realm.getDefaultInstance()
+    }
+
+    private val viewModel: NetworkStatusViewModel by lazy {
+        ViewModelProvider(
+            this,
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    val networkStatusTracker = NetworkStatusTracker(this@BaseActivity)
+                    return NetworkStatusViewModel(networkStatusTracker) as T
+                }
+            },
+        )[NetworkStatusViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -80,6 +94,13 @@ open class BaseActivity : AppCompatActivity() {
         instance = this
         val window = window
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
+        viewModel.state.observe(this) { state ->
+           when(state) {
+               MyState.Error -> networkDialog()
+               MyState.Fetched -> networkDialog()
+           }
+        }
     }
 
     override fun onDestroy() {
