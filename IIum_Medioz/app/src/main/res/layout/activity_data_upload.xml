@@ -56,6 +56,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/medical_top_text" />
 
+
+            <ImageButton
+                android:id="@+id/data_question"
+                style="@style/ImageButton.size48.padding19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:src="@drawable/ic_help"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

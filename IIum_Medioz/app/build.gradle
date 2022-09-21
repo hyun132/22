@@ -147,8 +147,6 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
 
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
-
     implementation 'com.google.android.play:core:1.10.3'
 
     implementation 'androidx.preference:preference-ktx:1.2.0'
@@ -199,6 +197,9 @@ dependencies {
     annotationProcessor 'androidx.hilt:hilt-compiler:1.0.0'
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
 
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs::2.0.0'
+    implementation 'com.github.kizitonwose:CalendarView:1.0.4'
+
     // Paging
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
 
@@ -222,6 +223,39 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
 
-
 }
 
+dependencies{
+    // Truth(Assertion)
+    testImplementation "com.google.truth:truth:1.1"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.ext:truth:1.3.0'
+    androidTestImplementation 'com.google.truth:truth:1.1'
+
+    // Unit Test Mock
+    testImplementation 'org.mockito:mockito-core:3.6.28'
+    testImplementation 'org.robolectric:robolectric:4.4'
+
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+
+    // Fragment
+    androidTestImplementation "androidx.fragment:fragment-testing:1.2.5"
+
+    // Espresso
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-web:3.3.0'
+    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0'
+    debugImplementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
+
+    // Hilt
+    testImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+}

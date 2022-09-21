@@ -224,9 +224,4 @@ class CalendarEditActivity : BaseActivity(), DatePickerDialog.OnDateSetListener 
         val formatter = SimpleDateFormat("yyyy년 MMM dd일, EEE요일")
         mBinding.date.text = formatter.format(mCalendar.time)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        finishAffinity()
-    }
 }

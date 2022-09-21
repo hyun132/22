@@ -98,6 +98,12 @@ interface APIService {
     fun getDataDelete(@Header("Accesstoken")accesstoken: String?,
                       @Query("id") id : String?) : Call<DeleteModel>
 
+    // 나의 의료데이터 수정
+    @PUT("v1/datalist")
+    fun putData(@Header("Accesstoken")accesstoken: String?,
+                @Query("id") id : String?,
+                @Body modifyList: ModifyList) : Call<ModifyModel>
+
     // 나의 판매 데이터 해제
     @DELETE("v1/datasend")
     fun getSendDelete(@Header("Accesstoken")accesstoken: String?,

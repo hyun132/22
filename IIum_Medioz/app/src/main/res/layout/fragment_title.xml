@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="59dp"
-            android:text="제목"
+            android:text="오늘 하루의 기분을 말해주세요!"
             android:textColor="@color/unguJurna"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -54,9 +54,9 @@
             android:gravity="center"
             android:hint="제목을 입력 해주세요!"
             android:textColor="@color/unguJurna"
-            android:textColorHint="@color/merahmudaJurna"
+            android:textColorHint="@color/unguJurna_test"
             android:textSize="24sp"
-            app:backgroundTint="@color/merahmudaJurna"
+            app:backgroundTint="@color/unguJurna"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
         <Button

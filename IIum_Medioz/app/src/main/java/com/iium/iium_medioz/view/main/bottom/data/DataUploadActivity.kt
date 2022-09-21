@@ -20,6 +20,7 @@ import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
@@ -35,6 +36,7 @@ import com.iium.iium_medioz.util.adapter.upload.NormalImgAdapter
 import com.iium.iium_medioz.util.adapter.upload.VideoRecyclerAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
+import com.iium.iium_medioz.util.common.setOnDebounceClickListener
 import com.iium.iium_medioz.util.feel.show
 import com.iium.iium_medioz.util.file.FileUtil
 import com.iium.iium_medioz.util.log.LLog

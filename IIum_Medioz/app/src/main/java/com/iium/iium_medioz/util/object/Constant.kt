@@ -107,6 +107,15 @@ object  Constant {
     const val DEFAULT_CODE_TRUE = "true"
     const val DEFAULT_CODE_FALSE = "false"
 
+    //데이터 수정
+    const val DATA_MODIFY_TITLE = "DATA_MODIFY_TITLE"
+    const val DATA_MODIFY_KEYWORD = "DATA_MODIFY_KEYWORD"
+    const val DATA_MODIFY_TEXTIMG = "DATA_MODIFY_TEXTIMG"
+    const val DATA_MODIFY_NORMAL = "DATA_MODIFY_NORMAL"
+    const val DATA_MODIFY_VIDEO = "DATA_MODIFY_VIDEO"
+    const val DATA_MODIFY_ID = "DATA_MODIFY_ID"
+
+
     //Notice
     const val NOTICE_TITLE = "NOTICE_TITLE"
     const val NOTICE_CONTENT = "NOTICE_CONTENT"

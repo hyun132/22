@@ -9,11 +9,13 @@ import com.iium.iium_medioz.di.module
 import com.iium.iium_medioz.util.common.CommonData
 import com.iium.iium_medioz.util.pixel.PixelRatio
 import com.iium.iium_medioz.util.preference.PreferenceManager
+import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
+@HiltAndroidApp
 class MyApplication : Application() {
 
     companion object {

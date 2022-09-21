@@ -38,10 +38,10 @@
         tools:replace="android:theme"
         tools:targetApi="s">
         <activity
-            android:name=".DataModifyActivity"
+            android:name=".view.main.bottom.data.DataModifyActivity"
             android:exported="false" />
         <activity
-            android:name=".LandingActivity"
+            android:name=".view.intro.landing.LandingActivity"
             android:exported="false" />
         <activity
             android:name=".view.main.bottom.insurance.search.SearchAddressActivity"

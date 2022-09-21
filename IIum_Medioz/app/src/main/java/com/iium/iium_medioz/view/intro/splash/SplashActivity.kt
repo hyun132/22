@@ -66,10 +66,10 @@ class SplashActivity : BaseActivity() {
     // 2. 루팅 확인
     private fun checkLoot() {
         LLog.e("2. 루팅 확인")
-        if (!BuildConfig.DEBUG && RootUtil(applicationContext).isDeviceRooted()) {
-            rootingDialog()
-            return
-        }
+//        if (!BuildConfig.DEBUG && RootUtil(applicationContext).isDeviceRooted()) {
+//            rootingDialog()
+//            return
+//        }
 //        moveLogin()
         checkVerification()
     }

@@ -48,8 +48,8 @@ import java.util.concurrent.TimeUnit
 
 class SearchAddressActivity : BaseActivity() {
     private val tabTitleArray = arrayOf(
-        "지역검색",
-        "병원검색",
+        "지역명으로",
+        "병원명으로",
     )
     private lateinit var mBinding : ActivitySearchAddressBinding
     private lateinit var apiService: APIService

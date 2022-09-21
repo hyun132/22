@@ -18,6 +18,12 @@ import com.iium.iium_medioz.databinding.ActivityDataDetyailBinding
 import com.iium.iium_medioz.model.upload.DeleteModel
 import com.iium.iium_medioz.util.`object`.Constant.DATA_ID
 import com.iium.iium_medioz.util.`object`.Constant.DATA_KEYWORD
+import com.iium.iium_medioz.util.`object`.Constant.DATA_MODIFY_ID
+import com.iium.iium_medioz.util.`object`.Constant.DATA_MODIFY_KEYWORD
+import com.iium.iium_medioz.util.`object`.Constant.DATA_MODIFY_NORMAL
+import com.iium.iium_medioz.util.`object`.Constant.DATA_MODIFY_TEXTIMG
+import com.iium.iium_medioz.util.`object`.Constant.DATA_MODIFY_TITLE
+import com.iium.iium_medioz.util.`object`.Constant.DATA_MODIFY_VIDEO
 import com.iium.iium_medioz.util.`object`.Constant.DATA_NORMAL
 import com.iium.iium_medioz.util.`object`.Constant.DATA_TEXTIMG
 import com.iium.iium_medioz.util.`object`.Constant.DATA_TIMESTAMP
@@ -551,7 +557,21 @@ class DataDetyailActivity : BaseActivity() {
     }
 
     fun onPutClick(v: View?) {
+        val title = mBinding.tvMedicalDetailTitle.text.toString()
+        val keyword = mBinding.tvMyKeyword.text.toString()
+        val textList = intent?.getStringExtra(DATA_TEXTIMG)
+        val normalList = intent?.getStringExtra(DATA_NORMAL)
+        val videoList = intent?.getStringExtra(DATA_VIDEOFILE)
+        val id = intent?.getStringExtra(DATA_ID)
 
+        val intent = Intent(this, DataModifyActivity::class.java)
+        intent.putExtra(DATA_MODIFY_TITLE, title)
+        intent.putExtra(DATA_MODIFY_KEYWORD,keyword)
+        intent.putExtra(DATA_MODIFY_TEXTIMG, textList.toString())
+        intent.putExtra(DATA_MODIFY_NORMAL, normalList.toString())
+        intent.putExtra(DATA_MODIFY_VIDEO, videoList.toString())
+        intent.putExtra(DATA_MODIFY_ID, id.toString())
+        startActivity(intent)
     }
 
 
