@@ -69,9 +69,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
     private val recyclerView : RecyclerView by lazy {
         findViewById(R.id.map_re)
     }
-    private val currentLocationButton : LocationButtonView by lazy {
-        findViewById(R.id.currentLocationButton)
-    }
+
 
     private var locationSource: FusedLocationSource? = null
     private var mMap: NaverMap?=null
@@ -267,6 +265,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
             .enabledLayerGroups(NaverMap.LAYER_GROUP_BICYCLE)
             .compassEnabled(true)
             .scaleBarEnabled(true)
+            .locationButtonEnabled(false)
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment?
             ?: MapFragment.newInstance(options).also {
@@ -290,7 +289,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
 
         val uiSetting = naverMap.uiSettings
         uiSetting.isLocationButtonEnabled = false
-        currentLocationButton.map = naverMap
+        uiSetting.isZoomControlEnabled = false
 
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         naverMap.locationSource = locationSource

@@ -37,6 +37,7 @@ import com.iium.iium_medioz.view.main.bottom.data.DataFragment
 import com.iium.iium_medioz.view.main.bottom.feel.FeelFragment
 import com.iium.iium_medioz.view.main.bottom.home.HomeFragment
 import com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment
+import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,7 +54,7 @@ class MainActivity : BaseActivity() {
     private val fragmentOne by lazy { HomeFragment() }
     private val fragmentTwo by lazy { DataFragment() }
     private val fragmentThree by lazy { FeelFragment() }
-    private val fragmentFour by lazy { InsuranceFragment() }
+    private val fragmentFour by lazy { HospitalFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +67,6 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         supportFragmentManager.beginTransaction().replace(R.id.fl_container, HomeFragment()).commit()     //초기 fragment 세팅
         mBinding.bottomNavigationView.run {
             setOnNavigationItemSelectedListener{
