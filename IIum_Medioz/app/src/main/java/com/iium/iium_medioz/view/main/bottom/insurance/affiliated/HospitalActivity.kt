@@ -107,7 +107,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
             it.setDisplayShowHomeEnabled(true)
         }
 
-
         inStatusBar()
         runOnUiThread {
             initView()
