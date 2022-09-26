@@ -70,7 +70,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
         findViewById(R.id.map_re)
     }
 
-
     private var locationSource: FusedLocationSource? = null
     private var mMap: NaverMap?=null
 
@@ -197,7 +196,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback, Overlay.OnClickList
                         return
                     }
                 }
-        }
+            }
         if (result != null) {
             if (result.contents == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()

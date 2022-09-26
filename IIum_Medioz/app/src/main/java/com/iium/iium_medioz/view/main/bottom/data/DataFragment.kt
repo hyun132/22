@@ -57,7 +57,7 @@ class DataFragment : BaseFragment() {
         })
         TabLayoutMediator(mBinding.dataTablayout, mBinding.dataViewPager) { tab, position ->
             val tabItem = arrayOf(
-                "전체",
+                "일반",
                 "판매"
             )
             tab.text = tabItem[position]
