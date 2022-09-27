@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
@@ -15,6 +16,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
@@ -52,6 +54,9 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     private var locationSource: FusedLocationSource? = null
     private var mMap: NaverMap?=null
 
+    var mLocationManager: LocationManager? = null
+    var mLocationListener: LocationListener? = null
+
     private val defaultZoomLevel = 0.0
     private val mViewModel: MainViewModel? = null
 
@@ -71,6 +76,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         runOnUiThread {
             initView()
         }
+        
     }
 
     override fun onResume() {
@@ -287,9 +293,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     fun onlocationClick(v: View) {
-        if (totalGpsCheck(null)) {
-            mViewModel?.getCurrentLatlng()?.let { moveCameraFly(it, true) }
-        }
+        val uiSetting = CameraUpdate.scrollTo(LatLng())
     }
 
     private fun moveCameraFly(latLng: LatLng, changeZoomLevel: Boolean) {
