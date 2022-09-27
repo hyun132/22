@@ -1,5 +1,6 @@
 package com.iium.iium_medioz.util.base
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -7,34 +8,38 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.ColorDrawable
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.*
+import android.provider.Settings
 import android.util.Base64
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialog
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.*
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.model.network.MyState
 import com.iium.iium_medioz.util.`object`.ActivityControlManager
 import com.iium.iium_medioz.util.`object`.Constant.PROGRESS_TIMEOUT
 import com.iium.iium_medioz.util.common.CommonData
+import com.iium.iium_medioz.util.dialog.AlertDialogManager
+import com.iium.iium_medioz.util.dialog.DialogCancelListener
 import com.iium.iium_medioz.util.log.LLog.TAG
 import com.iium.iium_medioz.util.log.LLog.e
 import com.iium.iium_medioz.util.network.NetworkStatusTracker
 import com.iium.iium_medioz.util.network.NetworkStatusViewModel
-import com.iium.iium_medioz.util.network.map
+import com.iium.iium_medioz.view.intro.permission.PermissionManager
 import com.iium.iium_medioz.view.login.LoginActivity
 import com.iium.iium_medioz.view.login.StartLoginActivity
 import com.iium.iium_medioz.view.login.sign.SignUpActivity
@@ -58,8 +63,6 @@ import com.iium.iium_medioz.view.main.bottom.mypage.setting.SettingActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.one_button_dialog.view.*
 import kotlinx.android.synthetic.main.two_button_dialog.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -72,6 +75,8 @@ open class BaseActivity : AppCompatActivity() {
     private var doubleBackToExit = false
     var progress: AppCompatDialog? = null
     private var mTimeoutHandler: Handler? = null
+    var alert: AlertDialogManager? = null
+
 
     internal val realm by lazy {
         Realm.getDefaultInstance()
@@ -250,6 +255,47 @@ open class BaseActivity : AppCompatActivity() {
                 }
             }, PROGRESS_TIMEOUT.toLong())
         }
+    }
+
+    open fun getLocationPermissionGranted(): Boolean {
+        return PermissionManager.getPermissionGranted(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) && PermissionManager.getPermissionGranted(
+            this,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+    }
+
+
+    open fun totalGpsCheck(listener: DialogCancelListener?): Boolean {
+        val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        if (!getLocationPermissionGranted()) {
+            alert?.showDialog(getString(R.string.error_permission_location_request)) { positive ->
+                PermissionManager.requestPermissions(
+                    this,
+                    arrayOf(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                )
+            }
+            return false
+        }
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            alert?.showDialog(
+                getString(R.string.gps_popup_title),
+                getString(R.string.gps_popup_btn_positive),
+                { v ->
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                },
+                getString(R.string.gps_popup_btn_negative)
+            ) { v ->
+                listener?.onCancelSelected()
+            }
+            return false
+        }
+        return true
     }
 
     open fun stopProgress() {

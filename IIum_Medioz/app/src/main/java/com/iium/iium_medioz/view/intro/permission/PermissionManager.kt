@@ -1,11 +1,12 @@
 package com.iium.iium_medioz.view.intro.permission
 
 import android.app.Activity
-import androidx.core.content.ContextCompat
+import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
-import android.content.Context
+import androidx.core.content.ContextCompat
 import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.`object`.Constant.ONE_PERMISSION_REQUEST_CODE
 
 object PermissionManager {
 
@@ -36,6 +37,14 @@ object PermissionManager {
             (context as Activity?)!!,
             Constant.MUTILE_PERMISSION.toArray(arrayOfNulls<String>(arraySize)),
             Constant.ALL_PERMISSION_REQUEST_CODE
+        )
+    }
+
+    fun requestPermissions(context: Context?, permissionCode: Array<String?>?) {
+        ActivityCompat.requestPermissions(
+            (context as Activity?)!!,
+            permissionCode!!,
+            ONE_PERMISSION_REQUEST_CODE
         )
     }
 }

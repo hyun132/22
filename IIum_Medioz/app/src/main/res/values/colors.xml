@@ -52,12 +52,15 @@
     <color name="colorBlackMediumEmphasis">#99000000</color>
 
 
-    <color name="colorPrimary">#5441ff</color>
+    <color name="colorPrimary">#6A5BFF</color>
     <color name="colorPrimaryDark">#5441ff</color>
     <color name="colorOverlayAccent">#642EFE</color>
     <color name="colorupdate">#A9A9F5</color>
     <color name="background">#f8f8fb</color>
     <color name="pro_side_btn">#2E2E2E</color>
+
+    <color name="colorAccent">#F2A301</color>
+    <color name="colorAccentDark">#E08700</color>
 
     <color name="main_status">#00a7fd</color>
 

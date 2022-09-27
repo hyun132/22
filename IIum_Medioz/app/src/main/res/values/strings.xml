@@ -26,6 +26,15 @@
     <string name="permission_error_all_agree">권한동의를 하지 않으면 앱을 이용하실 수 없습니다.</string>
     <string name="permission_error_all_agree_not_show">권한동의를 하지 않으면 앱을 이용하실 수 없습니다. \n[애플리케이션 설정] - [권한]에서 권한을 확인 해주세요.</string>
 
+    <string name="error_wrong_access">잘못된 접근입니다.</string>
+    <string name="error_permission_location_request">위치정보 권한이 없습니다. 권한을 설정해 주세요.</string>
+    <string name="error_location_find">위치정보 검색에 실패했습니다.</string>
+    <string name="error_location_mock_detected">모의위치 사용이 감지되었습니다.\n모의위치를 사용하실 경우 메디오즈 서비스를 이용하실 수 없습니다.</string>
+
+    <string name="gps_popup_title">위치정보 설정이 꺼져있습니다.\n위치정보 설정을 켜주세요.</string>
+    <string name="gps_popup_btn_negative">괜찮습니다</string>
+    <string name="gps_popup_btn_positive">위치 정보 설정</string>
+
     <string name="welcome_title">의료 데이터의 모든 것\n메디오즈에서 간편하게</string>
     <string name="welcome_toss_is_safe">메디오즈는 안전합니다.</string>
     <string name="welcome_boast">다운로드 %s, 누적 보안 사고 %s</string>
