@@ -160,6 +160,10 @@ object  Constant {
     const val KAKAO_MAPX = "KAKAO_MAPX"
     const val KAKAO_MAPY = "KAKAO_MAPY"
 
+    const val MAP_AUTOZOOM_MAX_ZOOM_LEVEL = 20
+    const val MAP_MIN_ZOOM_LEVEL = 12
+    const val MAP_MAX_ZOOM_LEVEL = 21.0
+
     // Splash
     const val SPLASH_WAIT = 3500
     val MUTILE_PERMISSION: ArrayList<String?> = object : ArrayList<String?>() {
@@ -181,6 +185,13 @@ object  Constant {
         if (loop != null) {
             val handler = Handler(loop)
             handler.postDelayed(r!!, delay.toLong())
+        }
+    }
+
+    val LIST_PERMISSION_LOCATION: ArrayList<String?> = object : ArrayList<String?>() {
+        init {
+            add(Manifest.permission.ACCESS_FINE_LOCATION)
+            add(Manifest.permission.ACCESS_COARSE_LOCATION)
         }
     }
 

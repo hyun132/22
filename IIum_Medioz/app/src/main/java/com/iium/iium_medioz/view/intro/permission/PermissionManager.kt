@@ -47,4 +47,11 @@ object PermissionManager {
             ONE_PERMISSION_REQUEST_CODE
         )
     }
+
+    fun requestMultiPermission(context: Context?, permissionCodes: Array<String?>?) {
+        ActivityCompat.requestPermissions(
+            (context as Activity?)!!,
+            permissionCodes!!, ONE_PERMISSION_REQUEST_CODE
+        )
+    }
 }
