@@ -3,11 +3,14 @@ package com.iium.iium_medioz.util.`object`
 import android.Manifest
 import android.os.Handler
 import android.os.Looper
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.geometry.LatLngBounds
 
 object  Constant {
     const val TAG = "MEDIOZ"
     const val BASE_URL="http://49.50.161.198:8080/"
     const val OCR_URL="https://2ihmtg25yc.apigw.ntruss.com/custom/v1/16697/bca7590ad614a464052b8d2bc1fe99f16edeb31677cd0e7e4863c7611d01238b/general"
+
     const val PREF_KEY_USER_TOKEN = "PREF_KEY_USER_TOKEN"
     const val NAVER_API_URL = "https://openapi.naver.com/"
     const val KAKAO_API_URL = "https://dapi.kakao.com/"
@@ -163,6 +166,11 @@ object  Constant {
     const val MAP_AUTOZOOM_MAX_ZOOM_LEVEL = 20
     const val MAP_MIN_ZOOM_LEVEL = 12
     const val MAP_MAX_ZOOM_LEVEL = 21.0
+
+    private val notrhEast = LatLng(39.788312, 132.893671)
+    private val southWest = LatLng(30.664915, 122.628502)
+    val DEFAULT_MAP_BOUND = LatLngBounds(southWest, notrhEast)
+
 
     // Splash
     const val SPLASH_WAIT = 3500

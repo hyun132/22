@@ -37,9 +37,7 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:theme"
         tools:targetApi="s">
-        <activity
-            android:name=".view.main.bottom.insurance.affiliated.HospitalTestActivity"
-            android:exported="false" />
+
         <activity
             android:name=".view.main.bottom.data.DataModifyActivity"
             android:exported="false" />

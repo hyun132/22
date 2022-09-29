@@ -27,6 +27,7 @@ class HospitalFragment : BaseFragment() {
         return mBinding.root
     }
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         initView()
@@ -48,7 +49,6 @@ class HospitalFragment : BaseFragment() {
         val intent = Intent(activity, HospitalActivity::class.java)
         startActivity(intent)
 
-//        val intent = Intent(activity, HospitalTestActivity::class.java)
-//        startActivity(intent)
+
     }
 }
