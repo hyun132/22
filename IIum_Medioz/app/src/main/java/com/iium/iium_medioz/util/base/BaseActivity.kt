@@ -54,7 +54,9 @@ import com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity
 import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
 import com.iium.iium_medioz.view.main.bottom.home.calendar.CalendarActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
+import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.DocumentActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
+import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalTestActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.search.SearchAddressActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsUploadActivity
@@ -447,6 +449,13 @@ open class BaseActivity : AppCompatActivity() {
 
     internal fun searchAddress() {
         val intent = Intent(this, SearchAddressActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    internal fun document() {
+        val intent = Intent(this, DocumentActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0)
         finish()

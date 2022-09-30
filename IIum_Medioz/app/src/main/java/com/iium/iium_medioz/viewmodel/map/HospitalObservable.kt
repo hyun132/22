@@ -3,7 +3,6 @@ package com.iium.iium_medioz.viewmodel.map
 import android.content.Context
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import com.iium.iium_medioz.model.map.AddressDocument
 import com.iium.iium_medioz.model.map.MapMarker
 import com.iium.iium_medioz.util.common.CommonData
 import com.iium.iium_medioz.util.preference.PreferenceManager

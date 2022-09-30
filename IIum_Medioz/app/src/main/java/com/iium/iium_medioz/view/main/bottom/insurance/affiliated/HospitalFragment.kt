@@ -49,6 +49,9 @@ class HospitalFragment : BaseFragment() {
         val intent = Intent(activity, HospitalActivity::class.java)
         startActivity(intent)
 
+//        val intent = Intent(activity, HospitalTestActivity::class.java)
+//        startActivity(intent)
+
 
     }
 }

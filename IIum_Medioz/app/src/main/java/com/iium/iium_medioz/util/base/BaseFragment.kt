@@ -94,6 +94,7 @@ open class BaseFragment : Fragment() , LifecycleObserver {
     }
 
     internal fun ErrorDialog() {
+
         val dlg: AlertDialog.Builder = AlertDialog.Builder(context,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
         dlg.setTitle("에러메시지") //제목
         dlg.setMessage("데이터 연결이 원할하지 않습니다. 앱을 다시 실행시켜주세요") // 메시지
@@ -102,5 +103,10 @@ open class BaseFragment : Fragment() , LifecycleObserver {
             exitProcess(0)
         }
         dlg.show()
+    }
+
+    internal fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
+        val ft: FragmentTransaction = fragmentManager.beginTransaction()
+        ft.detach(fragment).attach(fragment).commit()
     }
 }

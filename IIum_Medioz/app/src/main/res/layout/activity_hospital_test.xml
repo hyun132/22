@@ -6,7 +6,7 @@
     <data>
         <variable
             name="activity"
-            type="com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity" />
+            type="com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalTestActivity" />
 
         <variable
             name="viewModel"
@@ -211,19 +211,19 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_max="500dp" />
 
-                <!--                <include-->
-                <!--                    android:id="@+id/view_hospital_item"-->
-                <!--                    layout="@layout/view_item_test"-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginTop="10dp"-->
-                <!--                    android:layout_marginBottom="45dp"-->
-                <!--                    android:elevation="15dp"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
-                <!--                    app:layout_constraintRight_toRightOf="parent"-->
-                <!--                    app:layout_constraintTop_toTopOf="parent"-->
-                <!--                    app:layout_constraintWidth_max="500dp" />-->
+<!--                <include-->
+<!--                    android:id="@+id/view_hospital_item"-->
+<!--                    layout="@layout/view_item_test"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginBottom="45dp"-->
+<!--                    android:elevation="15dp"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                    app:layout_constraintRight_toRightOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintWidth_max="500dp" />-->
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
