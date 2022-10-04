@@ -99,6 +99,7 @@ class DataDetyailActivity : BaseActivity() {
                         else -> Log.d(TAG, "실패")
                     }
                     mBinding.tvTextCount.text = tnla.count().toString()
+                    Log.d(TAG,"사진 데이터 -> $tnla")
                 }
                 catch (e: Exception) {
                     LLog.d(e.toString())

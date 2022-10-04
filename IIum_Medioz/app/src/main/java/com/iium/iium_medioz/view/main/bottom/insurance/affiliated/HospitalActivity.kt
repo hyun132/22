@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.PointF
 import android.location.LocationManager
 import android.os.Bundle
@@ -16,12 +17,18 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.iium.iium_medioz.R
@@ -33,11 +40,15 @@ import com.iium.iium_medioz.model.map.AddressDocument
 import com.iium.iium_medioz.model.map.MapMarker
 import com.iium.iium_medioz.model.rest.base.Policy
 import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_IMGURL
+import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_WEBSITE
 import com.iium.iium_medioz.util.`object`.Constant.GPS_ENABLE_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.LOCATION_PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.PERMISSIONS
 import com.iium.iium_medioz.util.`object`.Constant.PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.TAG
+import com.iium.iium_medioz.util.activity.setOnSingleClickListener
+import com.iium.iium_medioz.util.adapter.map.MapListAdapter
 import com.iium.iium_medioz.util.adapter.map.MapViewPagerAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication
@@ -54,17 +65,46 @@ import com.naver.maps.map.widget.LocationButtonView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ted.gun0912.clustering.naver.TedNaverClustering
 
 class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     private lateinit var mBinding: ActivityHospitalBinding
     private lateinit var apiServices: APIService
     private var locationSource: FusedLocationSource? = null
-    private var mMap: NaverMap? = null
-    private var mViewModel: HospitalObservable? = null
+    private var mMap: NaverMap?=null
+    private var currentLatLng : LatLng = LatLng(0.0, 0.0)
+    var mapFragment : MapFragment = MapFragment() // onResume에서 사용하기 위해서
 
-    private var currentLocationButton: LocationButtonView? = null
+    val bottomSheet: ConstraintLayout by lazy{
+        findViewById(R.id.bottom_sheet_include)
+    }
+    lateinit var sheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
+    private val recyclerView : RecyclerView by lazy {
+        findViewById(R.id.map_re)
+    }
+
+    private val recyclerViewAdapter = MapListAdapter(OKClickListener = {
+        val intent = Intent(this, HospitalInFoActivity::class.java)
+
+        intent.apply {
+            intent.putExtra(Constant.DOCUMENT_NAME, it.place_name.toString())
+            intent.putExtra(Constant.DOCUMENT_ADDRESS, it.address_name)
+            intent.putExtra(Constant.DOCUMENT_CALL, it.call.toString())
+            intent.putExtra(DOCUMENT_IMGURL, it.imgURL.toString())
+            intent.putExtra(DOCUMENT_WEBSITE, it.webSite.toString())
+//            intent.putExtra(Constant.DOCUMENT_IMGURL_FIRST, it.imgURL_first.toString())
+//            intent.putExtra(Constant.DOCUMENT_IMGURL_SECOND, it.imgURL_second.toString())
+//            intent.putExtra(Constant.DOCUMENT_IMGURL_THIRD, it.imgURL_third.toString())
+//            intent.putExtra(Constant.DOCUMENT_IMGURL_FOUR, it.imgURL_four.toString())
+//            intent.putExtra(Constant.DOCUMENT_IMGURL_FIVE, it.imgURL_five.toString())
+        }
+        startActivity(intent)
+    },itemClickListener = {
+        val cameraUpdate = CameraUpdate.scrollAndZoomTo(LatLng(it.x!!.toDouble(), it.y!!.toDouble()),18.0).animate(CameraAnimation.Fly, 1000)
+        mMap!!.moveCamera(cameraUpdate)
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,17 +112,15 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         mBinding.activity = this
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
+        sheetBehavior = BottomSheetBehavior.from(bottomSheet)
 
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setDisplayShowHomeEnabled(true)
-        }
 
-        inStatusBar()
         runOnUiThread {
+            initAdapter()
             initView()
-//            initAdapter()
+            inStatusBar()
         }
+
     }
 
 
@@ -93,7 +131,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         } else {
             checkRunTimePermission()
         }
-        initMapListener()
+        mapFragment.getMapAsync(this) // 비동기로 NaverMap 객체를 얻어옴. NaverMap 객체가 준비되면 callback의 OnMapReadyCallback.onMapReady(NaverMap)가 호출됨.
     }
 
     override fun onPause() {
@@ -112,31 +150,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         moveMain()
         finishAffinity()
     }
-
-    private fun initMapListener() {
-        if (locationSource == null) {
-            locationSource =
-                FusedLocationSource(this, Constant.LOCATION_PERMISSION_REQUEST_CODE)
-        }
-        if (mMap != null) {
-            mMap!!.locationSource = locationSource
-            mMap!!.locationTrackingMode = LocationTrackingMode.NoFollow
-        }
-    }
-
-//    private fun initAdapter() {
-//        viewPager.adapter = viewPagerAdapter
-//
-//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//                val selectedHouseModel = viewPagerAdapter.currentList[position]
-//                val cameraUpdate = CameraUpdate.scrollTo(LatLng(selectedHouseModel.x!!.toDouble(), selectedHouseModel.y!!.toDouble()))
-//                    .animate(CameraAnimation.Easing)
-//                mMap?.moveCamera(cameraUpdate)
-//            }
-//        }) ni.cecha
-//    }
 
     private fun removeGps() {
         setMapTrackingMode(LocationTrackingMode.None)
@@ -162,7 +175,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n" + "위치 설정을 수정하시겠습니까?")
         builder.setPositiveButton("설정") { _, _ ->
             val callGPSSettingIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivityForResult(callGPSSettingIntent, Constant.GPS_ENABLE_REQUEST_CODE)
+            startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE)
         }
         builder.setNegativeButton("취소") { dialog, _ ->
             dialog.cancel()
@@ -274,19 +287,21 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         window.statusBarColor = getColor(R.color.main_status)
     }
 
-    private fun initView() {
+    private fun initAdapter() { // 2
+        recyclerView.adapter = recyclerViewAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+    }
 
-        val options = NaverMapOptions()
-            .mapType(NaverMap.MapType.Basic)
-            .enabledLayerGroups(NaverMap.LAYER_GROUP_BICYCLE)
-            .compassEnabled(true)
-            .scaleBarEnabled(true)
-            .locationButtonEnabled(false)
-
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment?
+    private fun initView() { // 3
+        val options = NaverMapOptions() // 지도의 초기 옵션을 지정하는 클래스, MapFragment나 MapView를 생성할 때 이 클래스의 인스턴스를 전달해 초깃값을 지정하는 것을 권장, 지도 객체가 생성된 후에는 이 객체를 사용할 수 없음
+            .mapType(NaverMap.MapType.Basic) // 지도의 유형을 지정
+            .enabledLayerGroups(NaverMap.LAYER_GROUP_BICYCLE) // 활성화할 레이어 그룹의 목록을 지정
+            .compassEnabled(true) // 나침반을 활성화할지 여부
+            .scaleBarEnabled(true) // 축적 바를 활성화할지 여부
+        mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment?
             ?: MapFragment.newInstance(options).also {
                 supportFragmentManager.beginTransaction().add(R.id.map_fragment, it).commit()
-            }
+            } // 처음에 mapFragment에 저장해놓고 onResume 때 다시 쓸 수 있다.
         mapFragment.getMapAsync(this)
     }
 
@@ -300,8 +315,8 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onMapReady(naverMap: NaverMap) {
         mMap = naverMap
-        naverMap.maxZoom = 18.0
-        naverMap.minZoom = 10.0
+        mMap!!.maxZoom = 18.0
+        mMap!!.minZoom = 10.0
 
         val uiSetting = naverMap.uiSettings
         uiSetting.isLocationButtonEnabled = false
@@ -315,36 +330,41 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
 
-//        val overlay = mMap!!.locationOverlay
-//        overlay.bearing = 0f
-//        overlay.subIconWidth = 0
-//        overlay.subIconHeight = 0
-//        overlay.iconWidth = resources.getDimensionPixelSize(R.dimen.location_overlay_width)
-//        overlay.iconHeight = resources.getDimensionPixelSize(R.dimen.location_overlay_height)
-//        overlay.anchor = PointF(0.36f, 0.83f)
-//        overlay.icon = OverlayImage.fromResource(R.drawable.icon_new_location)
-//        overlay.zIndex = 0
-//        overlay.globalZIndex = 0
+        mMap!!.setOnMapClickListener{ point, coord ->
+            viewAnimationDisappear(mBinding.clOverlayParent)
+            bottomSheet.visibility = View.GONE
+        } // 지도 클릭 시 사라지게
+
+        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+
+        mMap!!.locationSource = locationSource
+        setMapTrackingMode(LocationTrackingMode.Follow)
+        mMap!!.addOnLocationChangeListener(locationChangeListener)
 
         getAPI()
+    }
+
+    private var locationChangeListener = NaverMap.OnLocationChangeListener { location ->
+        currentLatLng = LatLng(location.latitude, location.longitude)
     }
 
     private fun getAPI() {
         LLog.e("제휴병원 좌표")
         val query = ""
-        val vercall: Call<MapMarker> = apiServices.getMap(MyApplication.prefs.newaccesstoken, query)
+        val vercall: Call<MapMarker> = apiServices.getMap(prefs.newaccesstoken,query)
         vercall.enqueue(object : Callback<MapMarker> {
             override fun onResponse(call: Call<MapMarker>, response: Response<MapMarker>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG, "제휴병원 response SUCCESS -> $result")
+                    Log.d(LLog.TAG,"제휴병원 response SUCCESS -> $result")
                     updateMarker(result.result)
-                } else {
-                    Log.d(LLog.TAG, "제휴병원 response ERROR -> $result")
+                    recyclerViewAdapter.submitList(result.result)
+                }
+                else {
+                    Log.d(LLog.TAG,"제휴병원 response ERROR -> $result")
                     ErrorDialog()
                 }
             }
-
             override fun onFailure(call: Call<MapMarker>, t: Throwable) {
                 Log.d(LLog.TAG, "제휴병원 Fail -> ${t.localizedMessage}")
                 ErrorDialog()
@@ -354,107 +374,62 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun updateMarker(result: List<AddressDocument>) {
         result.forEach { maps ->
-            val marker = Marker()
-            marker.position = LatLng(maps.x!!.toDouble(), maps.y!!.toDouble())
-            marker.map = mMap
-            marker.icon = OverlayImage.fromResource(R.drawable.icon_marker)
-            marker.width = 110
-            marker.height = 141
-            marker.tag = maps.id
-            marker.isHideCollidedMarkers = true
-            marker.isForceShowIcon = true
-//            marker.setOnClickListener { resut ->
-//                if(mBinding.clOverlayParent.visibility == View.GONE) {
-//                    viewAnimationAppear(mBinding.clOverlayParent)
-//
-//                    viewPagerAdapter.currentList.firstOrNull { maps.id == marker.tag }
-//                        ?.let {
-//                            val position = viewPagerAdapter.currentList.indexOf(it)
-//                            viewPager.currentItem = position
-//                        }
-//
-//                } else {
-//                    viewAnimationDisappear(mBinding.clOverlayParent)
-//                }
-//                true
-//            }
+            // 마커 클러스터링
+            TedNaverClustering.with<AddressDocument>(this, mMap!!)
+                .customMarker { // 마커를 원하는 모양으로 변경
+                    Marker().apply {
+                        position = LatLng(maps.x!!.toDouble(), maps.y!!.toDouble())
+                        map = mMap
+                        icon = OverlayImage.fromResource(R.drawable.icon_marker)
+                        width = 110
+                        height = 141
+                        tag = maps.id
+                        isHideCollidedMarkers = true
+                        isForceShowIcon = false
+                    }
+                }
+                .markerClickListener  { resut->
 
-            marker.onClickListener = Overlay.OnClickListener { overlay: Overlay? ->
-                markerClick(maps)
-                true
-            }
+                    viewAnimationAppear(mBinding.clOverlayParent)
+                    val result_place = result.filter { it.id == resut.id }[0]
+                    mBinding.viewHospitalItem.tvMapTitle.text = result_place.place_name.toString()
+                    mBinding.viewHospitalItem.tvMapAddress.text = result_place.address_name.toString()
+                    mBinding.viewHospitalItem.tvMapCall.text = result_place.call.toString()
+                    sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    val thumbnailImageView = mBinding.viewHospitalItem.thumbnailImageView
+                    Glide.with(thumbnailImageView.context)
+                        .load(result_place.imgURL)
+                        .transform(CenterCrop())
+                        .into(thumbnailImageView)
 
+                    mBinding.viewHospitalItem.cardView.setOnSingleClickListener {
+                        val intent = Intent(this, HospitalInFoActivity::class.java)
+
+                        intent.apply {
+                            intent.putExtra(Constant.DOCUMENT_NAME, result_place.place_name.toString())
+                            intent.putExtra(Constant.DOCUMENT_ADDRESS, result_place.address_name.toString())
+                            intent.putExtra(Constant.DOCUMENT_CALL,result_place.call.toString())
+                            intent.putExtra(DOCUMENT_IMGURL, result_place.imgURL.toString())
+                            intent.putExtra(DOCUMENT_WEBSITE, result_place.webSite.toString())
+                        }
+                        startActivity(intent)
+                    }
+                }
+                .items(result)
+                .make()
         }
     }
-
-    private fun markerClick(maps: AddressDocument) {
-        val id = maps.id.toString()
-        val changeZoom = true
-
-        setOverlayViewVisibility(true)
-
-        moveCameraFly(LatLng(maps.x!!.toDouble(), maps.y!!.toDouble()), changeZoom)
-
-        // set overlay info
-        updateMarkerInfo(maps)
-
-    }
-
-    private fun moveCameraFly(latLng: LatLng, changeZoom: Boolean) {
-        val defaultZoomLevel = 16.0
-        val currentZoom =
-            if (changeZoom) if (defaultZoomLevel == 0.0) mMap!!.cameraPosition.zoom else defaultZoomLevel else mMap!!.cameraPosition.zoom
-        val cameraUpdate =
-            CameraUpdate.scrollAndZoomTo(latLng, currentZoom).animate(CameraAnimation.Fly, 350)
-        mMap!!.moveCamera(cameraUpdate)
-    }
-
-    private fun updateMarkerInfo(mapMarker: AddressDocument) {
-        mBinding.viewHospitalItem.tvMapTitle.text = mapMarker.place_name
-        mBinding.viewHospitalItem.tvMapCall.text = mapMarker.call
-        mBinding.viewHospitalItem.tvMapAddress.text = mapMarker.address_name
-        val thumbnailImageView = mBinding.viewHospitalItem.thumbnailImageView
-        Glide.with(thumbnailImageView.context)
-            .load(mapMarker.imgURL)
-            .into(thumbnailImageView)
-
-        mBinding.viewHospitalItem.cardView.setOnClickListener {
-            val intent = Intent(this, DocumentActivity::class.java)
-            intent.putExtra(Constant.DOCUMENT_NAME, mapMarker.place_name.toString())
-            intent.putExtra(Constant.DOCUMENT_ADDRESS, mapMarker.address_name.toString())
-            intent.putExtra(Constant.DOCUMENT_CALL, mapMarker.call.toString())
-            intent.putExtra(Constant.DOCUMENT_IMGURL, mapMarker.imgURL.toString())
-            startActivity(intent)
-        }
-
-    }
-
-
-    private fun setOverlayViewVisibility(visible: Boolean) {
-        if (visible) {
-            val isAnim = mBinding.clOverlayParent.visibility == View.GONE
-            if (isAnim) {
-                viewAnimationAppear(mBinding.clOverlayParent)
-            }
-            mBinding.clOverlayParent.visibility = View.VISIBLE
-        } else {
-            val isAnim = mBinding.clOverlayParent.visibility == View.VISIBLE
-            if (isAnim) {
-                viewAnimationDisappear(mBinding.clOverlayParent)
-            }
-            mBinding.clOverlayParent.visibility = View.GONE
-        }
-
-    }
-
 
     private fun viewAnimationAppear(v: View) {
         LLog.e("viewAnimationAppear")
         v.visibility = View.VISIBLE
         val animation = AnimationUtils.loadAnimation(this, R.anim.anim_down_to_top_slide)
         animation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
+            override fun onAnimationStart(animation: Animation) {
+
+            }
             override fun onAnimationEnd(animation: Animation) {
+
                 v.clearAnimation()
             }
 
@@ -466,8 +441,11 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     private fun viewAnimationDisappear(v: View) {
         val animation = AnimationUtils.loadAnimation(this, R.anim.anim_top_to_down_slide)
         animation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
+            override fun onAnimationStart(animation: Animation) {
+
+            }
             override fun onAnimationEnd(animation: Animation) {
+
                 v.clearAnimation()
                 v.visibility = View.GONE
             }
@@ -477,46 +455,20 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         v.startAnimation(animation)
     }
 
-    private val mCameraIdleListener = NaverMap.OnCameraIdleListener {
-        var isBikeMarkerShow = true
-
-        val bikeShow = getBikeMarkerVisibilty()
-        val change = isBikeMarkerShow != bikeShow
-        if (change) {
-            setBikeMarkerVisibility(bikeShow)
-            isBikeMarkerShow = bikeShow
-        }
-    }
-
-    private fun setBikeMarkerVisibility(visibility: Boolean) {
-        val mapMarkers = mViewModel!!.getBikeMarkers() ?: return
-        for (mapMarker in mapMarkers) {
-            mapMarker?.result
-        }
-    }
-
-    private fun getBikeMarkerVisibilty(): Boolean {
-        var markerVisibleZoomLevel = 0.0
-
-        if (markerVisibleZoomLevel == 0.0) {
-            val zoomPolicy =
-                realm.where(Policy::class.java).equalTo("id", "APP_ZOOM_LEVEL").findFirst()
-            markerVisibleZoomLevel = zoomPolicy?.value?.toDouble() ?: 10.0
-        }
-        val currentZoomLevel = mMap!!.cameraPosition.zoom
-        return markerVisibleZoomLevel <= currentZoomLevel
-    }
 
     fun onSearchClick(v: View) {
         searchAddress()
     }
 
     fun onlistClick(v: View) {
-
+        bottomSheet.visibility = View.VISIBLE
+        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     fun onlocationClick(v: View) {
-        currentLocationButton?.map = mMap
+        val cameraUpdate = CameraUpdate.scrollTo(currentLatLng)
+            .animate(CameraAnimation.Fly, 1000)
+        mMap!!.moveCamera(cameraUpdate)
     }
 
     fun onBackPressed(v: View) {

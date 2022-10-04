@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="activity"
+            type="com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalInFoActivity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray3">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="218dp" />
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_banner_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="210dp"
+                            android:scaleType="fitXY"
+                            app:srcCompat="@drawable/img_test"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+                        </ImageView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/activity_margin_20">
+
+                        <TextView
+                            android:id="@+id/tv_info_place_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gyeonggititle_medium"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="대전병원" />
+
+                        <ImageView
+                            android:id="@+id/imageView44"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_info_place_name"
+                            app:srcCompat="@drawable/line" />
+
+                        <ImageView
+                            android:id="@+id/imageView45"
+                            android:layout_width="14dp"
+                            android:layout_height="15dp"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView44"
+                            app:srcCompat="@drawable/info_address" />
+
+                        <TextView
+                            android:id="@+id/tv_info_address_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/gyeonggititle_medium"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            tools:text="대전 서구 월평동 550 번지"
+                            app:layout_constraintStart_toEndOf="@+id/imageView45"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView44" />
+
+                        <ImageView
+                            android:id="@+id/ims"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_info_address_name"
+                            app:srcCompat="@drawable/line" />
+
+                        <ImageView
+                            android:id="@+id/imageView46"
+                            android:layout_width="17dp"
+                            android:layout_height="18dp"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ims"
+                            app:srcCompat="@drawable/map_call" />
+
+                        <TextView
+                            android:id="@+id/tv_info_call"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/gyeonggititle_medium"
+                            android:text=""
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="15sp"
+                            tools:text="042-888-8888"
+                            app:layout_constraintStart_toEndOf="@+id/imageView46"
+                            app:layout_constraintTop_toBottomOf="@+id/ims" />
+
+                        <ImageView
+                            android:id="@+id/imss"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_info_call"
+                            app:srcCompat="@drawable/line" />
+
+                        <ImageView
+                            android:id="@+id/imageView47"
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imss"
+                            app:srcCompat="@drawable/info_web" />
+
+                        <TextView
+                            android:id="@+id/tv_info_web"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/gyeonggititle_medium"
+                            android:text=""
+                            android:textColor="@color/blue_temp"
+                            android:textSize="15sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/imageView47"
+                            app:layout_constraintTop_toBottomOf="@+id/imss"
+                            tools:text="www.naver.com" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cl_ok"
+            style="@style/CommonButtonCardStyle"
+            android:layout_width="0dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="visible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/CommonButtonStyle_hospital"
+                android:id="@+id/btn_ok"
+                android:text="@string/hospital_send"
+                android:onClick='@{activity::onSendClick}'/>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

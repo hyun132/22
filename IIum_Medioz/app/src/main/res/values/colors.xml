@@ -97,7 +97,9 @@
     <color name="main_grey">#3d3d3d</color>
     <color name="mint_main">#81e2d2</color>
     <color name="sub_grey_2">#c2c2c2</color>
-    <color name="blue_temp">#3b9bd1</color>
+
+    <color name="blue_temp">#5798FB</color>
+
     <color name="imoji_cold_text">#00a3ff</color>
     <color name="imoji_good_text">#3fccb5</color>
     <color name="imoji_veryhot_text">#d26a63</color>

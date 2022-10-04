@@ -260,4 +260,5 @@ dependencies{
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
 
     implementation 'io.github.ParkSangGwon:tedclustering-naver:1.0.2'
+    implementation 'gun0912.ted:tedpermission:2.2.3' //추가한 부분
 }

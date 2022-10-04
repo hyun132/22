@@ -20,6 +20,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.iium.iium_medioz.R
@@ -50,6 +52,7 @@ import com.naver.maps.map.widget.LocationButtonView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ted.gun0912.clustering.naver.TedNaverClustering
 import java.math.BigDecimal
 
 class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
@@ -57,24 +60,14 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var mBinding : ActivityHospitalTestBinding
     private lateinit var apiServices: APIService
     private var locationSource: FusedLocationSource? = null
-    private var mMap: NaverMap?=null
-    private var mViewModel: HospitalObservable?=null
+    private var mMap: NaverMap? = null
+    private var mViewModel: HospitalObservable? = null
 
-//    private val viewPager : ViewPager2 by lazy {
-//        findViewById(R.id.houseViewPager)
-//    }
+    private var currentLatLng : LatLng = LatLng(0.0, 0.0)
+    var mapFragment : MapFragment = MapFragment() // onResume에서 사용하기 위해서
 
 
-    private var currentLocationButton : LocationButtonView? = null
-
-//    private val viewPagerAdapter = MapViewPagerAdapter(itemClickListener = {
-//        val intent = Intent().apply {
-//            action = Intent.ACTION_SEND
-//            putExtra(Intent.EXTRA_TEXT, "[지금 이 가격에 예약하세요!!] ${it.address_name} ${it.place_name} 사진보기 : ${it.imgURL}")
-//            type = "text/plain"
-//        }
-//        startActivity(Intent.createChooser(intent, null))
-//    })
+    private var currentLocationButton: LocationButtonView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,12 +81,10 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
             it.setDisplayShowHomeEnabled(true)
         }
 
-        inStatusBar()
         runOnUiThread {
             initView()
-//            initAdapter()
+            inStatusBar()
         }
-
     }
 
     override fun onResume() {
@@ -131,7 +122,6 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
         if (mMap != null) {
             mMap!!.locationSource = locationSource
             mMap!!.locationTrackingMode = LocationTrackingMode.NoFollow
-            mMap!!.addOnCameraChangeListener(mMapCameraChangeListenser)
         }
     }
 
@@ -163,7 +153,8 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
     private fun checkLocationServicesStatus(): Boolean {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER))
+            LocationManager.NETWORK_PROVIDER
+        ))
     }
 
     private fun showDialogForLocationServiceSetting() {
@@ -183,22 +174,26 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun checkRunTimePermission() {
         // 위치 퍼미션 체크
-        val hasFineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-        val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        val hasFineLocationPermission =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        val hasCoarseLocationPermission =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
 
-        }
-        else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
                     Constant.PERMISSIONS[0]
-                )) {
-                ActivityCompat.requestPermissions(this,
+                )
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
                     Constant.PERMISSIONS,
                     Constant.PERMISSION_REQUEST_CODE
                 )
-            }
-            else {
-                ActivityCompat.requestPermissions(this,
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
                     Constant.PERMISSIONS,
                     Constant.PERMISSION_REQUEST_CODE
                 )
@@ -231,7 +226,11 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
         }
     }
 
-    override fun onRequestPermissionsResult(permsRequestCode: Int, permissions: Array<String>, grandResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        permsRequestCode: Int,
+        permissions: Array<String>,
+        grandResults: IntArray
+    ) {
         super.onRequestPermissionsResult(permsRequestCode, permissions, grandResults)
         if (permsRequestCode == Constant.PERMISSION_REQUEST_CODE && grandResults.size == Constant.PERMISSIONS.size) {
             var check_result = true
@@ -243,15 +242,28 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
             }
             if (check_result) {
 
-            }
-            else {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Constant.PERMISSIONS[0])
-                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Constant.PERMISSIONS[1])) {
-                    Toast.makeText(this, "권한이 거부되었습니다. 앱을 다시 실행하여 위치 권한을 허용해주세요.", Toast.LENGTH_LONG).show()
+            } else {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Constant.PERMISSIONS[0]
+                    )
+                    || ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Constant.PERMISSIONS[1]
+                    )
+                ) {
+                    Toast.makeText(
+                        this,
+                        "권한이 거부되었습니다. 앱을 다시 실행하여 위치 권한을 허용해주세요.",
+                        Toast.LENGTH_LONG
+                    ).show()
                     finish()
-                }
-                else {
-                    Toast.makeText(this, "권한이 거부되었습니다. 설정(앱 정보)에서 위치 권한을 허용해야 합니다. ", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "권한이 거부되었습니다. 설정(앱 정보)에서 위치 권한을 허용해야 합니다. ",
+                        Toast.LENGTH_LONG
+                    ).show()
                     finish()
                 }
             }
@@ -260,11 +272,10 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun inStatusBar() {
         setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
-        window.statusBarColor = getColor(R.color.main_status )
+        window.statusBarColor = getColor(R.color.main_status)
     }
 
     private fun initView() {
-
         val options = NaverMapOptions()
             .mapType(NaverMap.MapType.Basic)
             .enabledLayerGroups(NaverMap.LAYER_GROUP_BICYCLE)
@@ -304,40 +315,37 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
         naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
 
-        naverMap.addOnCameraIdleListener(mCameraIdleListener)
+        mMap!!.setOnMapClickListener{ point, coord ->
+            viewAnimationDisappear(mBinding.clOverlayParent)
+        } // 지도 클릭 시 사라지게
 
-        mMap!!.extent = DEFAULT_MAP_BOUND
-
-        val overlay = mMap!!.locationOverlay
-        overlay.bearing = 0f
-        overlay.subIconWidth = 0
-        overlay.subIconHeight = 0
-        overlay.iconWidth = resources.getDimensionPixelSize(R.dimen.location_overlay_width)
-        overlay.iconHeight = resources.getDimensionPixelSize(R.dimen.location_overlay_height)
-        overlay.anchor = PointF(0.36f, 0.83f)
-        overlay.icon = OverlayImage.fromResource(R.drawable.icon_new_location)
-        overlay.zIndex = 0
-        overlay.globalZIndex = 0
+        mMap!!.locationSource = locationSource
+        setMapTrackingMode(LocationTrackingMode.Follow)
+        mMap!!.addOnLocationChangeListener(locationChangeListener)
 
         getAPI()
+    }
+
+    private var locationChangeListener = NaverMap.OnLocationChangeListener { location ->
+        currentLatLng = LatLng(location.latitude, location.longitude)
     }
 
     private fun getAPI() {
         LLog.e("제휴병원 좌표")
         val query = ""
-        val vercall: Call<MapMarker> = apiServices.getMap(prefs.newaccesstoken,query)
+        val vercall: Call<MapMarker> = apiServices.getMap(MyApplication.prefs.newaccesstoken, query)
         vercall.enqueue(object : Callback<MapMarker> {
             override fun onResponse(call: Call<MapMarker>, response: Response<MapMarker>) {
                 val result = response.body()
                 if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"제휴병원 response SUCCESS -> $result")
+                    Log.d(LLog.TAG, "제휴병원 response SUCCESS -> $result")
                     updateMarker(result.result)
-                }
-                else {
-                    Log.d(LLog.TAG,"제휴병원 response ERROR -> $result")
+                } else {
+                    Log.d(LLog.TAG, "제휴병원 response ERROR -> $result")
                     ErrorDialog()
                 }
             }
+
             override fun onFailure(call: Call<MapMarker>, t: Throwable) {
                 Log.d(LLog.TAG, "제휴병원 Fail -> ${t.localizedMessage}")
                 ErrorDialog()
@@ -347,35 +355,36 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun updateMarker(result: List<AddressDocument>) {
         result.forEach { maps ->
-            val marker = Marker()
-            marker.position = LatLng(maps.x!!.toDouble(), maps.y!!.toDouble())
-            marker.map = mMap
-            marker.icon = OverlayImage.fromResource(R.drawable.icon_marker)
-            marker.width = 110
-            marker.height = 141
-            marker.tag = maps.id
-            marker.isHideCollidedMarkers = true
-            marker.isForceShowIcon = true
-//            marker.setOnClickListener { resut ->
-//                if(mBinding.clOverlayParent.visibility == View.GONE) {
-//                    viewAnimationAppear(mBinding.clOverlayParent)
-//
-//                    viewPagerAdapter.currentList.firstOrNull { maps.id == marker.tag }
-//                        ?.let {
-//                            val position = viewPagerAdapter.currentList.indexOf(it)
-//                            viewPager.currentItem = position
-//                        }
-//
-//                } else {
-//                    viewAnimationDisappear(mBinding.clOverlayParent)
-//                }
-//                true
-//            }
+            TedNaverClustering.with<AddressDocument>(this, mMap!!)
+                .customMarker { // 마커를 원하는 모양으로 변경
+                    Marker().apply {
+                        position = LatLng(maps.x!!.toDouble(), maps.y!!.toDouble())
+                        map = mMap
+                        icon = OverlayImage.fromResource(R.drawable.icon_marker)
+                        width = 110
+                        height = 141
+                        tag = maps.id
+                        isHideCollidedMarkers = true
+                        isForceShowIcon = false
+                    }
+                }
+                .markerClickListener  { resut->
+                    viewAnimationAppear(mBinding.clOverlayParent)
 
-            marker.onClickListener = Overlay.OnClickListener { overlay: Overlay? ->
-                markerClick(maps)
-                true
-            }
+//                    val result_place = result.filter { it.id == resut.id }[0]
+//                    mBinding.viewHospitalItem.tvMapTitle.text = result_place.place_name.toString()
+//                    mBinding.viewHospitalItem.tvMapAddress.text = result_place.address_name.toString()
+//                    mBinding.viewHospitalItem.tvMapCall.text = result_place.call.toString()
+//                    sheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+//                    val thumbnailImageView = mBinding.viewHospitalItem.thumbnailImageView
+//                    Glide.with(thumbnailImageView.context)
+//                        .load(result_place.imgURL)
+//                        .transform(CenterCrop())
+//                        .into(thumbnailImageView)
+                    markerClick(maps)
+                }
+                .items(result)
+                .make()
 
         }
     }
@@ -386,7 +395,7 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
 
         setOverlayViewVisibility(true)
 
-        moveCameraFly(LatLng(maps.x!!.toDouble(),maps.y!!.toDouble()), changeZoom)
+        moveCameraFly(LatLng(maps.x!!.toDouble(), maps.y!!.toDouble()), changeZoom)
 
         // set overlay info
         updateMarkerInfo(maps)
@@ -470,7 +479,7 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
         v.startAnimation(animation)
     }
 
-    private val mCameraIdleListener = OnCameraIdleListener {
+    private val mCameraIdleListener = NaverMap.OnCameraIdleListener {
         var isBikeMarkerShow = true
 
         val bikeShow = getBikeMarkerVisibilty()
@@ -499,13 +508,6 @@ class HospitalTestActivity : BaseActivity(), OnMapReadyCallback {
         val currentZoomLevel = mMap!!.cameraPosition.zoom
         return markerVisibleZoomLevel <= currentZoomLevel
     }
-
-    private val mMapCameraChangeListenser =
-        OnCameraChangeListener { reason: Int, animated: Boolean ->
-            if (mMap != null && mMap!!.maxZoom == MAP_AUTOZOOM_MAX_ZOOM_LEVEL.toDouble()) {
-                mMap!!.maxZoom = MAP_MAX_ZOOM_LEVEL
-            }
-        }
 
     fun onSearchClick(v: View) {
         searchAddress()

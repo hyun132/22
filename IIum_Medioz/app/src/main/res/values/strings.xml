@@ -211,6 +211,8 @@
     <string name="notice">공지</string>
     <string name="keyword">추가</string>
 
+    <string name="hospital_send">보험 서류 요청</string>
+
     <string name="server_check">서버 점검중입니다.\n잠시 후에 이용해 주세요.</string>
     <string name="update_check">앱 업데이트가 필요합니다.\n업데이트를 진행해주세요.</string>
     <string name="network_check">네트워크 연결이 원활하지 않습니다.\n다시 시도해 주세요.</string>
