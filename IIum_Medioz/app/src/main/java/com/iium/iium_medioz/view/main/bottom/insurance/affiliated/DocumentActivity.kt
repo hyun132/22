@@ -1,5 +1,7 @@
 package com.iium.iium_medioz.view.main.bottom.insurance.affiliated
 
+import android.app.DatePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,10 +14,15 @@ import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityDocumentBinding
 import com.iium.iium_medioz.databinding.ActivityHospitalBinding
 import com.iium.iium_medioz.model.document.DocumentModel
+import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_ADDRESS
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_CALL
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_IMGURL
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_NAME
+import com.iium.iium_medioz.util.`object`.Constant.PAYMENT_ADDRESS
+import com.iium.iium_medioz.util.`object`.Constant.PAYMENT_CALL
+import com.iium.iium_medioz.util.`object`.Constant.PAYMENT_NAME
+import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
@@ -23,6 +30,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
+import java.util.*
 
 class DocumentActivity : BaseActivity() {
 
@@ -36,10 +44,21 @@ class DocumentActivity : BaseActivity() {
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
 
-        inStatusBar()
+
         runOnUiThread {
             initView()
+            inStatusBar()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        moveHospital()
     }
 
     private fun inStatusBar() {
@@ -48,22 +67,18 @@ class DocumentActivity : BaseActivity() {
     }
 
     private fun initView() {
-        val name = intent.getStringExtra(DOCUMENT_NAME)
-        val address = intent.getStringExtra(DOCUMENT_ADDRESS)
-        val call = intent.getStringExtra(DOCUMENT_CALL)
+        val name = intent.getStringExtra(PAYMENT_NAME)
+        val address = intent.getStringExtra(PAYMENT_ADDRESS)
+        val call = intent.getStringExtra(PAYMENT_CALL)
+
+        Log.d(TAG,"병원 이름 -> $name")
+        Log.d(TAG,"병원 주소 -> $address")
+        Log.d(TAG,"병원 번호 -> $call")
+
 
         mBinding.tvDoName.text = name.toString()
         mBinding.tvDoAddress.text = address.toString()
         mBinding.tvDoCall.text = call.toString()
-    }
-
-
-    fun onBackPressed(v: View) {
-        moveHospital()
-    }
-
-    fun onDocumentClick(v: View) {
-        initAPI()
     }
 
     private fun initAPI() {
@@ -79,7 +94,7 @@ class DocumentActivity : BaseActivity() {
         val username = mBinding.etDoName.text.toString()
         val usernumber = "${mBinding.etDoNumberFirst.text}-${mBinding.etDoNumberSecond.text}"
         val usercall = mBinding.etDoCall.text.toString()
-        val userreqdocument = mBinding.etDo.text.toString()
+        val userreqdocument = ""
         val imgUrl = intent.getStringExtra(DOCUMENT_IMGURL)
         val timestamp = mBinding.tvDoTimestamp.text.toString()
 
@@ -106,13 +121,39 @@ class DocumentActivity : BaseActivity() {
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        finishAffinity()
+    fun onBackPressed(v: View) {
+        moveHospital()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        moveHospital()
+    fun onDocumentClick(v: View) {
+        initAPI()
+    }
+
+    fun onCalendarFirst(v: View) {
+        var dateString = ""
+        val cal = Calendar.getInstance() //캘린더 뷰
+        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            dateString = "${year}. ${month+1}. $dayOfMonth"
+            mBinding.tvCalendarFirst.text = "$dateString "
+        }
+        DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(
+            Calendar.DAY_OF_MONTH)).show()
+
+    }
+
+    fun onCalendarSecond(v: View) {
+        var dateString = ""
+        val cal = Calendar.getInstance() //캘린더 뷰
+        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            dateString = "${year}. ${month+1}. $dayOfMonth"
+            mBinding.tvCalendarSecond.text = "$dateString "
+        }
+        DatePickerDialog(this, dateSetListener, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(
+            Calendar.DAY_OF_MONTH)).show()
+    }
+
+    fun onSendDocument(v: View) {
+        val intent = Intent(this,SendDocumentActivity::class.java)
+        startActivity(intent)
     }
 }

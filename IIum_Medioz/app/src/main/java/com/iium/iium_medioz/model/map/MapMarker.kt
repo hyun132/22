@@ -19,8 +19,10 @@ data class AddressDocument(
     val x: String?= null,
     val y: String?= null,
     val created: String?= null,
-    val imgURL : String? = null,
-    val webSite: String? = null
+    val imgURL : String?= null,
+    val webSite: String?= null,
+    val weekend_time: List<Weekend>,
+    val detail_words: String?= null,
 //    val imgURL_first: String?= null,
 //    val imgURL_second: String?= null,
 //    val imgURL_third: String?= null,

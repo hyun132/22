@@ -94,6 +94,21 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <android.widget.Space
+                    android:id="@+id/space_left"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.widget.Space
+                    android:id="@+id/space_right"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout

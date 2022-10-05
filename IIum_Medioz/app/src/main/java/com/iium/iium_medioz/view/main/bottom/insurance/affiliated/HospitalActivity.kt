@@ -40,13 +40,35 @@ import com.iium.iium_medioz.model.map.AddressDocument
 import com.iium.iium_medioz.model.map.MapMarker
 import com.iium.iium_medioz.model.rest.base.Policy
 import com.iium.iium_medioz.util.`object`.Constant
+import com.iium.iium_medioz.util.`object`.Constant.DETAIL_WORDS
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_IMGURL
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_WEBSITE
+import com.iium.iium_medioz.util.`object`.Constant.FRIDAY_DAY_OFF
+import com.iium.iium_medioz.util.`object`.Constant.FRIDAY_TIME_END
+import com.iium.iium_medioz.util.`object`.Constant.FRIDAY_TIME_START
 import com.iium.iium_medioz.util.`object`.Constant.GPS_ENABLE_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.LOCATION_PERMISSION_REQUEST_CODE
+import com.iium.iium_medioz.util.`object`.Constant.MONDAY_DAY_OFF
+import com.iium.iium_medioz.util.`object`.Constant.MONDAY_TIME_END
+import com.iium.iium_medioz.util.`object`.Constant.MONDAY_TIME_START
 import com.iium.iium_medioz.util.`object`.Constant.PERMISSIONS
 import com.iium.iium_medioz.util.`object`.Constant.PERMISSION_REQUEST_CODE
+import com.iium.iium_medioz.util.`object`.Constant.SATURDAY_DAY_OFF
+import com.iium.iium_medioz.util.`object`.Constant.SATURDAY_TIME_END
+import com.iium.iium_medioz.util.`object`.Constant.SATURDAY_TIME_START
+import com.iium.iium_medioz.util.`object`.Constant.SUNDAY_DAY_OFF
+import com.iium.iium_medioz.util.`object`.Constant.SUNDAY_TIME_END
+import com.iium.iium_medioz.util.`object`.Constant.SUNDAY_TIME_START
 import com.iium.iium_medioz.util.`object`.Constant.TAG
+import com.iium.iium_medioz.util.`object`.Constant.THURSDAY_DAY_OFF
+import com.iium.iium_medioz.util.`object`.Constant.THURSDAY_TIME_END
+import com.iium.iium_medioz.util.`object`.Constant.THURSDAY_TIME_START
+import com.iium.iium_medioz.util.`object`.Constant.TUESDAY_DAY_OFF
+import com.iium.iium_medioz.util.`object`.Constant.TUESDAY_TIME_END
+import com.iium.iium_medioz.util.`object`.Constant.TUESDAY_TIME_START
+import com.iium.iium_medioz.util.`object`.Constant.WEDNESDAY_DAY_OFF
+import com.iium.iium_medioz.util.`object`.Constant.WEDNESDAY_TIME_END
+import com.iium.iium_medioz.util.`object`.Constant.WEDNESDAY_TIME_START
 import com.iium.iium_medioz.util.activity.setOnSingleClickListener
 import com.iium.iium_medioz.util.adapter.map.MapListAdapter
 import com.iium.iium_medioz.util.adapter.map.MapViewPagerAdapter
@@ -94,6 +116,37 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
             intent.putExtra(Constant.DOCUMENT_CALL, it.call.toString())
             intent.putExtra(DOCUMENT_IMGURL, it.imgURL.toString())
             intent.putExtra(DOCUMENT_WEBSITE, it.webSite.toString())
+
+            intent.putExtra(SUNDAY_TIME_START, it.weekend_time.map { it -> it.sunday.map { it.sunday_time_start } }.toString())
+            intent.putExtra(SUNDAY_TIME_END, it.weekend_time.map { it -> it.sunday.map { it.sunday_time_end } }.toString())
+            intent.putExtra(SUNDAY_DAY_OFF, it.weekend_time.map { it -> it.sunday.map { it.sunday_day_off } }.toString())
+
+            intent.putExtra(MONDAY_TIME_START, it.weekend_time.map { it -> it.monday.map { it.monday_time_start } }.toString())
+            intent.putExtra(MONDAY_TIME_END, it.weekend_time.map { it -> it.monday.map { it.monday_time_end } }.toString())
+            intent.putExtra(MONDAY_DAY_OFF, it.weekend_time.map { it -> it.monday.map { it.monday_day_off } }.toString())
+
+            intent.putExtra(TUESDAY_TIME_START, it.weekend_time.map { it -> it.tuesday.map { it.tuesday_time_start } }.toString())
+            intent.putExtra(TUESDAY_TIME_END, it.weekend_time.map { it -> it.tuesday.map { it.tuesday_time_end } }.toString())
+            intent.putExtra(TUESDAY_DAY_OFF, it.weekend_time.map { it -> it.tuesday.map { it.tuesday_day_off } }.toString())
+
+            intent.putExtra(WEDNESDAY_TIME_START, it.weekend_time.map { it -> it.wednesday.map { it.wednesday_time_start } }.toString())
+            intent.putExtra(WEDNESDAY_TIME_END, it.weekend_time.map { it -> it.wednesday.map { it.wednesday_time_end } }.toString())
+            intent.putExtra(WEDNESDAY_DAY_OFF, it.weekend_time.map { it -> it.wednesday.map { it.wednesday_day_off } }.toString())
+
+            intent.putExtra(THURSDAY_TIME_START, it.weekend_time.map { it -> it.thursday.map { it.thursday_time_start } }.toString())
+            intent.putExtra(THURSDAY_TIME_END, it.weekend_time.map { it -> it.thursday.map { it.thursday_time_end } }.toString())
+            intent.putExtra(THURSDAY_DAY_OFF, it.weekend_time.map { it -> it.thursday.map { it.thursday_day_off } }.toString())
+
+            intent.putExtra(FRIDAY_TIME_START, it.weekend_time.map { it -> it.friday.map { it.friday_time_start } }.toString())
+            intent.putExtra(FRIDAY_TIME_END, it.weekend_time.map { it -> it.friday.map { it.friday_time_end } }.toString())
+            intent.putExtra(FRIDAY_DAY_OFF, it.weekend_time.map { it -> it.friday.map { it.friday_day_off } }.toString())
+
+            intent.putExtra(SATURDAY_TIME_START, it.weekend_time.map { it -> it.saturday.map { it.saturday_time_start } }.toString())
+            intent.putExtra(SATURDAY_TIME_END, it.weekend_time.map { it -> it.saturday.map { it.saturday_time_end } }.toString())
+            intent.putExtra(SATURDAY_DAY_OFF, it.weekend_time.map { it -> it.saturday.map { it.saturday_day_off } }.toString())
+
+            intent.putExtra(DETAIL_WORDS, it.detail_words.toString())
+
 //            intent.putExtra(Constant.DOCUMENT_IMGURL_FIRST, it.imgURL_first.toString())
 //            intent.putExtra(Constant.DOCUMENT_IMGURL_SECOND, it.imgURL_second.toString())
 //            intent.putExtra(Constant.DOCUMENT_IMGURL_THIRD, it.imgURL_third.toString())
@@ -195,19 +248,19 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     this,
-                    Constant.PERMISSIONS[0]
+                    PERMISSIONS[0]
                 )
             ) {
                 ActivityCompat.requestPermissions(
                     this,
-                    Constant.PERMISSIONS,
-                    Constant.PERMISSION_REQUEST_CODE
+                    PERMISSIONS,
+                    PERMISSION_REQUEST_CODE
                 )
             } else {
                 ActivityCompat.requestPermissions(
                     this,
-                    Constant.PERMISSIONS,
-                    Constant.PERMISSION_REQUEST_CODE
+                    PERMISSIONS,
+                    PERMISSION_REQUEST_CODE
                 )
             }
         }
@@ -218,10 +271,10 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         val result: IntentResult? =
             IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            Constant.GPS_ENABLE_REQUEST_CODE ->
+            GPS_ENABLE_REQUEST_CODE ->
                 if (checkLocationServicesStatus()) {
                     if (checkLocationServicesStatus()) {
-                        Log.d(Constant.TAG, "onActivityResult : GPS 활성화 되있음")
+                        Log.d(TAG, "onActivityResult : GPS 활성화 되있음")
                         checkRunTimePermission()
                         return
                     }
@@ -244,7 +297,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         grandResults: IntArray
     ) {
         super.onRequestPermissionsResult(permsRequestCode, permissions, grandResults)
-        if (permsRequestCode == Constant.PERMISSION_REQUEST_CODE && grandResults.size == Constant.PERMISSIONS.size) {
+        if (permsRequestCode == PERMISSION_REQUEST_CODE && grandResults.size == PERMISSIONS.size) {
             var check_result = true
             for (result in grandResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
@@ -257,11 +310,11 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
             } else {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(
                         this,
-                        Constant.PERMISSIONS[0]
+                        PERMISSIONS[0]
                     )
                     || ActivityCompat.shouldShowRequestPermissionRationale(
                         this,
-                        Constant.PERMISSIONS[1]
+                        PERMISSIONS[1]
                     )
                 ) {
                     Toast.makeText(
@@ -411,6 +464,37 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
                             intent.putExtra(Constant.DOCUMENT_CALL,result_place.call.toString())
                             intent.putExtra(DOCUMENT_IMGURL, result_place.imgURL.toString())
                             intent.putExtra(DOCUMENT_WEBSITE, result_place.webSite.toString())
+
+                            intent.putExtra(SUNDAY_TIME_START, result_place.weekend_time.map { it -> it.sunday.map { it.sunday_time_start } }.toString())
+                            intent.putExtra(SUNDAY_TIME_END, result_place.weekend_time.map { it -> it.sunday.map { it.sunday_time_end } }.toString())
+                            intent.putExtra(SUNDAY_DAY_OFF, result_place.weekend_time.map { it -> it.sunday.map { it.sunday_day_off } }.toString())
+
+                            intent.putExtra(MONDAY_TIME_START, result_place.weekend_time.map { it -> it.monday.map { it.monday_time_start } }.toString())
+                            intent.putExtra(MONDAY_TIME_END, result_place.weekend_time.map { it -> it.monday.map { it.monday_time_end } }.toString())
+                            intent.putExtra(MONDAY_DAY_OFF, result_place.weekend_time.map { it -> it.monday.map { it.monday_day_off } }.toString())
+
+                            intent.putExtra(TUESDAY_TIME_START, result_place.weekend_time.map { it -> it.tuesday.map { it.tuesday_time_start } }.toString())
+                            intent.putExtra(TUESDAY_TIME_END, result_place.weekend_time.map { it -> it.tuesday.map { it.tuesday_time_end } }.toString())
+                            intent.putExtra(TUESDAY_DAY_OFF, result_place.weekend_time.map { it -> it.tuesday.map { it.tuesday_day_off } }.toString())
+
+                            intent.putExtra(WEDNESDAY_TIME_START, result_place.weekend_time.map { it -> it.wednesday.map { it.wednesday_time_start } }.toString())
+                            intent.putExtra(WEDNESDAY_TIME_END, result_place.weekend_time.map { it -> it.wednesday.map { it.wednesday_time_end } }.toString())
+                            intent.putExtra(WEDNESDAY_DAY_OFF, result_place.weekend_time.map { it -> it.wednesday.map { it.wednesday_day_off } }.toString())
+
+                            intent.putExtra(THURSDAY_TIME_START, result_place.weekend_time.map { it -> it.thursday.map { it.thursday_time_start } }.toString())
+                            intent.putExtra(THURSDAY_TIME_END, result_place.weekend_time.map { it -> it.thursday.map { it.thursday_time_end } }.toString())
+                            intent.putExtra(THURSDAY_DAY_OFF, result_place.weekend_time.map { it -> it.thursday.map { it.thursday_day_off } }.toString())
+
+                            intent.putExtra(FRIDAY_TIME_START, result_place.weekend_time.map { it -> it.friday.map { it.friday_time_start } }.toString())
+                            intent.putExtra(FRIDAY_TIME_END, result_place.weekend_time.map { it -> it.friday.map { it.friday_time_end } }.toString())
+                            intent.putExtra(FRIDAY_DAY_OFF, result_place.weekend_time.map { it -> it.friday.map { it.friday_day_off } }.toString())
+
+                            intent.putExtra(SATURDAY_TIME_START, result_place.weekend_time.map { it -> it.saturday.map { it.saturday_time_start } }.toString())
+                            intent.putExtra(SATURDAY_TIME_END, result_place.weekend_time.map { it -> it.saturday.map { it.saturday_time_end } }.toString())
+                            intent.putExtra(SATURDAY_DAY_OFF, result_place.weekend_time.map { it -> it.saturday.map { it.saturday_day_off } }.toString())
+
+                            intent.putExtra(DETAIL_WORDS, result_place.detail_words.toString())
+
                         }
                         startActivity(intent)
                     }

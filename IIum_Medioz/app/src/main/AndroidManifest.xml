@@ -14,7 +14,7 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -38,6 +38,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:theme"
         tools:targetApi="s">
+        <activity
+            android:name=".view.main.bottom.insurance.affiliated.SendDocumentActivity"
+            android:exported="false" />
         <activity
             android:name=".view.main.bottom.insurance.affiliated.HospitalInFoActivity"
             android:exported="false" />

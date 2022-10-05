@@ -146,7 +146,7 @@ object  Constant {
     const val OCR_NAME = "test 1"
     const val OCR_URL_IMG = "http://49.50.161.198:8080/v1/datalist/datalist?textimg=1655700097940_20220216_140748.jpg"
 
-    //제휴병원 서류신청
+    //제휴병원 정보
     const val DOCUMENT_NAME = "DOCUMENT_NAME"
     const val DOCUMENT_ADDRESS = "DOCUMENT_ADDRESS"
     const val DOCUMENT_CALL = "DOCUMENT_CALL"
@@ -157,8 +157,43 @@ object  Constant {
     const val DOCUMENT_IMGURL_FIVE = "DOCUMENT_IMGURL_FIVE"
     const val DOCUMENT_IMGURL = "DOCUMENT_IMGURL"
     const val DOCUMENT_WEBSITE = "DOCUMENT_WEBSITE"
-
     const val DOCUMENT_TIMESTAMP = "DOCUMENT_TIMESTAMP"
+
+    // 제휴병원 상세 정보
+    const val SUNDAY_TIME_START = "SUNDAY_TIME_START"
+    const val SUNDAY_TIME_END = "SUNDAY_TIME_END"
+    const val SUNDAY_DAY_OFF = "SUNDAY_DAY_OFF"
+
+    const val MONDAY_TIME_START = "MONDAY_TIME_START"
+    const val MONDAY_TIME_END = "MONDAY_TIME_END"
+    const val MONDAY_DAY_OFF = "MONDAY_DAY_OFF"
+
+    const val TUESDAY_TIME_START = "TUESDAY_TIME_START"
+    const val TUESDAY_TIME_END = "TUESDAY_TIME_END"
+    const val TUESDAY_DAY_OFF = "TUESDAY_DAY_OFF"
+
+    const val WEDNESDAY_TIME_START = "WEDNESDAY_TIME_START"
+    const val WEDNESDAY_TIME_END = "WEDNESDAY_TIME_END"
+    const val WEDNESDAY_DAY_OFF = "WEDNESDAY_DAY_OFF"
+
+    const val THURSDAY_TIME_START = "THURSDAY_TIME_START"
+    const val THURSDAY_TIME_END = "THURSDAY_TIME_END"
+    const val THURSDAY_DAY_OFF = "THURSDAY_DAY_OFF"
+
+    const val FRIDAY_TIME_START = "FRIDAY_TIME_START"
+    const val FRIDAY_TIME_END = "FRIDAY_TIME_END"
+    const val FRIDAY_DAY_OFF = "FRIDAY_DAY_OFF"
+
+    const val SATURDAY_TIME_START = "SATURDAY_TIME_START"
+    const val SATURDAY_TIME_END = "SATURDAY_TIME_END"
+    const val SATURDAY_DAY_OFF = "SATURDAY_DAY_OFF"
+
+    const val DETAIL_WORDS = "DETAIL_WORDS"
+
+    //서류 신청
+    const val PAYMENT_NAME = "PAYMENT_NAME"
+    const val PAYMENT_ADDRESS = "PAYMENT_ADDRESS"
+    const val PAYMENT_CALL = "PAYMENT_CALL"
 
     //PDF
     const val PDF_HEADER = "생성일자"
