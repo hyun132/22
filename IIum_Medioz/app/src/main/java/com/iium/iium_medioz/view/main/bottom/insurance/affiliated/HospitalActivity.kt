@@ -5,10 +5,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.PointF
+import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
@@ -16,8 +16,6 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -25,20 +23,19 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.google.android.gms.location.*
+import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
-import com.iium.iium_medioz.databinding.ActivityAddressBinding
 import com.iium.iium_medioz.databinding.ActivityHospitalBinding
 import com.iium.iium_medioz.model.map.AddressDocument
 import com.iium.iium_medioz.model.map.MapMarker
-import com.iium.iium_medioz.model.rest.base.Policy
 import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.util.`object`.Constant.DETAIL_WORDS
 import com.iium.iium_medioz.util.`object`.Constant.DOCUMENT_IMGURL
@@ -71,19 +68,15 @@ import com.iium.iium_medioz.util.`object`.Constant.WEDNESDAY_TIME_END
 import com.iium.iium_medioz.util.`object`.Constant.WEDNESDAY_TIME_START
 import com.iium.iium_medioz.util.activity.setOnSingleClickListener
 import com.iium.iium_medioz.util.adapter.map.MapListAdapter
-import com.iium.iium_medioz.util.adapter.map.MapViewPagerAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
-import com.iium.iium_medioz.viewmodel.map.HospitalObservable
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
-import com.naver.maps.map.widget.LocationButtonView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -106,6 +99,10 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     private val recyclerView : RecyclerView by lazy {
         findViewById(R.id.map_re)
     }
+
+    private var mFusedLocationProviderClient: FusedLocationProviderClient? = null // 현재 위치를 가져오기 위한 변수
+    lateinit var mLastLocation: Location // 위치 값을 가지고 있는 객체
+    private lateinit var mLocationRequest: LocationRequest // 위치 정보 요청의 매개변수를 저장하는
 
     private val recyclerViewAdapter = MapListAdapter(OKClickListener = {
         val intent = Intent(this, HospitalInFoActivity::class.java)
@@ -167,6 +164,9 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         mBinding.lifecycleOwner = this
         sheetBehavior = BottomSheetBehavior.from(bottomSheet)
 
+        mLocationRequest =  LocationRequest.create().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
 
         runOnUiThread {
             initAdapter()
@@ -379,10 +379,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         uiSetting.isRotateGesturesEnabled = false
         uiSetting.isTiltGesturesEnabled = false
 
-        locationSource = FusedLocationSource(this, Constant.LOCATION_PERMISSION_REQUEST_CODE)
-        naverMap.locationSource = locationSource
-        naverMap.locationTrackingMode = LocationTrackingMode.Follow
-
         mMap!!.setOnMapClickListener{ point, coord ->
             viewAnimationDisappear(mBinding.clOverlayParent)
             bottomSheet.visibility = View.GONE
@@ -390,9 +386,21 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
-        mMap!!.locationSource = locationSource
-        setMapTrackingMode(LocationTrackingMode.Follow)
-        mMap!!.addOnLocationChangeListener(locationChangeListener)
+        val kakao_mapx = intent.getStringExtra(Constant.KAKAO_MAPX)
+        val kakap_mapy = intent.getStringExtra(Constant.KAKAO_MAPY)
+
+        if(kakao_mapx!=null && kakap_mapy!=null) {
+            val cameraUpdate: CameraUpdate = CameraUpdate.scrollTo(LatLng(kakao_mapx.toDouble(),kakap_mapy.toDouble()))
+            naverMap.moveCamera(cameraUpdate)
+        } else {
+            mMap!!.locationSource = locationSource
+            setMapTrackingMode(LocationTrackingMode.Follow)
+            mMap!!.addOnLocationChangeListener(locationChangeListener)
+
+            locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+            naverMap.locationSource = locationSource
+            naverMap.locationTrackingMode = LocationTrackingMode.Follow
+        }
 
         getAPI()
     }
@@ -550,8 +558,47 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     fun onlocationClick(v: View) {
-        val cameraUpdate = CameraUpdate.scrollTo(currentLatLng)
+        val kakao_mapx = intent.getStringExtra(Constant.KAKAO_MAPX)
+        val kakap_mapy = intent.getStringExtra(Constant.KAKAO_MAPY)
+
+        if(kakao_mapx!=null && kakap_mapy!=null) {
+            startLocationUpdates()
+            return
+        } else {
+            val cameraUpdate = CameraUpdate.scrollTo(currentLatLng)
+                .animate(CameraAnimation.Fly, 1000)
+            mMap!!.moveCamera(cameraUpdate)
+        }
+    }
+
+    private fun startLocationUpdates() {
+        //FusedLocationProviderClient의 인스턴스를 생성.
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        // 기기의 위치에 관한 정기 업데이트를 요청하는 메서드 실행
+        // 지정한 루퍼 스레드(Looper.myLooper())에서 콜백(mLocationCallback)으로 위치 업데이트를 요청
+        mFusedLocationProviderClient!!.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
+    }
+
+    // 시스템으로 부터 위치 정보를 콜백으로 받음
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            // 시스템에서 받은 location 정보를 onLocationChanged()에 전달
+            locationResult.lastLocation
+            onLocationChanged(locationResult.lastLocation!!)
+        }
+    }
+
+    fun onLocationChanged(location: Location) {
+        mLastLocation = location
+        val cameraLatLng = LatLng(mLastLocation.latitude, mLastLocation.longitude)
+
+        val cameraUpdate = CameraUpdate.scrollTo(cameraLatLng)
             .animate(CameraAnimation.Fly, 1000)
+
         mMap!!.moveCamera(cameraUpdate)
     }
 

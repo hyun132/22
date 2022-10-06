@@ -44,7 +44,6 @@ class DocumentActivity : BaseActivity() {
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
 
-
         runOnUiThread {
             initView()
             inStatusBar()
@@ -89,6 +88,7 @@ class DocumentActivity : BaseActivity() {
         val address = mBinding.tvDoAddress.text.toString()
         val address_city = "대전"
         val address_district = "서구"
+
         val address_location = "월평동"
         val call = mBinding.tvDoCall.text.toString()
         val username = mBinding.etDoName.text.toString()
@@ -96,9 +96,12 @@ class DocumentActivity : BaseActivity() {
         val usercall = mBinding.etDoCall.text.toString()
         val userreqdocument = ""
         val imgUrl = intent.getStringExtra(DOCUMENT_IMGURL)
+        val inquiry_first = mBinding.tvCalendarFirst.text.toString()
+        val inquiry_second = mBinding.tvCalendarSecond.text.toString()
+        val inquiry_document = ""
         val timestamp = mBinding.tvDoTimestamp.text.toString()
 
-        val data = DocumentModel(doname, address,address_city, address_district, address_location,call,username,usernumber,usercall, userreqdocument,imgUrl, timestamp)
+        val data = DocumentModel(doname, address,address_city, address_district, address_location,call,username,usernumber,usercall, userreqdocument,imgUrl,inquiry_first,inquiry_second, inquiry_document,timestamp)
 
         LLog.e("제휴병원 서류신청")
         apiServices.postDocument(prefs.newaccesstoken,data).enqueue(object :

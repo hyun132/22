@@ -29,7 +29,7 @@ import com.iium.iium_medioz.util.`object`.Constant
 import com.iium.iium_medioz.util.adapter.map.HospitalSecondAdapter
 import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.extensions.onTextChanged
-import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
+import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
 import com.iium.iium_medioz.viewmodel.map.HospitalViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -182,7 +182,7 @@ class SearchSecondFragment : BaseFragment() {
         mBinding.rvResult.setHasFixedSize(true)
         mBinding.rvResult.layoutManager = LinearLayoutManager(context)
         readapter!!.setOnItemClickListener { x, y ->
-            val intent = Intent(activity, AddressActivity::class.java)
+            val intent = Intent(activity, HospitalActivity::class.java)
             intent.putExtra(Constant.KAKAO_MAPX, x)
             intent.putExtra(Constant.KAKAO_MAPY, y)
             startActivity(intent)

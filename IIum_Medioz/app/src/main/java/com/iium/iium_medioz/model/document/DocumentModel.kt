@@ -13,6 +13,9 @@ data class DocumentModel(
     val usercall: String? = null,
     val userreqdocument: String? = null,
     val imgUrl: String? = null,
+    val inquiry_first: String? = null,
+    val inquiry_second: String? = null,
+    val inquiry_document: String? = null,
     val timestamp: String? = null
 )
 

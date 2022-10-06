@@ -22,15 +22,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.*
 import com.iium.iium_medioz.R
-import com.iium.iium_medioz.api.APIService
-import com.iium.iium_medioz.api.ApiUtils
+
 import com.iium.iium_medioz.databinding.FragmentSearchFirstBinding
 import com.iium.iium_medioz.util.`object`.Constant.KAKAO_MAPX
 import com.iium.iium_medioz.util.`object`.Constant.KAKAO_MAPY
 import com.iium.iium_medioz.util.adapter.map.HospitalAdapter
 import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.extensions.onTextChanged
-import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
+import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
 import com.iium.iium_medioz.viewmodel.map.SearchViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -182,7 +181,7 @@ class SearchFirstFragment : BaseFragment() {
         mBinding.rvResult.setHasFixedSize(true)
         mBinding.rvResult.layoutManager = LinearLayoutManager(context)
         readapter!!.setOnItemClickListener { x, y ->
-            val intent = Intent(activity, AddressActivity::class.java)
+            val intent = Intent(activity, HospitalActivity::class.java)
             intent.putExtra(KAKAO_MAPX, x)
             intent.putExtra(KAKAO_MAPY, y)
             startActivity(intent)

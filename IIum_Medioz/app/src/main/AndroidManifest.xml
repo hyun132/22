@@ -72,9 +72,6 @@
             android:name=".view.main.bottom.home.calendar.CalendarActivity"
             android:exported="false" />
         <activity
-            android:name=".view.main.bottom.insurance.affiliated.AddressActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.main.bottom.insurance.affiliated.DocumentActivity"
             android:exported="false" />
         <activity
