@@ -10,7 +10,11 @@ import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityCalendarBinding
 import com.iium.iium_medioz.databinding.ActivityTestCalendarBinding
 import com.iium.iium_medioz.util.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.FlowPreview
 
+@FlowPreview
+@AndroidEntryPoint
 class TestCalendarActivity :  BaseActivity() {
 
     private lateinit var mBinding : ActivityTestCalendarBinding
