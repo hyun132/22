@@ -4,7 +4,7 @@
     android:shareInterpolator="true">
     <translate
         android:duration="200"
-        android:fromYDelta="100%"
+        android:fromYDelta="-100%"
         android:toYDelta="0%"/>
 
     <alpha

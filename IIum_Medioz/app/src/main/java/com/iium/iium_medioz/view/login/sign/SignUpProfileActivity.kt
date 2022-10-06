@@ -12,6 +12,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
@@ -35,7 +36,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.util.ArrayList
+import kotlin.system.exitProcess
+
 
 class SignUpProfileActivity : BaseActivity() {
 
@@ -143,10 +145,17 @@ class SignUpProfileActivity : BaseActivity() {
         val nickname = mBinding.etNickname.text.toString()
         val profile: MutableList<MultipartBody.Part?> =  ArrayList()
         val requestHashMap : HashMap<String, RequestBody> = HashMap()
+        val profile_basic = "Not-Image"
+
         for (uri:Uri in files4) {
             uri.path?.let { Log.i("profile", it) }
-            profile.add(prepareFilePart("profile", uri))
+            if(profile.isEmpty()) {
+                profile.add((prepareFilePart("basic", profile_basic.toUri())))
+            } else {
+                profile.add(prepareFilePart("profile", uri))
+            }
         }
+
         requestHashMap["phone"] = phone!!.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["sex"] = sex!!.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["name"] = nickname.toRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -162,7 +171,12 @@ class SignUpProfileActivity : BaseActivity() {
                 }
                 else {
                     Log.d(TAG,"getSignUp API ERROR -> ${response.errorBody()}")
-                    ErrorDialog()
+                    val packageManager = packageManager
+                    val intent = packageManager.getLaunchIntentForPackage(packageName)
+                    val componentName = intent!!.component
+                    val mainIntent = Intent.makeRestartActivityTask(componentName)
+                    startActivity(mainIntent)
+                    exitProcess(0)
                 }
             }
 

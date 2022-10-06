@@ -8,6 +8,7 @@ import com.iium.iium_medioz.util.common.CommonData
 import com.iium.iium_medioz.util.preference.PreferenceManager
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
+import com.naver.maps.map.overlay.Marker
 
 class HospitalObservable() : BaseObservable() {
 
@@ -91,10 +92,6 @@ class HospitalObservable() : BaseObservable() {
         return selectedMarker
     }
 
-    fun setSelectedMarker(selectedMarker: MapMarker?) {
-        this.selectedMarker = selectedMarker
-        notifyChange()
-    }
 
     @Bindable
     fun getSelectedMarkerId(): String? {
@@ -128,4 +125,8 @@ class HospitalObservable() : BaseObservable() {
         notifyChange()
     }
 
+    @Bindable
+    fun isRent(): Boolean {
+        return isRent()
+    }
 }

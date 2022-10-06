@@ -38,8 +38,8 @@
     <dimen name="common_font_micro">10dp</dimen>
     <dimen name="common_view_title_height">56dp</dimen>
     <dimen name="common_toast_bottom_margin">100dp</dimen>
-    <dimen name="location_overlay_width">51dp</dimen>
-    <dimen name="location_overlay_height">45dp</dimen>
+    <dimen name="location_overlay_width">30dp</dimen>
+    <dimen name="location_overlay_height">25dp</dimen>
     <dimen name="overlay_padding_vertical">25dp</dimen>
     <dimen name="overlay_padding_bottom">4dp</dimen>
     <dimen name="overlay_padding_horizontal">20dp</dimen>

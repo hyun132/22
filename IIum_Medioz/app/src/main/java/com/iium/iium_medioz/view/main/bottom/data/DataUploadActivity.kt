@@ -2,6 +2,7 @@ package com.iium.iium_medioz.view.main.bottom.data
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,6 +15,8 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.get
@@ -65,11 +68,11 @@ class DataUploadActivity : BaseActivity() {
     private var files6 :MutableList<Uri> = ArrayList()      // 비디오
 
     private val textAdapter = MultiImageAdapter(files4, this)
-    private val normalAdapter = NormalImgAdapter(files5, this)
-    private val videoAdapter = VideoRecyclerAdapter(files6, this)
+    private val normalAdapter = MultiImageAdapter(files5, this)
+    private val videoAdapter = MultiImageAdapter(files6, this)
 
     private val fileUtil = FileUtil()
-    private val listArray = ArrayList<String>()
+    private val listArray = ArrayList<String>() // keyword 리스트
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,9 +89,47 @@ class DataUploadActivity : BaseActivity() {
         }
     }
 
+    private fun inStatusBar() {
+        setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
+        window.statusBarColor = getColor(R.color.main_status)
+    }
+
+    // 텍스트 사진 recyclerView setting
+    private fun initView() {
+        val onlyDate: LocalDate = LocalDate.now()
+        mBinding.tvTodayData.text = onlyDate.toString() // 오늘 날짜 setting
+
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        mBinding.textRe.layoutManager = layoutManager
+        mBinding.textRe.adapter = textAdapter
+        mBinding.textRe.setHasFixedSize(true)
+        mBinding.textRe.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)) // 구분선
+
+    }
+
+    // 일반 사진 recyclerView setting
+    private fun initSecond() {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        mBinding.normalRe.layoutManager = layoutManager
+        mBinding.normalRe.adapter = normalAdapter
+        mBinding.normalRe.setHasFixedSize(true)
+        mBinding.normalRe.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
+    }
+
+    // 동영상 recyclerView setting
+    private fun initThird() {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        mBinding.videoRe.layoutManager = layoutManager
+        mBinding.videoRe.adapter = videoAdapter
+        mBinding.videoRe.setHasFixedSize(true)
+        mBinding.videoRe.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
+    }
+
+    // 키워드 등록 버튼 클릭 시
     private fun initKey() {
         mBinding.btnSubscribe.setOnClickListener {
-            createKeyWord()
+            if(!mBinding.etKeyword.text.toString().isNullOrEmpty())
+                createKeyWord()
         }
     }
 
@@ -110,9 +151,9 @@ class DataUploadActivity : BaseActivity() {
 
         if (listArray.count() == 6) {
             Toast.makeText(this,"키워드는 5개만 등록할 수 있습니다.",Toast.LENGTH_SHORT).show()
-            listArray.clear()
-            mBinding.tvRegisteredKeyword.text = listArray.count().toString()
-            listView.removeAllViews()
+            listArray.removeLastOrNull()
+
+            mBinding.etKeyword.text = null
         } else {
             listView.addView(textView)
             mBinding.clTextDelete.setOnClickListener {
@@ -128,56 +169,25 @@ class DataUploadActivity : BaseActivity() {
             mBinding.tvRegisteredKeyword.text = listArray.count().toString()
             mBinding.etKeyword.text = null
         }
-
-    }
-
-    private fun inStatusBar() {
-        setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
-        window.statusBarColor = getColor(R.color.main_status)
-    }
-
-    private fun initView() {
-        val onlyDate: LocalDate = LocalDate.now()
-        mBinding.tvTodayData.text = onlyDate.toString()
-
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        mBinding.textRe.layoutManager = layoutManager
-        mBinding.textRe.adapter = textAdapter
-        mBinding.textRe.setHasFixedSize(true)
-        mBinding.textRe.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
-
-    }
-
-    private fun initSecond() {
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        mBinding.normalRe.layoutManager = layoutManager
-        mBinding.normalRe.adapter = normalAdapter
-        mBinding.normalRe.setHasFixedSize(true)
-        mBinding.normalRe.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
-    }
-
-    private fun initThird() {
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        mBinding.videoRe.layoutManager = layoutManager
-        mBinding.videoRe.adapter = videoAdapter
-        mBinding.videoRe.setHasFixedSize(true)
-        mBinding.videoRe.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
     }
 
     fun onBackPressed(v: View) {
         moveMain()
     }
 
+    // 텍스트 사진 업로드 버튼 클릭 시
     fun onTextClick(v: View?) {
         getTextPerMission()
     }
 
+    // 일반 사진 업로드 버튼 클릭 시
     fun onNormalClick(v: View?) {
         getImgPerMission()
     }
 
+    // 동영상 업로드 버튼 클릭 시
     fun onVideoClick(v: View?) {
-        geVideoPerMission()
+        getVideoPerMission()
     }
 
     /////////////////// 앨범 권한 설정 ///////////////////
@@ -187,17 +197,19 @@ class DataUploadActivity : BaseActivity() {
                 this,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
-            -> {
+            -> { // READ_EXTERNAL_STORAGE가 승인된 경우
                 getAlbum()
             }
             shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
-            -> {
+            -> { // 사용자가 권한 요청을 명시적으로 거부한 경우 true
                 Toast.makeText(this,"사진 접근 권한 동의를 해주세요", Toast.LENGTH_SHORT).show()
             }
-
-            else -> requestPermissions(
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),ONE_PERMISSION_REQUEST_CODE
-            )
+            // 사용자가 권한 요청을 처음 보거나, 다시 묻지 않음 선택한 경우
+            else -> {
+                requestPermissions( // 사용자에게 시스템 표준 대화상자로 명시적으로 권한 요청
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),ONE_PERMISSION_REQUEST_CODE
+                )
+            } // 사용자가 시스템 권한 대화상자에 응답하면 시스템은 앱의 onRequestPermissionResult() 구현을 호출
         }
     }
 
@@ -223,7 +235,7 @@ class DataUploadActivity : BaseActivity() {
         }
     }
 
-    private fun geVideoPerMission() {
+    private fun getVideoPerMission() {
         when {
             ContextCompat.checkSelfPermission(
                 this,
@@ -244,12 +256,11 @@ class DataUploadActivity : BaseActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
+    override fun onRequestPermissionsResult( // onActivityResult 처럼 requestPermissions를 통해 받아온 사용자 응답에 따라 동작을 정의
         requestCode: Int,
         permissions: Array<String?>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             ONE_PERMISSION_REQUEST_CODE -> if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getAlbum()
@@ -260,10 +271,10 @@ class DataUploadActivity : BaseActivity() {
             THRID_PERMISSION_REQUEST_CODE -> if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getVideo()
             }
-            else {
+            else -> {
                 Toast.makeText(this, "사진권한 동의를 해주세요.", Toast.LENGTH_SHORT).show()
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             }
-            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
 
     }
@@ -299,7 +310,7 @@ class DataUploadActivity : BaseActivity() {
         if(resultCode == RESULT_OK && requestCode == 200 ) {
             if(data?.clipData != null) {
                 val count = data.clipData!!.itemCount
-                if(count > 5) {
+                if(count + files4.size > 5) {
                     Toast.makeText(this,"사진은 5장까지 선택 가능합니다.",Toast.LENGTH_SHORT).show()
                     return
                 }
@@ -317,14 +328,21 @@ class DataUploadActivity : BaseActivity() {
                 }
             }
             else {
+<<<<<<< HEAD
                 val img : Uri ? = data?.data
+=======
+                if(files4.size == 5) {
+                    Toast.makeText(this,"사진은 5장까지 선택 가능합니다.",Toast.LENGTH_SHORT).show()
+                    return
+                }
+                val img = data?.data
+>>>>>>> 3cd25e3b72196f17745c4f016e9293b9ab813a9d
                 img.let {
                     val imageUri : Uri? = img
-                    fileUtil.getPath(this, it!!)
-                    if(imageUri != null) {
-                        files4.add(Uri.parse(img.toString()))
-                        Log.d(TAG,"upload TextIMG One -> $img")
+                    val imgPath = imageUri.let {
+                        fileUtil.getPath(this, it!!)
                     }
+                    files4.add(Uri.parse(imgPath))
                 }
             }
             textAdapter.notifyDataSetChanged()
@@ -333,7 +351,7 @@ class DataUploadActivity : BaseActivity() {
         if(resultCode == RESULT_OK && requestCode == 300 ) {
             if(data?.clipData != null) {
                 val count = data.clipData!!.itemCount
-                if(count > 5) {
+                if(count + files5.size > 5) {
                     Toast.makeText(this,"사진은 5장까지 선택 가능합니다.",Toast.LENGTH_SHORT).show()
                     return
                 }
@@ -352,14 +370,17 @@ class DataUploadActivity : BaseActivity() {
                 }
             }
             else {
+                if(files5.size == 5) {
+                    Toast.makeText(this,"사진은 5장까지 선택 가능합니다.",Toast.LENGTH_SHORT).show()
+                    return
+                }
                 val img = data?.data
                 img.let {
                     val imageUri : Uri? = img
-                    fileUtil.getPath(this, it!!)
-                    if(imageUri != null) {
-                        files5.add(Uri.parse(img.toString()))
-                        Log.d(TAG,"upload IMG One -> $img")
+                    val imgPath = imageUri.let {
+                        fileUtil.getPath(this, it!!)
                     }
+                    files5.add(Uri.parse(imgPath))
                 }
             }
             normalAdapter.notifyDataSetChanged()
@@ -368,7 +389,7 @@ class DataUploadActivity : BaseActivity() {
         if(resultCode == RESULT_OK && requestCode == 400 ) {
             if(data?.clipData != null) {
                 val count = data.clipData!!.itemCount
-                if(count > 3) {
+                if(count + files6.size > 3) {
                     Toast.makeText(this,"영상은 3장까지 선택 가능합니다.",Toast.LENGTH_SHORT).show()
                     return
                 }
@@ -387,14 +408,17 @@ class DataUploadActivity : BaseActivity() {
                 }
             }
             else {
+                if(files6.size == 3) {
+                    Toast.makeText(this,"영상은 3장까지 선택 가능합니다.",Toast.LENGTH_SHORT).show()
+                    return
+                }
                 val video = data?.data
                 video.let {
                     val videoUri : Uri? = video
-                    fileUtil.getPath(this, it!!)
-                    if(videoUri != null) {
-                        files6.add(Uri.parse(video.toString()))
-                        Log.d(TAG,"upload video One -> $video")
+                    val videoPath = videoUri.let {
+                        fileUtil.getPath(this, it!!)
                     }
+                    files6.add(Uri.parse(videoPath))
                 }
             }
             videoAdapter.notifyDataSetChanged()
@@ -404,7 +428,7 @@ class DataUploadActivity : BaseActivity() {
     fun onDataSendClick(v: View?) {
         val et_title = mBinding.etTitle.text.toString()
         when {
-            et_title.isEmpty() -> {
+            et_title.isBlank() -> {
                 mBinding.etTitle.error = "미입력"
                 Toast.makeText(this,"제목을 입력해 주세요",Toast.LENGTH_SHORT).show().toString()
             }

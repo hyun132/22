@@ -97,7 +97,10 @@
     <color name="main_grey">#3d3d3d</color>
     <color name="mint_main">#81e2d2</color>
     <color name="sub_grey_2">#c2c2c2</color>
-    <color name="blue_temp">#3b9bd1</color>
+
+    <color name="blue_temp">#5798FB</color>
+    <color name="weekend_time">#6A5BFF</color>
+
     <color name="imoji_cold_text">#00a3ff</color>
     <color name="imoji_good_text">#3fccb5</color>
     <color name="imoji_veryhot_text">#d26a63</color>
@@ -120,6 +123,12 @@
     <color name="home_card_shadow">#2C5280</color>
     <color name="statusbar_color">#f2f2f2</color>
     <color name="toast_bg">#99caf1eb</color>
+
+    <color name="icon_angry">#FF8181</color>
+    <color name="icon_sad">#80A6F5</color>
+    <color name="icon_happy">#FFD236</color>
+    <color name="icon_thanks">#FCB34B</color>
+    <color name="icon_suprisei">#97DC71</color>
 
 
 </resources>

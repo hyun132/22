@@ -52,6 +52,7 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.thread
+import kotlin.system.exitProcess
 
 
 class HomeFragment : BaseFragment(), LifecycleObserver {
@@ -109,7 +110,6 @@ class HomeFragment : BaseFragment(), LifecycleObserver {
                 }
                 else {
                     Log.d(TAG,"GetUser Second API ERROR -> ${response.errorBody()} ${response.code()} ${response.message()}")
-                    ErrorDialog()
                 }
             }
 

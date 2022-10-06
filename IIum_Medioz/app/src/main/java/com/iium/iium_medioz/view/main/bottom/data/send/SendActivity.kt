@@ -628,12 +628,12 @@ class SendActivity : BaseActivity() {
     }
 
     fun onSendClick(v: View?) {
-//        naverOCRAPI()
         val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
         dlg.setTitle("판매 등록") //제목
         dlg.setMessage("판매등록을 하시겠습니까?") // 메시지
         dlg.setPositiveButton("확인") { dialog, which ->
             sendAPI()
+//            naverOCRAPI()
             dialog.dismiss()
         }
         dlg.setNegativeButton("취소") { dialog, which ->

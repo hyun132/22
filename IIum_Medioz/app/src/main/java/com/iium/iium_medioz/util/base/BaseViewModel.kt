@@ -13,10 +13,6 @@ abstract class BaseViewModel() : ViewModel() {
     val isLoading: LiveData<Boolean> get() = _isLoading
     private val _isLottieLoading = MutableLiveData(false)
     val isLottieLoading: LiveData<Boolean> get() = _isLottieLoading
-    private var _backClick = SingleLiveEvent<Unit>()
-
-
-    val backClick: LiveData<Unit> get() = _backClick
 
     override fun onCleared() {
         super.onCleared()
@@ -42,10 +38,6 @@ abstract class BaseViewModel() : ViewModel() {
 
     fun hideLottieProgress() {
         _isLottieLoading.value = false
-    }
-
-    fun onBackClick() {
-        _backClick.call()
     }
 
 }
