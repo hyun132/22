@@ -124,5 +124,11 @@
     <color name="statusbar_color">#f2f2f2</color>
     <color name="toast_bg">#99caf1eb</color>
 
+    <color name="icon_angry">#FF8181</color>
+    <color name="icon_sad">#80A6F5</color>
+    <color name="icon_happy">#FFD236</color>
+    <color name="icon_thanks">#FCB34B</color>
+    <color name="icon_suprisei">#97DC71</color>
+
 
 </resources>

@@ -3,6 +3,7 @@ package com.iium.iium_medioz.util.base
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.iium.iium_medioz.di.module
@@ -14,6 +15,7 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import javax.inject.Inject
 
 @HiltAndroidApp
 class MyApplication : Application() {
@@ -22,7 +24,6 @@ class MyApplication : Application() {
         lateinit var prefs: PreferenceManager
         private var isMainNoticeViewed = false
         lateinit var pixelRatio: PixelRatio
-
         lateinit var databaseReference: DatabaseReference
 
         @Synchronized
@@ -36,6 +37,9 @@ class MyApplication : Application() {
         }
 
     }
+
+    @Inject
+    lateinit var pixelRatio: PixelRatio
 
     override fun onCreate() {
         super.onCreate()
@@ -78,7 +82,11 @@ class MyApplication : Application() {
             androidContext(this@MyApplication)
             modules(module)
         }
+        initializeSingletons()
+    }
 
+    private fun initializeSingletons() {
+        pixelRatio = this.pixelRatio
     }
 
 

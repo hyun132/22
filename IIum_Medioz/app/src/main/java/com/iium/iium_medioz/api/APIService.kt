@@ -16,6 +16,7 @@ import com.iium.iium_medioz.model.rest.login.*
 import com.iium.iium_medioz.model.send.DataSend
 import com.iium.iium_medioz.model.send.SendModel
 import com.iium.iium_medioz.model.send.SendTestModel
+import com.iium.iium_medioz.model.test.CalendarPreview
 import com.iium.iium_medioz.model.ui.CounGet
 import com.iium.iium_medioz.model.ui.CounPost
 import com.iium.iium_medioz.model.ui.NoticeModel
@@ -153,9 +154,13 @@ interface APIService {
     fun postFeel(@Header("Accesstoken")accesstoken: String?,
                  @Body calendarFeel: CalendarFeel): Call<CalendarModel>
 
+//    // 캘린더 조회
+//    @GET("v1/calendar/my")
+//    suspend fun getFeel(@Header("Accesstoken")accesstoken: String?): Call<CalendarModel>
+
     // 캘린더 조회
     @GET("v1/calendar/my")
-    fun getFeel(@Header("Accesstoken")accesstoken: String?): Call<CalendarModel>
+    suspend fun getFeel(@Header("Accesstoken")accesstoken: String?): Call<CalendarPreview>
 
     // 캘린더 삭제
     @DELETE("v1/calendar")

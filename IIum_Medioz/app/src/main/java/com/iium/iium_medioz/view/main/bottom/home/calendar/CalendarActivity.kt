@@ -60,8 +60,11 @@ class CalendarActivity : BaseActivity(), DatePickerDialog.OnDateSetListener {
         mBinding.activity = this
         apiServices = ApiUtils.apiService
         mBinding.lifecycleOwner = this
-        inStatusBar()
-        initView()
+
+        runOnUiThread {
+            inStatusBar()
+            initView()
+        }
     }
 
     private fun inStatusBar() {
