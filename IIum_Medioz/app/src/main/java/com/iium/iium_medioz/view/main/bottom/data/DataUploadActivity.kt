@@ -317,7 +317,7 @@ class DataUploadActivity : BaseActivity() {
                 }
             }
             else {
-                val img = data?.data
+                val img : Uri ? = data?.data
                 img.let {
                     val imageUri : Uri? = img
                     fileUtil.getPath(this, it!!)
