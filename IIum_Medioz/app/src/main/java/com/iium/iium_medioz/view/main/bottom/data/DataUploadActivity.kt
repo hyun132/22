@@ -39,7 +39,6 @@ import com.iium.iium_medioz.util.adapter.upload.NormalImgAdapter
 import com.iium.iium_medioz.util.adapter.upload.VideoRecyclerAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
-import com.iium.iium_medioz.util.common.setOnDebounceClickListener
 import com.iium.iium_medioz.util.feel.show
 import com.iium.iium_medioz.util.file.FileUtil
 import com.iium.iium_medioz.util.log.LLog
@@ -328,15 +327,11 @@ class DataUploadActivity : BaseActivity() {
                 }
             }
             else {
-<<<<<<< HEAD
-                val img : Uri ? = data?.data
-=======
                 if(files4.size == 5) {
                     Toast.makeText(this,"사진은 5장까지 선택 가능합니다.",Toast.LENGTH_SHORT).show()
                     return
                 }
                 val img = data?.data
->>>>>>> 3cd25e3b72196f17745c4f016e9293b9ab813a9d
                 img.let {
                     val imageUri : Uri? = img
                     val imgPath = imageUri.let {
