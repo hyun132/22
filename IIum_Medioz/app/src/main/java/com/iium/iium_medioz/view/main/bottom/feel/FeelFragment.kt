@@ -50,7 +50,7 @@ class FeelFragment : BaseFragment() {
 //            dialog?.dismiss()
 //        }
 //    }
-        val intent = Intent(activity, CalendarActivity::class.java)
+        val intent = Intent(activity, TestCalendarActivity::class.java)
         startActivity(intent)
     }
 }

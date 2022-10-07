@@ -88,7 +88,6 @@ class DocumentActivity : BaseActivity() {
         val address = mBinding.tvDoAddress.text.toString()
         val address_city = "대전"
         val address_district = "서구"
-
         val address_location = "월평동"
         val call = mBinding.tvDoCall.text.toString()
         val username = mBinding.etDoName.text.toString()

@@ -8,7 +8,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.iium.iium_medioz.di.module
 import com.iium.iium_medioz.util.common.CommonData
-import com.iium.iium_medioz.util.pixel.PixelRatio
 import com.iium.iium_medioz.util.preference.PreferenceManager
 import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
@@ -23,7 +22,6 @@ class MyApplication : Application() {
     companion object {
         lateinit var prefs: PreferenceManager
         private var isMainNoticeViewed = false
-        lateinit var pixelRatio: PixelRatio
         lateinit var databaseReference: DatabaseReference
 
         @Synchronized
@@ -37,9 +35,6 @@ class MyApplication : Application() {
         }
 
     }
-
-    @Inject
-    lateinit var pixelRatio: PixelRatio
 
     override fun onCreate() {
         super.onCreate()
@@ -82,13 +77,5 @@ class MyApplication : Application() {
             androidContext(this@MyApplication)
             modules(module)
         }
-        initializeSingletons()
     }
-
-    private fun initializeSingletons() {
-        pixelRatio = this.pixelRatio
-    }
-
-
-
 }

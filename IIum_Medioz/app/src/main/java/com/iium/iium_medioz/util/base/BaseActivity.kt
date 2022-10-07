@@ -55,7 +55,6 @@ import com.iium.iium_medioz.view.main.bottom.data.send.SendActivity
 import com.iium.iium_medioz.view.main.bottom.home.calendar.CalendarActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.DocumentActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
-import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalTestActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.search.SearchAddressActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsUploadActivity

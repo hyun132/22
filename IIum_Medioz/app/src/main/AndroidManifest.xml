@@ -48,9 +48,6 @@
             android:name=".view.main.bottom.insurance.affiliated.HospitalInFoActivity"
             android:exported="false" />
         <activity
-            android:name=".view.main.bottom.insurance.affiliated.HospitalTestActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.main.bottom.data.DataModifyActivity"
             android:exported="false" />
         <activity
@@ -189,16 +186,6 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="127916a54d2fdab4044303edf9e1c897" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="team.weathy.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
     </application>
 
 </manifest>

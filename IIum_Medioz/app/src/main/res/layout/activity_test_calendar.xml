@@ -12,13 +12,55 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.iium.iium_medioz.util.calendar.CalendarView
-            android:id="@+id/calendarView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout20"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout20">
+
+            <ImageView
+                android:id="@+id/imageView43"
+                android:layout_width="235dp"
+                android:layout_height="118dp"
+                android:layout_marginTop="140dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_feel_edit" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cl_ok"
+                style="@style/CommonButtonCardStyle_feel"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="11dp"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView43">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_ok"
+                    style="@style/CommonButtonStyle_feel"
+                    android:onClick='@{activity::onSendClick}'
+                    android:text="기록하기" />
+
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
