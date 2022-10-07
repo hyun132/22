@@ -293,6 +293,9 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+<<<<<<< HEAD
+    </androidx.constraintlayout.widget.ConstraintLayout>
+=======
 
         <include
             android:id="@+id/bottom_sheet_include"
@@ -300,4 +303,5 @@
             android:visibility="gone"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+>>>>>>> 3cd25e3b72196f17745c4f016e9293b9ab813a9d
 </layout>
