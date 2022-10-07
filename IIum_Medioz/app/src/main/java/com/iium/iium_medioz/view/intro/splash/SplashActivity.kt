@@ -22,7 +22,6 @@ import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.log.LLog.TAG
 import com.iium.iium_medioz.util.network.ResultListener
-import com.iium.iium_medioz.util.root.RootUtil
 import com.iium.iium_medioz.view.login.StartLoginActivity
 import retrofit2.Call
 import retrofit2.Callback

@@ -28,7 +28,6 @@ import com.iium.iium_medioz.util.`object`.Constant.NAVER_API_URL
 import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.adapter.ViewPagerAdapter
 import com.iium.iium_medioz.util.adapter.address.SearchAddressAdapter
-import com.iium.iium_medioz.util.adapter.map.KaKaoAdapter
 import com.iium.iium_medioz.util.adapter.map.SearchFragmentAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.log.LLog

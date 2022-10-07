@@ -154,13 +154,13 @@ interface APIService {
     fun postFeel(@Header("Accesstoken")accesstoken: String?,
                  @Body calendarFeel: CalendarFeel): Call<CalendarModel>
 
-//    // 캘린더 조회
-//    @GET("v1/calendar/my")
-//    suspend fun getFeel(@Header("Accesstoken")accesstoken: String?): Call<CalendarModel>
-
     // 캘린더 조회
     @GET("v1/calendar/my")
-    suspend fun getFeel(@Header("Accesstoken")accesstoken: String?): Call<CalendarPreview>
+    fun getFeel(@Header("Accesstoken")accesstoken: String?): Call<CalendarModel>
+
+//    // 캘린더 조회
+//    @GET("v1/calendar/my")
+//    suspend fun getFeel(@Header("Accesstoken")accesstoken: String?): Call<CalendarPreview>
 
     // 캘린더 삭제
     @DELETE("v1/calendar")

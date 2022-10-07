@@ -154,6 +154,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     },itemClickListener = {
         val cameraUpdate = CameraUpdate.scrollAndZoomTo(LatLng(it.x!!.toDouble(), it.y!!.toDouble()),18.0).animate(CameraAnimation.Fly, 1000)
         mMap!!.moveCamera(cameraUpdate)
+        sheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
     })
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -448,7 +449,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
                         isHideCollidedMarkers = true
                         isForceShowIcon = false
                     }
-                }
+                }.minClusterSize(1)
                 .markerClickListener  { resut->
 
                     viewAnimationAppear(mBinding.clOverlayParent)
@@ -554,7 +555,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     fun onlistClick(v: View) {
         bottomSheet.visibility = View.VISIBLE
-        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        sheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
     }
 
     fun onlocationClick(v: View) {

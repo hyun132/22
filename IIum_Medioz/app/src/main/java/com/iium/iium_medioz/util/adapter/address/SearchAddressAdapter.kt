@@ -14,7 +14,7 @@ import com.iium.iium_medioz.model.map.Items
 import com.iium.iium_medioz.model.map.NaverSearchModel
 import com.iium.iium_medioz.model.recycler.DataList
 import com.iium.iium_medioz.util.`object`.Constant
-import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.AddressActivity
+import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
 
 class SearchAddressAdapter (private val datalist : List<Items>, val context: Context)
     : RecyclerView.Adapter<SearchAddressAdapter.ViewHolder>(){
@@ -49,7 +49,7 @@ class SearchAddressAdapter (private val datalist : List<Items>, val context: Con
             phone?.text = itemData.telephone.toString()
 
             cl?.setOnClickListener {
-                val intent = Intent(context, AddressActivity::class.java)
+                val intent = Intent(context, HospitalActivity::class.java)
                 intent.putExtra(Constant.NAVER_MAPX, itemData.mapx)
                 intent.putExtra(Constant.NAVER_MAPY, itemData.mapy)
                 ContextCompat.startActivity(itemView.context, intent, null)

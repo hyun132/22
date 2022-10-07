@@ -39,8 +39,6 @@ import com.iium.iium_medioz.util.adapter.upload.NormalImgAdapter
 import com.iium.iium_medioz.util.adapter.upload.VideoRecyclerAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
-import com.iium.iium_medioz.util.common.setOnDebounceClickListener
-import com.iium.iium_medioz.util.feel.show
 import com.iium.iium_medioz.util.file.FileUtil
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.log.LLog.TAG
