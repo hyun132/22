@@ -38,6 +38,6 @@ class TestCalendarActivity :  BaseActivity() {
     }
 
     fun onSendClick(v: View) {
-
+        modeCalendar()
     }
 }

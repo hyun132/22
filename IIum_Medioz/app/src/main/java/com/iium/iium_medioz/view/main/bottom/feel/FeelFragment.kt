@@ -14,13 +14,16 @@ import com.iium.iium_medioz.databinding.FragmentFeelBinding
 import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.dialog.LoadingDialog
 import com.iium.iium_medioz.view.main.bottom.home.calendar.CalendarActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
-class FeelFragment : BaseFragment() {
+@FlowPreview
+@AndroidEntryPoint
+class FeelFragment : Fragment() {
 
     private lateinit var mBinding : FragmentFeelBinding
 
@@ -35,21 +38,10 @@ class FeelFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        initView()
+//        initView()
     }
 
     private fun initView() {
-//        val dialog = context?.let {
-//            LoadingDialog(it)
-//        }
-//        CoroutineScope(Main).launch {
-//            dialog?.show()
-//            delay(2000)
-//            val intent = Intent(activity, CalendarActivity::class.java)
-//            startActivity(intent)
-//            dialog?.dismiss()
-//        }
-//    }
         val intent = Intent(activity, TestCalendarActivity::class.java)
         startActivity(intent)
     }

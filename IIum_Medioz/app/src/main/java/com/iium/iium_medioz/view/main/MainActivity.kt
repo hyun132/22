@@ -38,6 +38,8 @@ import com.iium.iium_medioz.view.main.bottom.feel.FeelFragment
 import com.iium.iium_medioz.view.main.bottom.home.HomeFragment
 import com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalFragment
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.FlowPreview
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,6 +47,8 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
 
+@FlowPreview
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     private lateinit var mBinding : ActivityMainBinding

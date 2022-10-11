@@ -177,7 +177,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     }
 
-
     override fun onResume() {
         super.onResume()
         if (!checkLocationServicesStatus()) {
