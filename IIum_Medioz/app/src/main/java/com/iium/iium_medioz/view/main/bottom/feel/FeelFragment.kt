@@ -7,33 +7,41 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.databinding.FragmentFeelBinding
-import com.iium.iium_medioz.util.base.BaseFragment
-import com.iium.iium_medioz.util.dialog.LoadingDialog
-import com.iium.iium_medioz.view.main.bottom.home.calendar.CalendarActivity
+import com.iium.iium_medioz.util.calendar.isSameDay
+import com.iium.iium_medioz.util.common.AutoClearedValue
+import com.iium.iium_medioz.util.dialog.DateDialog
+import com.iium.iium_medioz.util.log.debugE
+import com.iium.iium_medioz.viewmodel.calendar.CalendarViewModel
+import com.iium.iium_medioz.viewmodel.calendar.FeelViewModel
+import com.iium.iium_medioz.viewmodel.main.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDate
+
 
 @FlowPreview
 @AndroidEntryPoint
-class FeelFragment : Fragment() {
+class FeelFragment : Fragment(), DateDialog.OnClickListener {
 
-    private lateinit var mBinding : FragmentFeelBinding
+    private var mBinding by AutoClearedValue<FragmentFeelBinding>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_feel, container, false)
-        mBinding.fragment = this
-        return mBinding.root
+    ) = FragmentFeelBinding.inflate(layoutInflater, container, false).also { mBinding = it }.root
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mBinding.lifecycleOwner = viewLifecycleOwner
+
     }
 
     override fun onAttach(context: Context) {
@@ -41,8 +49,14 @@ class FeelFragment : Fragment() {
 //        initView()
     }
 
+    override fun onClick(date: LocalDate) {
+        mBinding.calendarView.selectedDate = date
+    }
+
     private fun initView() {
         val intent = Intent(activity, TestCalendarActivity::class.java)
         startActivity(intent)
     }
+
+
 }

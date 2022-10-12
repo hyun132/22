@@ -25,6 +25,7 @@
 <!--        </ProgressBar>-->
 
         <com.iium.iium_medioz.util.calendar.CalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             app:layout_constraintEnd_toEndOf="parent"

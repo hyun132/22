@@ -21,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -188,7 +189,11 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         } else {
             checkRunTimePermission()
         }
-        mapFragment.getMapAsync(this) // 비동기로 NaverMap 객체를 얻어옴. NaverMap 객체가 준비되면 callback의 OnMapReadyCallback.onMapReady(NaverMap)가 호출됨.
+//        mapFragment.getMapAsync(this) // 비동기로 NaverMap 객체를 얻어옴. NaverMap 객체가 준비되면 callback의 OnMapReadyCallback.onMapReady(NaverMap)가 호출됨.
+
+        viewModel.ismapReady.observe(this, Observer{
+            if(it) initMapListener()
+        }) // 변경: map이 준비됐으면 initMapListener 호출
     }
 
     override fun onPause() {
@@ -208,11 +213,28 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         finishAffinity()
     }
 
+    private fun initMapListener() { // 변경
+        if (locationSource == null) {
+            //Log.e("test", "initMapListener, $locationSource")
+            locationSource =
+                FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+            //Log.e("test", "initMapListener2, $locationSource")
+        }
+        if (mMap != null && comm != null) {
+            //Log.e("test", "initMapListener3, ${locationSource!!.lastLocation}")
+            mMap!!.locationSource = locationSource
+            mMap!!.addOnLocationChangeListener(locationChangeListener)
+            mMap!!.locationTrackingMode = LocationTrackingMode.Follow
+        }
+    }
+
     private fun removeGps() {
-        setMapTrackingMode(LocationTrackingMode.None)
-        locationSource = null
-        mMap?.locationSource = null
-        mMap?.onMapClickListener = null
+        if(mMap != null){
+            setMapTrackingMode(LocationTrackingMode.None)
+            locationSource = null
+            mMap?.locationSource = null
+            mMap?.onMapClickListener = null
+        }
     }
 
     private fun setMapTrackingMode(trackingMode: LocationTrackingMode?) {
@@ -350,16 +372,33 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     private fun initView() { // 3
-        val options = NaverMapOptions() // 지도의 초기 옵션을 지정하는 클래스, MapFragment나 MapView를 생성할 때 이 클래스의 인스턴스를 전달해 초깃값을 지정하는 것을 권장, 지도 객체가 생성된 후에는 이 객체를 사용할 수 없음
-            .mapType(NaverMap.MapType.Basic) // 지도의 유형을 지정
-            .enabledLayerGroups(NaverMap.LAYER_GROUP_BICYCLE) // 활성화할 레이어 그룹의 목록을 지정
-            .compassEnabled(true) // 나침반을 활성화할지 여부
-            .scaleBarEnabled(true) // 축적 바를 활성화할지 여부
-        mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment?
-            ?: MapFragment.newInstance(options).also {
-                supportFragmentManager.beginTransaction().add(R.id.map_fragment, it).commit()
-            } // 처음에 mapFragment에 저장해놓고 onResume 때 다시 쓸 수 있다.
-        mapFragment.getMapAsync(this)
+        if (locationSource == null) {
+            //Log.e("test", "initView, $locationSource")
+            locationSource =
+                FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+            //Log.e("test", "initView2, ${locationSource!!.lastLocation}")
+        }
+
+        // 변경: mapFragment가 null인 경우 새로 만들어줌, 카메라 position을 처음에 디폴트값 지정
+        val fm = supportFragmentManager
+        var mapFragment = fm.findFragmentById(R.id.map_fragment) as MapFragment?
+        if (mapFragment == null) {
+            mapFragment = MapFragment.newInstance(
+                NaverMapOptions().minZoom(10.0)
+                    .camera(
+                        CameraPosition(
+                            LatLng(36.446555, 127.119055),
+                            15.0
+                        )
+                    )
+                    .mapType(NaverMap.MapType.Basic) // 지도의 유형을 지정
+                    .enabledLayerGroups(NaverMap.LAYER_GROUP_BICYCLE) // 활성화할 레이어 그룹의 목록을 지정
+                    .compassEnabled(true) // 나침반을 활성화할지 여부
+                    .scaleBarEnabled(true) // 축적 바를 활성화할지 여부
+            )
+            fm.beginTransaction().add(R.id.map_fragment, mapFragment).commit()
+        }
+        mapFragment!!.getMapAsync(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -375,13 +414,10 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         mMap!!.maxZoom = 18.0
         mMap!!.minZoom = 10.0
 
-        val uiSetting = naverMap.uiSettings
-        uiSetting.isLocationButtonEnabled = false
+        viewModel.setIsMapReady(true)
+
+        val uiSetting = mMap!!.uiSettings
         uiSetting.isZoomControlEnabled = false
-        uiSetting.isCompassEnabled = false
-        uiSetting.isScaleBarEnabled = false
-        uiSetting.isRotateGesturesEnabled = false
-        uiSetting.isTiltGesturesEnabled = false
 
         mMap!!.setOnMapClickListener{ point, coord ->
             viewAnimationDisappear(mBinding.clOverlayParent)
@@ -410,35 +446,12 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
             updateMarker(it)
             recyclerViewAdapter.submitList(it)
         }
+        initMapListener()
     }
 
     private var locationChangeListener = NaverMap.OnLocationChangeListener { location ->
         currentLatLng = LatLng(location.latitude, location.longitude)
     }
-
-//    private fun getAPI() {
-//        LLog.e("제휴병원 좌표")
-//        val query = ""
-//        val vercall: Call<MapMarker> = apiServices.getMap(prefs.newaccesstoken,query)
-//        vercall.enqueue(object : Callback<MapMarker> {
-//            override fun onResponse(call: Call<MapMarker>, response: Response<MapMarker>) {
-//                val result = response.body()
-//                if (response.isSuccessful && result != null) {
-//                    Log.d(LLog.TAG,"제휴병원 response SUCCESS -> $result")
-//                    updateMarker(result.result)
-//                    recyclerViewAdapter.submitList(result.result)
-//                }
-//                else {
-//                    Log.d(LLog.TAG,"제휴병원 response ERROR -> $result")
-//                    ErrorDialog()
-//                }
-//            }
-//            override fun onFailure(call: Call<MapMarker>, t: Throwable) {
-//                Log.d(LLog.TAG, "제휴병원 Fail -> ${t.localizedMessage}")
-//                ErrorDialog()
-//            }
-//        })
-//    }
 
     private fun updateMarker(result: List<AddressDocument>) {
         result.forEach { maps ->
@@ -457,7 +470,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
                     }
                 }.minClusterSize(1)
                 .markerClickListener  { resut->
-
                     viewAnimationAppear(mBinding.clOverlayParent)
                     val result_place = result.filter { it.id == resut.id }[0]
                     mBinding.viewHospitalItem.tvMapTitle.text = result_place.place_name.toString()

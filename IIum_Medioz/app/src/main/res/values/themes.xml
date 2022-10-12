@@ -139,9 +139,9 @@
 
     <style name="DatePicker">
         <!-- Text color -->
-        <item name="android:textColorPrimary">@color/main_mint</item>
+        <item name="android:textColorPrimary">@color/imoji_verycold_text</item>
         <!-- Divider color -->
-        <item name="colorControlNormal">@color/main_mint</item>
+        <item name="colorControlNormal">@color/imoji_verycold_text</item>
         <item name="controlBackground">@drawable/ic_search</item>
     </style>
 

@@ -15,7 +15,7 @@ import java.time.LocalDate
 typealias YearMonthFormat = String
 
 class FeelViewModel
-@ViewModelInject constructor(
+ constructor(
     @Api private val calendarAPI: CalendarAPI,
     @Api private val weathyAPI: WeathyAPI
 ) : ViewModel() {

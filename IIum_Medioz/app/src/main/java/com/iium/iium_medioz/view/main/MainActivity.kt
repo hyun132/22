@@ -1,51 +1,27 @@
 package com.iium.iium_medioz.view.main
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.content.pm.Signature
-import android.media.tv.TvContract.Programs.Genres.encode
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Base64
-import android.util.Base64.DEFAULT
-import android.util.Base64.encodeToString
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityMainBinding
-import com.iium.iium_medioz.model.rest.base.AppPolicy
-import com.iium.iium_medioz.util.`object`.Constant.INTENT_NOTICE_END_DATE
-import com.iium.iium_medioz.util.`object`.Constant.INTENT_NOTICE_URL
 import com.iium.iium_medioz.util.base.BaseActivity
-import com.iium.iium_medioz.util.encrypt.Base64Util
-import com.iium.iium_medioz.util.encrypt.Base64Util.encode
-import com.iium.iium_medioz.util.log.LLog
-import com.iium.iium_medioz.util.log.LLog.TAG
-import com.iium.iium_medioz.util.popup.ImageNoticePopup
 import com.iium.iium_medioz.view.main.bottom.data.DataFragment
 import com.iium.iium_medioz.view.main.bottom.feel.FeelFragment
 import com.iium.iium_medioz.view.main.bottom.home.HomeFragment
-import com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.FlowPreview
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.util.*
+
 
 @FlowPreview
 @AndroidEntryPoint

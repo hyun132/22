@@ -48,11 +48,11 @@ constructor(context: Context, attrs: AttributeSet? = null) :
     ConstraintLayout(context, attrs){
         private val today = LocalDate.now()
 
-    private val onDateChangeListener: ((date: LocalDate) -> Unit)? = null
-    private val onSelectedDateChangeListener: ((date: LocalDate) -> Unit)? = null
+    var onDateChangeListener: ((date: LocalDate) -> Unit)? = null
+    var onSelectedDateChangeListener: ((date: LocalDate) -> Unit)? = null
 
     private val curDateLiveData = MutableLiveData(LocalDate.now())
-    private var curDate : LocalDate by OnChangeProp(LocalDate.now()) {
+    var curDate : LocalDate by OnChangeProp(LocalDate.now()) {
         onCurDateChanged()
     }
 
@@ -138,7 +138,7 @@ constructor(context: Context, attrs: AttributeSet? = null) :
     }
 
     private val todayButton = ImageButton(context).apply {
-        setImageResource(R.drawable.ic_today)
+        setImageResource(R.drawable.icon_calendar_header)
         scaleType = ImageView.ScaleType.FIT_CENTER
 
         val outValue = TypedValue()

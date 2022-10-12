@@ -29,6 +29,10 @@ class HospitalViewModel(
         _viewEvent.postValue(Event(content))
     }
 
+    private val _ismapReady = MutableLiveData<Boolean>(false)
+    val ismapReady: LiveData<Boolean>
+        get() = _ismapReady
+
     init {
         getAPI()
     }
@@ -52,6 +56,10 @@ class HospitalViewModel(
                 }
             }
         }
+    }
+
+    fun setIsMapReady(flag: Boolean){
+        _ismapReady.value = flag
     }
 
     companion object {
