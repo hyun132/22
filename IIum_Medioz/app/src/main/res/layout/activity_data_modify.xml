@@ -6,6 +6,9 @@
         <variable
             name="activity"
             type="com.iium.iium_medioz.view.main.bottom.data.DataModifyActivity" />
+        <variable
+            name="viewModel"
+            type="com.iium.iium_medioz.viewmodel.main.bottom.DataModifyViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -87,6 +90,7 @@
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
                                 tools:text="홍길동"
+                                android:text="@={viewModel.medicalDetailTitle}"
                                 android:textColor="@color/gray2"
                                 android:textSize="@dimen/common_font_title"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -140,6 +144,7 @@
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
                                 tools:text="키워드"
+                                android:text="@={viewModel.myKeyword}"
                                 android:textColor="@color/gray2"
                                 android:textSize="@dimen/common_font_title"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -170,6 +175,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="10dp"
+
                                 android:fontFamily="@font/gyeonggititle_bold_title"
                                 android:text="텍스트 이미지"
                                 android:textColor="@color/black"
@@ -185,6 +191,7 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="@font/gyeonggititle_bold_title"
                                 tools:text="0"
+                                android:text="@{viewModel.count}"
                                 android:textColor="@color/black_trans"
                                 android:textSize="15sp"
                                 app:layout_constraintStart_toEndOf="@+id/tv_text_img"
@@ -215,6 +222,7 @@
                                     android:id="@+id/image1"
                                     android:layout_width="75dp"
                                     android:layout_height="80dp"
+                                    bindImgResource="@{viewModel.image1}"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
@@ -225,6 +233,7 @@
                                     android:id="@+id/image2"
                                     android:layout_width="75dp"
                                     android:layout_height="80dp"
+                                    bindImgResource="@{viewModel.image2}"
                                     android:layout_marginHorizontal="5dp"
                                     android:scaleType="center"
                                     app:layout_constraintBottom_toBottomOf="parent"
@@ -237,6 +246,7 @@
                                     android:layout_height="80dp"
                                     android:layout_marginHorizontal="5dp"
                                     android:scaleType="center"
+                                    bindImgResource="@{viewModel.image3}"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/image2"
                                     app:layout_constraintTop_toTopOf="parent" />
@@ -247,6 +257,7 @@
                                     android:layout_height="80dp"
                                     android:layout_marginHorizontal="5dp"
                                     android:scaleType="center"
+                                    bindImgResource="@{viewModel.image4}"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/image3"
                                     app:layout_constraintTop_toTopOf="parent" />
@@ -255,6 +266,7 @@
                                     android:id="@+id/image5"
                                     android:layout_width="75dp"
                                     android:layout_height="80dp"
+                                    bindImgResource="@{viewModel.image5}"
                                     android:layout_marginHorizontal="5dp"
                                     android:scaleType="center"
                                     app:layout_constraintBottom_toBottomOf="parent"
@@ -300,6 +312,7 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="@font/gyeonggititle_bold_title"
                                 tools:text="0"
+                                android:text="@{viewModel.normalCount}"
                                 android:textColor="@color/black_trans"
                                 android:textSize="15sp"
                                 app:layout_constraintStart_toEndOf="@+id/tv_normal_img"
@@ -331,6 +344,7 @@
                                 android:id="@+id/n_image1"
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
+                                app:bindImgResource="@{viewModel.nImage1}"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -343,6 +357,7 @@
                                 android:layout_height="80dp"
                                 android:layout_marginHorizontal="5dp"
                                 android:scaleType="center"
+                                app:bindImgResource="@{viewModel.nImage2}"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/n_image1"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -352,6 +367,7 @@
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
                                 android:layout_marginHorizontal="5dp"
+                                app:bindImgResource="@{viewModel.nImage3}"
                                 android:scaleType="center"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/n_image2"
@@ -362,6 +378,7 @@
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
                                 android:layout_marginHorizontal="5dp"
+                                app:bindImgResource="@{viewModel.nImage4}"
                                 android:scaleType="center"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/n_image3"
@@ -372,6 +389,7 @@
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
                                 android:layout_marginHorizontal="5dp"
+                                app:bindImgResource="@{viewModel.nImage5}"
                                 android:scaleType="center"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -413,6 +431,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="12dp"
+                                android:text="@{viewModel.vedioCount}"
                                 android:fontFamily="@font/gyeonggititle_bold_title"
                                 tools:text="0"
                                 android:textColor="@color/black_trans"
@@ -504,6 +523,7 @@
                                     android:layout_height="match_parent"
                                     android:background="@color/text_black"
                                     android:onClick='@{activity::onPutClick}'>
+                                    <!--                                    android:onClick='@{()-> viewModel.initModify()}'>-->
 
                                     <TextView
                                         android:id="@+id/textView26"

@@ -37,10 +37,12 @@ import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.view.main.MainActivity
+import com.iium.iium_medioz.viewmodel.main.bottom.data.send.SendViewModel
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONObject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
@@ -57,16 +59,28 @@ class SendActivity : BaseActivity() {
     private lateinit var mBinding : ActivitySendBinding
     private lateinit var apiServices: APIService
     private var doubleBackToExit = false
+    private val viewModel : SendViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_send)
-        mBinding.activity = this
         apiServices = ApiUtils.apiService
-        mBinding.lifecycleOwner = this
+        mBinding.apply {
+            activity = this@SendActivity
+            lifecycleOwner = this@SendActivity
+            viewModel = this@SendActivity.viewModel
+        }
         inStatusBar()
         runOnUiThread {
             initView()
+        }
+        viewModel.viewEvent.observe(this){
+            it.getContentIfNotHandled()?.let { event ->
+                when(event){
+                    SendViewModel.NAVIGATE_SAVE_SEND_ACTIVITY -> moveSaveSend()
+                    SendViewModel.NAVIGATE_MAKE_PDF_ACTIVITY -> movePDF()
+                }
+            }
         }
     }
 
@@ -84,464 +98,12 @@ class SendActivity : BaseActivity() {
         val videoList = intent.getStringExtra(SEND_VIDEO)
         val id = intent.getStringExtra(SEND_ID)
 
-
-        mBinding.tvMedicalDetailTitle.text = title.toString()
-        mBinding.tvMedicalDetailData.text = timestamp.toString()
-        mBinding.tvMyKeyword.text = keyword.toString()
-
-        val img =  textList?.substring(2)
-        val imgtest = img?.substring(0, img.length - 2)
-        val tnla = imgtest?.split(",")
-
-        for(i in 0 until tnla?.size!! step(1)) {
-            val str_idx = i.toString()
-            Thread {
-                try {
-                    when (str_idx) {
-                        "0" -> first(tnla[i].trim())
-                        "1" -> second(tnla[i].trim())
-                        "2" -> third(tnla[i].trim())
-                        "3" -> four(tnla[i].trim())
-                        "4" -> five(tnla[i].trim())
-                        else -> Log.d(LLog.TAG, "실패")
-                    }
-                }
-                catch (e: Exception) {
-                    LLog.d(e.toString())
-                }
-            }.start()
-            runOnUiThread {
-                initGone(str_idx)
-            }
-        }
-
-        val normal =  normalList?.substring(2)
-        val normaltest = normal?.substring(0, normal.length - 2)
-        val normalstart = normaltest?.split(",")
-
-        for(i in 0 until normalstart?.size!! step(1)) {
-            val str_idx = i.toString()
-            Thread {
-                try {
-                    when (str_idx) {
-                        "0" -> normal_first(normalstart[i].trim())
-                        "1" -> normal_second(normalstart[i].trim())
-                        "2" -> normal_third(normalstart[i].trim())
-                        "3" -> normal_four(normalstart[i].trim())
-                        "4" -> normal_five(normalstart[i].trim())
-                        else -> Log.d(LLog.TAG, "실패")
-                    }
-                }
-                catch (e: Exception) {
-                    LLog.d(e.toString())
-                }
-            }.start()
-        }
-    }
-
-    private fun initGone(strIdx: String) {
-        if(strIdx == "0") {
-            if (mBinding.llFirst.visibility == View.GONE) {
-                mBinding.llFirst.visibility = View.VISIBLE
-            }
-        }
-        if(strIdx == "1") {
-            if (mBinding.llSecond.visibility == View.GONE) {
-                mBinding.llSecond.visibility = View.VISIBLE
-            }
-        }
-        if(strIdx == "2") {
-            if (mBinding.llThird.visibility == View.GONE) {
-                mBinding.llThird.visibility = View.VISIBLE
-            }
-        }
-        if(strIdx == "3") {
-            if (mBinding.llFour.visibility == View.GONE) {
-                mBinding.llFour.visibility = View.VISIBLE
-            }
-        }
-        if(strIdx == "4") {
-            if (mBinding.llFive.visibility == View.GONE) {
-                mBinding.llFive.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    //////////////////////텍스트 이미지 추출 API////////////////////////////
-    private fun first(textFirst: String) {
-        LLog.e("텍스트 첫번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(textFirst, prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"텍스트 첫번째 response SUCCESS -> $result")
-                    Thread {
-                        try {
-                            val imgs = result.byteStream()
-                            val bit = BitmapFactory.decodeStream(imgs)
-                            val bitimage = Bitmap.createScaledBitmap(bit, 210,210,true)
-                            mBinding.image1.setImageBitmap(bitimage)
-                        }
-                        catch (e: Exception) {
-                            Log.d(LLog.TAG,"텍스트 첫번째 이미지 다운 실패 -> $e")
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(LLog.TAG,"텍스트 첫번째 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(LLog.TAG, "텍스트 첫번째 Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
-
-    private fun second(second: String) {
-        LLog.e("텍스트 두번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(second, prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"텍스트 두번째 response SUCCESS -> $result")
-                    Thread {
-                        try {
-                            val imgs = result.byteStream()
-                            val bit = BitmapFactory.decodeStream(imgs)
-                            val bitimage = Bitmap.createScaledBitmap(bit, 210,210,true)
-                            mBinding.image2.setImageBitmap(bitimage)
-                        }
-                        catch (e: Exception) {
-                            Log.d(LLog.TAG,"텍스트 두번째 이미지 다운 실패 -> $e")
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(LLog.TAG,"텍스트 두번째 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(LLog.TAG, "텍스트 두번째 Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
-
-    private fun third(third: String) {
-        LLog.e("텍스트 세번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(third, prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"텍스트 세번째 response SUCCESS -> $result")
-                    Thread {
-                        try {
-                            val imgs = result.byteStream()
-                            val bit = BitmapFactory.decodeStream(imgs)
-                            val bitimage = Bitmap.createScaledBitmap(bit, 210,210,true)
-                            mBinding.image3.setImageBitmap(bitimage)
-                        }
-                        catch (e: Exception) {
-                            Log.d(LLog.TAG,"텍스트 세번째 이미지 다운 실패 -> $e")
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(LLog.TAG,"텍스트 세번째 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(LLog.TAG, "텍스트 세번째 Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
-
-    private fun four(four: String) {
-        LLog.e("텍스트 네번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(four, prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"텍스트 네번째 response SUCCESS -> $result")
-                    Thread {
-                        try {
-                            val imgs = result.byteStream()
-                            val bit = BitmapFactory.decodeStream(imgs)
-                            val bitimage = Bitmap.createScaledBitmap(bit, 210,210,true)
-                            mBinding.image4.setImageBitmap(bitimage)
-                        }
-                        catch (e: Exception) {
-                            Log.d(LLog.TAG,"텍스트 네번째 이미지 다운 실패 -> $e")
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(LLog.TAG,"텍스트 네번째 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(LLog.TAG, "텍스트 네번째 Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
-
-    private fun five(five: String) {
-        LLog.e("텍스트 다섯번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(five, prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"텍스트 다섯번째 response SUCCESS -> $result")
-                    Thread {
-                        try {
-                            val imgs = result.byteStream()
-                            val bit = BitmapFactory.decodeStream(imgs)
-                            val bitimage = Bitmap.createScaledBitmap(bit, 210,210,true)
-                            mBinding.image5.setImageBitmap(bitimage)
-                        }
-                        catch (e: Exception) {
-                            Log.d(LLog.TAG,"텍스트 다섯번째 이미지 다운 실패 -> $e")
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(LLog.TAG,"텍스트 다섯번째 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(LLog.TAG, "텍스트 다섯번째 Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
-
-
-    //////////////////////일반 이미지 추출 API////////////////////////////
-    private fun normal_first(nm_first: String) {
-        LLog.e("일반 첫번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_first, prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"일반 첫번째 response SUCCESS -> $result")
-                    Thread {
-                        try {
-                            val imgs = result.byteStream()
-                            val bit = BitmapFactory.decodeStream(imgs)
-                            val bitimage = Bitmap.createScaledBitmap(bit, 210,210,true)
-                            mBinding.nImage1.setImageBitmap(bitimage)
-                        }
-                        catch (e: Exception) {
-                            Log.d(LLog.TAG,"일반 첫번째 이미지 다운 실패 -> $e")
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(LLog.TAG,"일반 첫번째 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(LLog.TAG, "일반 첫번째 Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
-
-    private fun normal_second(nm_second: String) {
-        LLog.e("일반 두번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_second, prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"일반 두번째 response SUCCESS -> $result")
-                    Thread {
-                        try {
-                            val imgs = result.byteStream()
-                            val bit = BitmapFactory.decodeStream(imgs)
-                            val bitimage = Bitmap.createScaledBitmap(bit, 210,210,true)
-                            mBinding.nImage2.setImageBitmap(bitimage)
-                        }
-                        catch (e: Exception) {
-                            Log.d(LLog.TAG,"일반 두번째 이미지 다운 실패 -> $e")
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(LLog.TAG,"일반 두번째 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(LLog.TAG, "일반 두번째 Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
-
-    private fun normal_third(nm_third: String) {
-        LLog.e("일반 세번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_third, prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"일반 세번째 response SUCCESS -> $result")
-                    Thread {
-                        try {
-                            val imgs = result.byteStream()
-                            val bit = BitmapFactory.decodeStream(imgs)
-                            val bitimage = Bitmap.createScaledBitmap(bit, 210,210,true)
-                            mBinding.nImage3.setImageBitmap(bitimage)
-                        }
-                        catch (e: Exception) {
-                            Log.d(LLog.TAG,"일반 세번째 이미지 다운 실패 -> $e")
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(LLog.TAG,"일반 세번째 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(LLog.TAG, "일반 세번째 Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
-
-    private fun normal_four(nm_four: String) {
-        LLog.e("일반 네번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_four, prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"일반 네번째 response SUCCESS -> $result")
-                    Thread {
-                        try {
-                            val imgs = result.byteStream()
-                            val bit = BitmapFactory.decodeStream(imgs)
-                            val bitimage = Bitmap.createScaledBitmap(bit, 210,210,true)
-                            mBinding.nImage4.setImageBitmap(bitimage)
-                        }
-                        catch (e: Exception) {
-                            Log.d(LLog.TAG,"일반 네번째 이미지 다운 실패 -> $e")
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(LLog.TAG,"일반 네번째 response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(LLog.TAG, "일반 네번째 Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
-
-    private fun normal_five(nm_five: String) {
-        LLog.e("일반 다섯번째 이미지 API")
-        val vercall: Call<ResponseBody> = apiServices.getImg(nm_five, prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"일반 다섯번째 response SUCCESS -> $result")
-                    Thread {
-                        try {
-                            val imgs = result.byteStream()
-                            val bit = BitmapFactory.decodeStream(imgs)
-                            val bitimage = Bitmap.createScaledBitmap(bit, 210,210,true)
-                            mBinding.nImage5.setImageBitmap(bitimage)
-                        }
-                        catch (e: Exception) {
-                            Log.d(LLog.TAG,"일반 다섯번째 이미지 다운 실패 -> $e")
-                        }
-                    }.start()
-                }
-                else {
-                    Log.d(LLog.TAG,"일반 다섯번째  response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d(LLog.TAG, "일반 다섯번째 Fail -> ${t.localizedMessage}")
-
-            }
-        })
-    }
-
-
-    //////////////////////영상 추출 API////////////////////////////
-    private fun video_first(s: String) {
-
-    }
-
-    private fun video_second(s: String) {
-
-    }
-
-    private fun video_third(s: String) {
-
+        viewModel.setViewData(title,keyword,timestamp,textList,normalList,videoList,id)
     }
 
     private fun inStatusBar() {
         setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
         window.statusBarColor = getColor(R.color.colorPrimary)
-    }
-
-    private fun sendAPI() {
-        val title = intent.getStringExtra(SEND_TITLE)
-        val keyword = intent.getStringExtra(SEND_KEYWORD)
-        val timestamp = intent.getStringExtra(SEND_TIME_STAMP)
-        val id = intent.getStringExtra(SEND_ID)
-        val send_sendcode = SEND_CODE_TRUE
-        val send_default = DEFAULT_CODE_FALSE
-        val sensitivity_first_code = mBinding.etDataFirst.text.toString()
-        val sensitivity_two_code = mBinding.etDataSecond.text.toString()
-        val sensitivity_third_code = mBinding.etDataThird.text.toString()
-        val sensitivity_four_code = mBinding.etDataFour.text.toString()
-        val sensitivity_five_type = mBinding.etDataFive.text.toString()
-        val textList = intent.getStringExtra(SEND_TEXTIMG)
-        val normalList = intent.getStringExtra(SEND_NORMAL)
-        val videoList = intent.getStringExtra(SEND_VIDEO)
-
-        val send = DataSend(
-            title,
-            keyword,
-            textList,
-            normalList,
-            videoList,
-            timestamp,
-            send_default,
-            sensitivity_first_code,
-            sensitivity_two_code,
-            sensitivity_third_code,
-            sensitivity_four_code,
-            sensitivity_five_type,
-            send_sendcode,
-            id
-        )
-
-        LLog.e("판매 데이터 API")
-        val vercall: Call<SendModel> = apiServices.getChange(prefs.newaccesstoken,send)
-        vercall.enqueue(object : Callback<SendModel> {
-            override fun onResponse(call: Call<SendModel>, response: Response<SendModel>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"판매 데이터 response SUCCESS -> $result")
-//                    naverOCRAPI()
-                    moveSaveSend()
-                }
-                else {
-                    Log.d(LLog.TAG,"판매 데이터 response ERROR -> $result")
-                    ErrorDialog()
-                }
-            }
-            override fun onFailure(call: Call<SendModel>, t: Throwable) {
-                Log.d(LLog.TAG, "판매 데이터 Fail -> ${t.localizedMessage}")
-            }
-        })
     }
 
     private fun naverOCRAPI() {
@@ -628,12 +190,12 @@ class SendActivity : BaseActivity() {
     }
 
     fun onSendClick(v: View?) {
+//        naverOCRAPI()
         val dlg: AlertDialog.Builder = AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
         dlg.setTitle("판매 등록") //제목
         dlg.setMessage("판매등록을 하시겠습니까?") // 메시지
         dlg.setPositiveButton("확인") { dialog, which ->
-            sendAPI()
-//            naverOCRAPI()
+            viewModel.sendAPI()
             dialog.dismiss()
         }
         dlg.setNegativeButton("취소") { dialog, which ->

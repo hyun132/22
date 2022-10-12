@@ -21,15 +21,18 @@ import com.iium.iium_medioz.util.adapter.SendAdapter
 import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
+import com.iium.iium_medioz.viewmodel.main.bottom.data.DataViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SendFragment : BaseFragment() {
 
-    private lateinit var mBinding : FragmentSendBinding
-    private var sendadapter : SendAdapter? = null
+    private lateinit var mBinding: FragmentSendBinding
+    private var sendadapter: SendAdapter? = null
     private lateinit var callback: OnBackPressedCallback
+    private val viewModel: DataViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,41 +40,27 @@ class SendFragment : BaseFragment() {
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_send, container, false)
         mBinding.fragment = this
-        initView()
+//        initView()
+        viewModel.initSendView()
         return mBinding.root
     }
 
-    private fun initView() {
-        LLog.e("판매 데이터 조회 API")
-        val vercall: Call<SendTestModel> = apiServices.getSend(prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<SendTestModel> {
-            override fun onResponse(call: Call<SendTestModel>, response: Response<SendTestModel>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"판매 데이터 조회 API SUCCESS -> $result")
-                    if(result.datalist!!.isEmpty()) {
-                        mBinding.SendListRecyclerView.visibility = View.GONE
-                        mBinding.tvDataSendNot.visibility = View.VISIBLE
-                    } else {
-                        mBinding.SendListRecyclerView.visibility = View.VISIBLE
-                        mBinding.tvDataSendNot.visibility = View.GONE
-                        setAdapter(result.datalist)
-                    }
-                }
-                else {
-                    Log.d(LLog.TAG,"판매 데이터 조회 API ERROR -> $result")
-                    ErrorDialog()
-                }
-            }
-            override fun onFailure(call: Call<SendTestModel>, t: Throwable) {
-                Log.d(LLog.TAG, "판매 데이터 조회 API Fail -> $t")
-            }
-        })
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.sendDataList.observe(viewLifecycleOwner) {
+            setAdapter(it)
+        }
     }
-
-
     @SuppressLint("UseRequireInsteadOfGet")
     private fun setAdapter(datalist: List<SendList>) {
+        if (datalist.isEmpty()) {
+            mBinding.SendListRecyclerView.visibility = View.GONE
+            mBinding.tvDataSendNot.visibility = View.VISIBLE
+        } else {
+            mBinding.SendListRecyclerView.visibility = View.VISIBLE
+            mBinding.tvDataSendNot.visibility = View.GONE
+        }
         val adapter = SendAdapter(datalist, context!!)
         val rv = mBinding.SendListRecyclerView
         rv.adapter = adapter

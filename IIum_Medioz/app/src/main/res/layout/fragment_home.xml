@@ -6,6 +6,9 @@
         <variable
             name="fragment"
             type="com.iium.iium_medioz.view.main.bottom.home.HomeFragment" />
+        <variable
+            name="viewModel"
+            type="com.iium.iium_medioz.viewmodel.main.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +40,7 @@
                         android:id="@+id/cl_main"
                         android:layout_width="match_parent"
                         android:layout_height="380dp"
-                        android:background="@drawable/main_first"
+                        backgroundSrc="@{viewModel.bannerImageId}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -58,8 +61,9 @@
                             android:layout_marginStart="30dp"
                             android:layout_marginTop="45dp"
                             android:fontFamily="@font/gyeonggititle_bold_title"
-                            android:text="홍길동"
+                            android:text="@{viewModel.nickname}"
                             android:textColor="@color/white"
+                            android:visibility="visible"
                             android:textSize="30dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -107,7 +111,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="40dp"
                             android:layout_marginStart="5dp"
-                            android:text="1"
+                            android:text="@{viewModel.tvLabel}"
                             android:textColor="@color/white"
                             android:textSize="50dp"
                             android:fontFamily="@font/gyeonggititle_medium"
@@ -150,6 +154,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
+                            app:bindImgResource="@{viewModel.imgDataTem}"
                             app:srcCompat="@drawable/main_tem_first" />
 
                         <TextView
@@ -157,7 +162,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/gyeonggititle_medium"
-                            android:text="0"
+                            android:text="@{viewModel.tvTem}"
                             android:textColor="@color/white"
                             android:textSize="30dp"
                             android:layout_marginEnd="7dp"

@@ -6,6 +6,9 @@
         <variable
             name="fragment"
             type="com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment" />
+        <variable
+            name="viewModel"
+            type="com.iium.iium_medioz.viewmodel.main.insurance.InsuranceViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

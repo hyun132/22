@@ -28,8 +28,10 @@ import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.affiliated.HospitalActivity
+import com.iium.iium_medioz.viewmodel.main.insurance.InsuranceViewModel
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,6 +41,7 @@ class InsuranceFragment : BaseFragment(),LifecycleObserver {
     private lateinit var mBinding : FragmentInsuranceBinding
     private var readapter: DocumentAdapter?=null
     private lateinit var callback: OnBackPressedCallback
+    private val viewModel : InsuranceViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +49,6 @@ class InsuranceFragment : BaseFragment(),LifecycleObserver {
     ): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_insurance, container, false)
         mBinding.fragment = this
-        initView()
         return mBinding.root
     }
 
@@ -56,34 +58,13 @@ class InsuranceFragment : BaseFragment(),LifecycleObserver {
         startActivity(intent)
     }
 
-    private fun initView() {
-        LLog.e("서류신청 조회 API")
-        val vercall: Call<DocumentListModel> = apiServices.getDocument(prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<DocumentListModel> {
-            override fun onResponse(call: Call<DocumentListModel>, response: Response<DocumentListModel>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"서류신청 조회 SUCCESS -> $result")
-                    if (result.documentList.isEmpty()) {
-                        mBinding.documentRe.visibility = View.GONE
-                        mBinding.tvDataDoNot.visibility = View.VISIBLE
-                        setAdapter(result.documentList)
-                    } else {
-                        mBinding.documentRe.visibility = View.VISIBLE
-                        mBinding.tvDataDoNot.visibility = View.GONE
-                        setAdapter(result.documentList)
-                    }
-                }
-                else {
-                    Log.d(LLog.TAG,"서류신청 조회 response ERROR -> $result")
-                    ErrorDialog()
-                }
-            }
-            override fun onFailure(call: Call<DocumentListModel>, t: Throwable) {
-                Log.d(LLog.TAG, "서류신청 조회 Fail -> $t")
-                ErrorDialog()
-            }
-        })
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.documentList.observe(viewLifecycleOwner){
+            setAdapter(it)
+        }
+        viewModel.mutableErrorMessage.observe(viewLifecycleOwner){
+            ErrorDialog()
+        }
     }
 
     private fun setAdapter(documentList: List<DocumentList>) {

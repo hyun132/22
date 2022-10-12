@@ -24,15 +24,19 @@ import com.iium.iium_medioz.util.adapter.TestAdapter
 import com.iium.iium_medioz.util.base.BaseFragment
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
+import com.iium.iium_medioz.viewmodel.main.bottom.data.DataViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AllFragment : BaseFragment() {
 
-    private lateinit var mBinding : FragmentAllBinding
-    private var readapter: TestAdapter?=null
+    private lateinit var mBinding: FragmentAllBinding
+    private var readapter: TestAdapter? = null
     private lateinit var callback: OnBackPressedCallback
+    private val viewModel: DataViewModel by sharedViewModel()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,43 +47,29 @@ class AllFragment : BaseFragment() {
         return mBinding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        initView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.myDataList.observe(viewLifecycleOwner) {
+            setAdapter(it)
+        }
     }
 
-    private fun initView() {
-        LLog.e("데이터 조회_두번째 API")
-        val vercall: Call<MedicalData> = apiServices.getCreateGet(prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<MedicalData> {
-            override fun onResponse(call: Call<MedicalData>, response: Response<MedicalData>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"List Second response SUCCESS -> $result")
-                    if(result.datalist!!.isEmpty()) {
-                        mBinding.medicalRecyclerView.visibility = View.GONE
-                        mBinding.tvDataNot.visibility = View.VISIBLE
-                        setAdapter(result.datalist)
-                    } else {
-                        mBinding.medicalRecyclerView.visibility = View.VISIBLE
-                        mBinding.tvDataNot.visibility = View.GONE
-                         setAdapter(result.datalist)
-                    }
-                }
-                else {
-                    Log.d(LLog.TAG,"List Second response ERROR -> $result")
-                    ErrorDialog()
-                }
-            }
-            override fun onFailure(call: Call<MedicalData>, t: Throwable) {
-                Log.d(LLog.TAG, "List Second Fail -> $t")
-            }
-        })
+    override fun onStart() {
+        super.onStart()
+        viewModel.initAllView()
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
-    private fun setAdapter(datalist: List<DataList>?) {
-        val adapter = TestAdapter(datalist!!, context!!)
+    private fun setAdapter(datalist: List<DataList>) {
+        if (datalist.isEmpty()) {
+            mBinding.medicalRecyclerView.visibility = View.GONE
+            mBinding.tvDataNot.visibility = View.VISIBLE
+        } else {
+            mBinding.medicalRecyclerView.visibility = View.VISIBLE
+            mBinding.tvDataNot.visibility = View.GONE
+        }
+        val adapter = TestAdapter(datalist, context!!)
         val rv = mBinding.medicalRecyclerView
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context)

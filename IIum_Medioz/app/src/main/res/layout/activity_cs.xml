@@ -6,6 +6,9 @@
         <variable
             name="activity"
             type="com.iium.iium_medioz.view.main.bottom.mypage.cs.CsActivity" />
+        <variable
+            name="viewModel"
+            type="com.iium.iium_medioz.viewmodel.main.bottom.data.mypage.cs.CsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

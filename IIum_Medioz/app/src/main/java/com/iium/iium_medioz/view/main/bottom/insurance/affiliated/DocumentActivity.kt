@@ -26,6 +26,8 @@ import com.iium.iium_medioz.util.`object`.Constant.TAG
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
+import com.iium.iium_medioz.viewmodel.main.insurance.affiliated.DocumentViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +38,7 @@ class DocumentActivity : BaseActivity() {
 
     private lateinit var mBinding : ActivityDocumentBinding
     private lateinit var apiServices: APIService
+    private val viewModel: DocumentViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,15 +72,7 @@ class DocumentActivity : BaseActivity() {
         val name = intent.getStringExtra(PAYMENT_NAME)
         val address = intent.getStringExtra(PAYMENT_ADDRESS)
         val call = intent.getStringExtra(PAYMENT_CALL)
-
-        Log.d(TAG,"병원 이름 -> $name")
-        Log.d(TAG,"병원 주소 -> $address")
-        Log.d(TAG,"병원 번호 -> $call")
-
-
-        mBinding.tvDoName.text = name.toString()
-        mBinding.tvDoAddress.text = address.toString()
-        mBinding.tvDoCall.text = call.toString()
+        viewModel.setViewData(name,address,call,intent.getStringExtra(DOCUMENT_IMGURL))
     }
 
     private fun initAPI() {
@@ -125,10 +120,6 @@ class DocumentActivity : BaseActivity() {
 
     fun onBackPressed(v: View) {
         moveHospital()
-    }
-
-    fun onDocumentClick(v: View) {
-        initAPI()
     }
 
     fun onCalendarFirst(v: View) {

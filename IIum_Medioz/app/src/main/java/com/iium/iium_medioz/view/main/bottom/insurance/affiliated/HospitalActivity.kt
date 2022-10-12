@@ -72,11 +72,13 @@ import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
+import com.iium.iium_medioz.viewmodel.main.insurance.affiliated.HospitalViewModel
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -90,6 +92,8 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     private var mMap: NaverMap?=null
     private var currentLatLng : LatLng = LatLng(0.0, 0.0)
     var mapFragment : MapFragment = MapFragment() // onResume에서 사용하기 위해서
+    private val viewModel: HospitalViewModel by viewModel()
+
 
     val bottomSheet: ConstraintLayout by lazy{
         findViewById(R.id.bottom_sheet_include)
@@ -402,36 +406,39 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
             naverMap.locationTrackingMode = LocationTrackingMode.Follow
         }
 
-        getAPI()
+        viewModel.locations.observe(this) {
+            updateMarker(it)
+            recyclerViewAdapter.submitList(it)
+        }
     }
 
     private var locationChangeListener = NaverMap.OnLocationChangeListener { location ->
         currentLatLng = LatLng(location.latitude, location.longitude)
     }
 
-    private fun getAPI() {
-        LLog.e("제휴병원 좌표")
-        val query = ""
-        val vercall: Call<MapMarker> = apiServices.getMap(prefs.newaccesstoken,query)
-        vercall.enqueue(object : Callback<MapMarker> {
-            override fun onResponse(call: Call<MapMarker>, response: Response<MapMarker>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"제휴병원 response SUCCESS -> $result")
-                    updateMarker(result.result)
-                    recyclerViewAdapter.submitList(result.result)
-                }
-                else {
-                    Log.d(LLog.TAG,"제휴병원 response ERROR -> $result")
-                    ErrorDialog()
-                }
-            }
-            override fun onFailure(call: Call<MapMarker>, t: Throwable) {
-                Log.d(LLog.TAG, "제휴병원 Fail -> ${t.localizedMessage}")
-                ErrorDialog()
-            }
-        })
-    }
+//    private fun getAPI() {
+//        LLog.e("제휴병원 좌표")
+//        val query = ""
+//        val vercall: Call<MapMarker> = apiServices.getMap(prefs.newaccesstoken,query)
+//        vercall.enqueue(object : Callback<MapMarker> {
+//            override fun onResponse(call: Call<MapMarker>, response: Response<MapMarker>) {
+//                val result = response.body()
+//                if (response.isSuccessful && result != null) {
+//                    Log.d(LLog.TAG,"제휴병원 response SUCCESS -> $result")
+//                    updateMarker(result.result)
+//                    recyclerViewAdapter.submitList(result.result)
+//                }
+//                else {
+//                    Log.d(LLog.TAG,"제휴병원 response ERROR -> $result")
+//                    ErrorDialog()
+//                }
+//            }
+//            override fun onFailure(call: Call<MapMarker>, t: Throwable) {
+//                Log.d(LLog.TAG, "제휴병원 Fail -> ${t.localizedMessage}")
+//                ErrorDialog()
+//            }
+//        })
+//    }
 
     private fun updateMarker(result: List<AddressDocument>) {
         result.forEach { maps ->

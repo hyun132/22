@@ -2,14 +2,22 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="activity"
             type="com.iium.iium_medioz.view.main.bottom.data.send.SendActivity" />
+
+        <variable
+            name="viewModel"
+            type="com.iium.iium_medioz.viewmodel.main.bottom.data.send.SendViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -27,8 +35,8 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="20dp"
-                    android:src="@drawable/back_pressed"
                     android:onClick='@{activity::onBackPressed}'
+                    android:src="@drawable/back_pressed"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -64,6 +72,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:orientation="vertical">
+
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -73,10 +82,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:text="사용자가 설정한 제목이 나타나는 곳입니다."
+                                android:fontFamily="@font/gyeonggititle_bold_title"
+                                android:text="@{viewModel.title}"
                                 android:textColor="@color/black"
                                 android:textSize="17dp"
-                                android:fontFamily="@font/gyeonggititle_bold_title"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -87,19 +96,20 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
-                                android:text="2022-01-01"
+                                android:fontFamily="@font/gyeonggititle_bold_title"
+                                android:text="@{viewModel.timestamp}"
                                 android:textColor="@color/gray2"
                                 android:textSize="14dp"
-                                android:fontFamily="@font/gyeonggititle_bold_title"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_medical_detail_title" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="20dp"/>
+                            android:layout_marginBottom="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -108,19 +118,20 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/white"
                         android:orientation="vertical">
+
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <TextView
                                 android:id="@+id/tv_md_keyword"
-                                android:layout_marginTop="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="10dp"
                                 android:fontFamily="@font/gyeonggititle_bold_title"
                                 android:text="키워드"
                                 android:textColor="@color/black"
-                                android:layout_marginStart="10dp"
                                 android:textSize="16dp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -129,21 +140,22 @@
                                 android:id="@+id/tv_my_keyword"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="#감기"
-                                android:textSize="15dp"
-                                android:textColor="@color/gray2"
-                                android:fontFamily="@font/gyeonggititle_medium"
-                                android:layout_marginTop="10dp"
                                 android:layout_marginStart="20dp"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/gyeonggititle_medium"
+                                android:text="@{viewModel.keyword}"
+                                android:textColor="@color/gray2"
+                                android:textSize="15dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_md_keyword" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="20dp"/>
+                            android:layout_marginBottom="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -152,6 +164,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/white"
                         android:orientation="vertical">
+
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -199,8 +212,9 @@
                                         android:id="@+id/ll_first"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:visibility="gone"
-                                        android:orientation="horizontal">
+                                        android:orientation="horizontal"
+                                        android:visibility="gone">
+
                                         <androidx.constraintlayout.widget.ConstraintLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -211,11 +225,13 @@
 
                                             <ImageView
                                                 android:id="@+id/image1"
+                                                bindImgResource="@{viewModel.image1}"
+                                                bindImgVisibility="@{viewModel.image1}"
                                                 android:layout_width="300dp"
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
                                                 app:layout_constraintStart_toStartOf="parent"
-                                                app:layout_constraintTop_toTopOf="parent"/>
+                                                app:layout_constraintTop_toTopOf="parent" />
 
                                             <TextView
                                                 android:id="@+id/textView18"
@@ -253,15 +269,15 @@
                                                 android:layout_marginEnd="10dp"
                                                 android:background="@drawable/edit_box"
                                                 android:fontFamily="@font/gyeonggititle_medium"
-                                                android:textColor="@color/colorPrimary"
-                                                android:textSize="15dp"
+                                                android:gravity="center"
                                                 android:inputType="number"
                                                 android:maxLength="3"
-                                                android:gravity="center"
+                                                android:text="@{viewModel.dataFirst}"
+                                                android:textColor="@color/colorPrimary"
+                                                android:textSize="15dp"
                                                 app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toStartOf="@+id/textView19"
-                                                app:layout_constraintTop_toBottomOf="@+id/image1"
-                                                android:text="0" />
+                                                app:layout_constraintTop_toBottomOf="@+id/image1" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </LinearLayout>
 
@@ -269,8 +285,9 @@
                                         android:id="@+id/ll_second"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:visibility="gone"
-                                        android:orientation="horizontal">
+                                        android:orientation="horizontal"
+                                        android:visibility="gone">
+
                                         <androidx.constraintlayout.widget.ConstraintLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -281,6 +298,8 @@
 
                                             <ImageView
                                                 android:id="@+id/image2"
+                                                bindImgResource="@{viewModel.image2}"
+                                                bindImgVisibility="@{viewModel.image2}"
                                                 android:layout_width="300dp"
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
@@ -324,14 +343,14 @@
                                                 android:background="@drawable/edit_box"
                                                 android:fontFamily="@font/gyeonggititle_medium"
                                                 android:gravity="center"
-                                                android:textColor="@color/colorPrimary"
-                                                android:textSize="15dp"
                                                 android:inputType="number"
                                                 android:maxLength="3"
+                                                android:text="@{viewModel.dataSecond}"
+                                                android:textColor="@color/colorPrimary"
+                                                android:textSize="15dp"
                                                 app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toStartOf="@+id/textView22"
-                                                app:layout_constraintTop_toBottomOf="@+id/image2"
-                                                android:text="0" />
+                                                app:layout_constraintTop_toBottomOf="@+id/image2" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </LinearLayout>
 
@@ -339,8 +358,9 @@
                                         android:id="@+id/ll_third"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:visibility="gone"
-                                        android:orientation="horizontal">
+                                        android:orientation="horizontal"
+                                        android:visibility="gone">
+
                                         <androidx.constraintlayout.widget.ConstraintLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -351,6 +371,8 @@
 
                                             <ImageView
                                                 android:id="@+id/image3"
+                                                bindImgResource="@{viewModel.image3}"
+                                                bindImgVisibility="@{viewModel.image3}"
                                                 android:layout_width="300dp"
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
@@ -394,14 +416,14 @@
                                                 android:background="@drawable/edit_box"
                                                 android:fontFamily="@font/gyeonggititle_medium"
                                                 android:gravity="center"
-                                                android:textColor="@color/colorPrimary"
-                                                android:textSize="15dp"
                                                 android:inputType="number"
                                                 android:maxLength="3"
+                                                android:text="@{viewModel.dataThird}"
+                                                android:textColor="@color/colorPrimary"
+                                                android:textSize="15dp"
                                                 app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toStartOf="@+id/textView25"
-                                                app:layout_constraintTop_toBottomOf="@+id/image3"
-                                                android:text="0" />
+                                                app:layout_constraintTop_toBottomOf="@+id/image3" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </LinearLayout>
 
@@ -410,8 +432,9 @@
                                         android:id="@+id/ll_four"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:visibility="gone"
-                                        android:orientation="horizontal">
+                                        android:orientation="horizontal"
+                                        android:visibility="gone">
+
                                         <androidx.constraintlayout.widget.ConstraintLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -422,6 +445,8 @@
 
                                             <ImageView
                                                 android:id="@+id/image4"
+                                                bindImgResource="@{viewModel.image4}"
+                                                bindImgVisibility="@{viewModel.image4}"
                                                 android:layout_width="300dp"
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
@@ -465,14 +490,14 @@
                                                 android:background="@drawable/edit_box"
                                                 android:fontFamily="@font/gyeonggititle_medium"
                                                 android:gravity="center"
-                                                android:textColor="@color/colorPrimary"
-                                                android:textSize="15dp"
                                                 android:inputType="number"
                                                 android:maxLength="3"
+                                                android:text="@{viewModel.dataFour}"
+                                                android:textColor="@color/colorPrimary"
+                                                android:textSize="15dp"
                                                 app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toStartOf="@+id/textView29"
-                                                app:layout_constraintTop_toBottomOf="@+id/image4"
-                                                android:text="0" />
+                                                app:layout_constraintTop_toBottomOf="@+id/image4" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </LinearLayout>
 
@@ -481,8 +506,10 @@
                                         android:id="@+id/ll_five"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
                                         android:visibility="gone"
-                                        android:orientation="horizontal">
+                                        >
+
                                         <androidx.constraintlayout.widget.ConstraintLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -493,6 +520,8 @@
 
                                             <ImageView
                                                 android:id="@+id/image5"
+                                                bindImgResource="@{viewModel.image5}"
+                                                bindImgVisibility="@{viewModel.image5}"
                                                 android:layout_width="300dp"
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
@@ -536,14 +565,14 @@
                                                 android:background="@drawable/edit_box"
                                                 android:fontFamily="@font/gyeonggititle_medium"
                                                 android:gravity="center"
-                                                android:textColor="@color/colorPrimary"
-                                                android:textSize="15dp"
                                                 android:inputType="number"
                                                 android:maxLength="3"
+                                                android:text="@{viewModel.dataFive}"
+                                                android:textColor="@color/colorPrimary"
+                                                android:textSize="15dp"
                                                 app:layout_constraintBottom_toBottomOf="parent"
                                                 app:layout_constraintEnd_toStartOf="@+id/textView32"
-                                                app:layout_constraintTop_toBottomOf="@+id/image5"
-                                                android:text="0" />
+                                                app:layout_constraintTop_toBottomOf="@+id/image5" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </LinearLayout>
 
@@ -551,22 +580,24 @@
                                 </LinearLayout>
                             </HorizontalScrollView>
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="20dp"/>
+                            android:layout_marginBottom="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:layout_marginTop="10dp"
+                        android:background="@color/white"
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
+
                             <TextView
                                 android:id="@+id/tv_normal_img"
                                 android:layout_width="wrap_content"
@@ -602,16 +633,20 @@
 
                             <ImageView
                                 android:id="@+id/n_image1"
+                                bindImgResource="@{viewModel.nImage1}"
+                                bindImgVisibility="@{viewModel.nImage1}"
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
+                                android:layout_marginHorizontal="5dp"
+                                android:scaleType="center"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                android:scaleType="center"
-                                android:layout_marginHorizontal="5dp"/>
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <ImageView
                                 android:id="@+id/n_image2"
+                                bindImgResource="@{viewModel.image2}"
+                                bindImgVisibility="@{viewModel.image2}"
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
                                 android:layout_marginHorizontal="5dp"
@@ -622,6 +657,8 @@
 
                             <ImageView
                                 android:id="@+id/n_image3"
+                                bindImgResource="@{viewModel.image3}"
+                                bindImgVisibility="@{viewModel.image3}"
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
                                 android:layout_marginHorizontal="5dp"
@@ -632,6 +669,8 @@
 
                             <ImageView
                                 android:id="@+id/n_image4"
+                                bindImgResource="@{viewModel.image4}"
+                                bindImgVisibility="@{viewModel.image4}"
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
                                 android:layout_marginHorizontal="5dp"
@@ -642,6 +681,8 @@
 
                             <ImageView
                                 android:id="@+id/n_image5"
+                                bindImgResource="@{viewModel.image5}"
+                                bindImgVisibility="@{viewModel.image5}"
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
                                 android:layout_marginHorizontal="5dp"
@@ -651,22 +692,24 @@
                                 app:layout_constraintStart_toEndOf="@+id/n_image4"
                                 app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="20dp"/>
+                            android:layout_marginBottom="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:layout_marginTop="10dp"
+                        android:background="@color/white"
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
+
                             <TextView
                                 android:id="@+id/tv_video"
                                 android:layout_width="wrap_content"
@@ -690,6 +733,7 @@
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:srcCompat="@drawable/help_img" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -703,11 +747,11 @@
                                 android:id="@+id/v_image1"
                                 android:layout_width="75dp"
                                 android:layout_height="80dp"
+                                android:layout_marginHorizontal="5dp"
+                                android:scaleType="center"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                android:scaleType="center"
-                                android:layout_marginHorizontal="5dp"/>
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <ImageView
                                 android:id="@+id/v_image2"
@@ -729,10 +773,11 @@
                                 app:layout_constraintStart_toEndOf="@+id/v_image2"
                                 app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="20dp"/>
+                            android:layout_marginBottom="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -740,6 +785,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="30dp">
+
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -777,10 +823,11 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_marginBottom="10dp" />
                 </LinearLayout>
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>

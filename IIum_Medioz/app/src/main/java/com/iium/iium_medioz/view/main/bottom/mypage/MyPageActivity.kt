@@ -20,10 +20,6 @@ import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.view.main.banner.AchievementActivity
-import com.iium.iium_medioz.view.main.bottom.band.BandFragment
-import com.iium.iium_medioz.view.main.bottom.data.DataFragment
-import com.iium.iium_medioz.view.main.bottom.home.HomeFragment
-import com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment
 import com.iium.iium_medioz.view.main.bottom.mypage.cs.CsActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.notice.NoticeActivity
 import com.iium.iium_medioz.view.main.bottom.mypage.point.PointActivity

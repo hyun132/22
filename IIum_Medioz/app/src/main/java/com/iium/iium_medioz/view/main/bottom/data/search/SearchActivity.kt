@@ -7,6 +7,10 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,98 +22,69 @@ import com.iium.iium_medioz.databinding.ActivitySearchBinding
 import com.iium.iium_medioz.model.rest.base.CreateName
 import com.iium.iium_medioz.model.rest.base.DataList
 import com.iium.iium_medioz.util.adapter.SearchAdapter
+import com.iium.iium_medioz.util.adapter.TestAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
 import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.log.LLog.TAG
+import com.iium.iium_medioz.viewmodel.main.bottom.data.search.SearchDataViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SearchActivity : BaseActivity() {
 
-    private lateinit var mBinding : ActivitySearchBinding
+    private lateinit var mBinding: ActivitySearchBinding
     private lateinit var apiServices: APIService
-    private var searchAdapter : SearchAdapter? = null
+    private var searchAdapter: SearchAdapter? = null
+    private val viewModel: SearchDataViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_search)
-        mBinding.activity = this
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_search)
         apiServices = ApiUtils.apiService
-        mBinding.lifecycleOwner = this
+        mBinding.apply {
+            activity = this@SearchActivity
+            lifecycleOwner = this@SearchActivity
+            viewModel = this@SearchActivity.viewModel
+        }
+
         inStatusBar()
+
+        viewModel.viewEvent.observe(this){
+            it.getContentIfNotHandled()?.let { event ->
+                when(event){
+                    SearchDataViewModel.SHOW_ERROR_DIALOG -> ErrorDialog()
+                }
+            }
+        }
     }
 
     private fun inStatusBar() {
         setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
-        window.statusBarColor = getColor(R.color.main_status )
+        window.statusBarColor = getColor(R.color.main_status)
     }
 
-    private fun initAPI() {
-        LLog.e("검색_첫번째 API")
-        val name = mBinding.etSearch.text.toString()
-        val vercall: Call<CreateName> = apiServices.getSearch(name,prefs.myaccesstoken)
-        vercall.enqueue(object : Callback<CreateName> {
-            override fun onResponse(call: Call<CreateName>, response: Response<CreateName>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"Search response SUCCESS -> $result")
-                    setAdapter(result.result)
-                }
-                else {
-                    Log.d(TAG,"Search response ERROR -> $result")
-                    otherAPI()
-                }
-            }
-            override fun onFailure(call: Call<CreateName>, t: Throwable) {
-                Log.d(TAG, "Search Fail -> $t")
-                ErrorDialog()
-            }
-        })
-    }
 
-    private fun otherAPI() {
-        LLog.e("검색_두번째 API")
-        val name = mBinding.etSearch.text.toString()
-        val vercall: Call<CreateName> = apiServices.getSearch(name,prefs.newaccesstoken)
-        vercall.enqueue(object : Callback<CreateName> {
-            override fun onResponse(call: Call<CreateName>, response: Response<CreateName>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(TAG,"Search Second response SUCCESS -> $result")
-                    setAdapter(result.result)
-                }
-                else {
-                    Log.d(TAG,"Search Second response ERROR -> $result")
-                    ErrorDialog()
-                }
-            }
-            override fun onFailure(call: Call<CreateName>, t: Throwable) {
-                Log.d(TAG, "Search Second Fail -> $t")
-                ErrorDialog()
-            }
-        })
-    }
-
-    private fun setAdapter(datalist: List<DataList>?) {
-        val mAdapter = datalist?.let {
-            SearchAdapter(it,this)
-        }
-        mBinding.searchRecyclerView.adapter = mAdapter
-        mBinding.searchRecyclerView.layoutManager = LinearLayoutManager(this)
-        mBinding.searchRecyclerView.setHasFixedSize(true)
-        return
-    }
-
-    fun onSearchClick(v: View) {
+    fun onSearchClick2(v: View) {
         val search = mBinding.etSearch.text.toString()
         if (search.isEmpty()) {
             mBinding.etSearch.error = "미입력"
+        } else {
+            viewModel.initAPI()
+            viewModel.myDataList.observe(this) {
+                setAdapter(it)
+            }
         }
-        else {
-            initAPI()
-        }
+    }
+
+    private fun setAdapter(it: List<DataList>?) {
+        val adapter = it?.let { it1 -> SearchAdapter(it1, this) }
+        val rv = mBinding.searchRecyclerView
+        rv.adapter = adapter
+        rv.layoutManager = LinearLayoutManager(this)
+        rv.setHasFixedSize(true)
     }
 
     fun onBackPressed(v: View) {

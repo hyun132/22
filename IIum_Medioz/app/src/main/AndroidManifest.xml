@@ -77,12 +77,7 @@
         <activity
             android:name=".view.main.bottom.insurance.affiliated.HospitalActivity"
             android:exported="false" />
-        <activity
-            android:name=".view.main.bottom.band.search.BandSearchActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.main.bottom.band.upload.BandUploadActivity"
-            android:exported="false" />
+
         <activity
             android:name=".view.main.bottom.data.pdf.MakePDFActivity"
             android:exported="false" />

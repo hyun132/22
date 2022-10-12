@@ -44,7 +44,6 @@ import com.iium.iium_medioz.view.login.LoginActivity
 import com.iium.iium_medioz.view.login.StartLoginActivity
 import com.iium.iium_medioz.view.login.sign.SignUpActivity
 import com.iium.iium_medioz.view.main.MainActivity
-import com.iium.iium_medioz.view.main.bottom.band.upload.BandUploadActivity
 import com.iium.iium_medioz.view.main.bottom.data.DataDetyailActivity
 import com.iium.iium_medioz.view.main.bottom.data.DataUploadActivity
 import com.iium.iium_medioz.view.main.bottom.data.SaveActivity
@@ -412,13 +411,6 @@ open class BaseActivity : AppCompatActivity() {
 
     internal fun movePDF() {
         val intent = Intent(this, MakePDFActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(0, 0)
-        finish()
-    }
-
-    internal fun moveBand() {
-        val intent = Intent(this, BandUploadActivity::class.java)
         startActivity(intent)
         overridePendingTransition(0, 0)
         finish()

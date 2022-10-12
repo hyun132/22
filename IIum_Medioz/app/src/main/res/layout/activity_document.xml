@@ -7,6 +7,11 @@
         <variable
             name="activity"
             type="com.iium.iium_medioz.view.main.bottom.insurance.affiliated.DocumentActivity" />
+
+        <variable
+            name="viewModel"
+            type="com.iium.iium_medioz.viewmodel.main.insurance.affiliated.DocumentViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -115,7 +120,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="20dp"
                             android:fontFamily="@font/gyeonggititle_medium"
-                            android:text=""
+                            android:text="@{viewModel.name}"
                             android:textColor="@color/gray1"
                             android:textSize="15dp"
                             app:layout_constraintStart_toEndOf="@+id/imageView35"
@@ -128,7 +133,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="17dp"
                             android:layout_marginStart="10dp"
-                            android:text=""
+                            android:text="@{viewModel.address}"
                             tools:text="서울시 강남구 선릉로 1번길"
                             android:fontFamily="@font/gyeonggititle_medium"
                             android:textSize="15dp"
@@ -142,7 +147,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="15dp"
-                            android:text=""
+                            android:text="@{viewModel.call}"
                             tools:text="02-1234-5678"
                             android:fontFamily="@font/gyeonggititle_medium"
                             android:textSize="15dp"
@@ -199,6 +204,7 @@
                             android:paddingRight="10dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/common_font_title"
+                            android:text="@={viewModel.username}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -240,6 +246,7 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:textSize="@dimen/common_font_title"
+                            android:text="@={viewModel.userFirstNumber}"
                             android:textColor="@color/black"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -259,6 +266,7 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:textColor="@color/black"
+                            android:text="@={viewModel.userSecondNumber}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/textView37"
                             app:layout_constraintTop_toBottomOf="@+id/imageView9"
@@ -329,6 +337,7 @@
                             android:paddingRight="10dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/common_font_title"
+                            android:text="@={viewModel.call}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -384,7 +393,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/gyeonggititle_medium"
                                 tools:text="2022.09.01"
-                                android:text=""
+                                android:text="@{viewModel.inquiry_first}"
                                 android:textColor="@color/gray"
                                 android:textSize="15sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -435,7 +444,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/gyeonggititle_medium"
                                 tools:text="2022.09.01"
-                                android:text=""
+                                android:text="@{viewModel.inquiry_second}"
                                 android:textColor="@color/gray"
                                 android:textSize="15sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -517,6 +526,7 @@
                             android:paddingRight="10dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/common_font_title"
+                            android:text="@={viewModel.userreqdocument}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -550,7 +560,7 @@
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/btn_ok"
                                 style="@style/CommonButtonStyle"
-                                android:onClick='@{activity::onDocumentClick}'
+                                android:onClick='@{() -> viewModel.initAPI()}'
                                 android:text="@string/ok" />
 
                         </androidx.cardview.widget.CardView>

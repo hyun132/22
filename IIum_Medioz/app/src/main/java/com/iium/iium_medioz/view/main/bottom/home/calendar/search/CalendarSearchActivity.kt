@@ -30,9 +30,6 @@ import com.iium.iium_medioz.util.feel.dp
 import com.iium.iium_medioz.util.feel.getDeviceId
 import com.iium.iium_medioz.util.firebase.FirebaseService
 import com.iium.iium_medioz.util.vertical.VerticalSpaceItemDecoration
-import com.iium.iium_medioz.view.main.bottom.band.BandFragment
-import com.iium.iium_medioz.view.main.bottom.data.DataFragment
-import com.iium.iium_medioz.view.main.bottom.home.HomeFragment
 import com.iium.iium_medioz.view.main.bottom.home.calendar.edit.CalendarEditActivity
 import com.iium.iium_medioz.view.main.bottom.insurance.InsuranceFragment
 import com.iium.iium_medioz.viewmodel.calendar.SearchViewModel

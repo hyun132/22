@@ -6,6 +6,9 @@
         <variable
             name="activity"
             type="com.iium.iium_medioz.view.main.bottom.data.search.SearchActivity" />
+        <variable
+            name="viewModel"
+            type="com.iium.iium_medioz.viewmodel.main.bottom.data.search.SearchDataViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -63,6 +66,7 @@
                 android:layout_marginEnd="10dp"
                 android:hint="제목 및 키워드를 입력해 주세요"
                 android:inputType="text"
+                android:text="@={viewModel.searchKeyword}"
                 android:maxLength="20"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -79,7 +83,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/medical_search"
-                android:onClick='@{activity::onSearchClick}'
+                android:onClick='@{activity::onSearchClick2}'
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

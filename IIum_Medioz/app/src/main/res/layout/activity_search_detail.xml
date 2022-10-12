@@ -6,6 +6,9 @@
         <variable
             name="activity"
             type="com.iium.iium_medioz.view.main.bottom.data.search.SearchDetailActivity" />
+        <variable
+            name="viewModel"
+            type="com.iium.iium_medioz.viewmodel.main.bottom.data.search.SearchDetailViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
