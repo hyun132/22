@@ -2,10 +2,7 @@ package com.iium.iium_medioz.viewmodel.main.bottom
 
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.iium.iium_medioz.model.datasource.Result
 import com.iium.iium_medioz.model.datasource.GetCreateUseCase
 import com.iium.iium_medioz.util.`object`.Constant
@@ -26,30 +23,31 @@ class DataUploadViewModel(
     private val newToken: String
 ) : ViewModel() {
 
-    private var files4: MutableList<Uri> = ArrayList()      // 텍스트 이미지
-    private var files5: MutableList<Uri> = ArrayList()      // 일반 이미지
-    private var files6: MutableList<Uri> = ArrayList()      // 비디오
-
-    private val listArray = ArrayList<String>() // keyword 리스트
-
+    var files4: MutableList<Uri> = ArrayList()      // 텍스트 이미지
+    var files5: MutableList<Uri> = ArrayList()      // 일반 이미지
+    var files6: MutableList<Uri> = ArrayList()      // 비디오
 
     val registeredKeywordCount = MutableLiveData<String>("0")
-    val count = MutableLiveData<String>("0")
+    val count: LiveData<String> get() = liveData { (files4.size ?: 0).toString() }
+    val _normalCount = MutableLiveData<String>("0")
+    val normalCount: LiveData<String> get() = liveData { (files5.size ?: 0).toString() }
+    val _vedioCount = MutableLiveData<String>("0")
+    val vedioCount: LiveData<String> get() = liveData { (files6.size ?: 0).toString() }
     val sendcode = Constant.SEND_CODE_FALSE
     val defaultcode = Constant.DEFAULT_CODE_TRUE
     val sensitivity = ""
-    val requestHashMap : HashMap<String, RequestBody> = HashMap()
+    val requestHashMap: HashMap<String, RequestBody> = HashMap()
     val mutableErrorMessage = SingleLiveEvent<String>()
     val timestamp = MutableLiveData("0")
 
-    private var _title=MutableLiveData<String>("")
+    private var _title = MutableLiveData<String>("")
     val title get() = _title
-    private var _titleError=MutableLiveData<String>("")
+    private var _titleError = MutableLiveData<String>("")
     val titleError get() = _titleError
     val myKeyword = MutableLiveData<String>("")
 
-    private val _registeredKeyword:MutableLiveData<ArrayList<String>> = MutableLiveData(arrayListOf())
-    val registeredKeyword get() = _registeredKeyword
+    private val _registeredKeyword: MutableLiveData<ArrayList<String>> = MutableLiveData(arrayListOf<String>())
+    val registeredKeyword :LiveData<ArrayList<String>> get() = _registeredKeyword
 
     private val _viewEvent = MutableLiveData<Event<Any>>()
     val viewEvent: LiveData<Event<Any>>
@@ -59,14 +57,14 @@ class DataUploadViewModel(
         _viewEvent.postValue(Event(content))
     }
 
-    fun setViewData(onlyDate:String){
+    fun setViewData(onlyDate: String) {
         timestamp.value = onlyDate
     }
 
     /////////////////// API 호출 ///////////////////
     fun callCreateAPI() {
-        val textimg : MutableList<MultipartBody.Part?> = ArrayList()
-        for (uri:Uri in files4) {
+        val textimg: MutableList<MultipartBody.Part?> = ArrayList()
+        for (uri: Uri in files4) {
             uri.path?.let {
                 Log.i("textImg", it)
             }
@@ -74,7 +72,7 @@ class DataUploadViewModel(
             Log.e("textImg", uri.toString())
         }
 
-        for (imguri:Uri in files5) {
+        for (imguri: Uri in files5) {
             imguri.path?.let {
                 Log.i("Img", it)
             }
@@ -82,7 +80,7 @@ class DataUploadViewModel(
             Log.e("Img", imguri.toString())
         }
 
-        for (videouri:Uri in files6) {
+        for (videouri: Uri in files6) {
             videouri.path?.let {
                 Log.i("video", it)
             }
@@ -92,7 +90,7 @@ class DataUploadViewModel(
 
         val picksize = files4.size
         val pick = 0
-        val pickkk = when(picksize) {
+        val pickkk = when (picksize) {
             1 -> pick + 4
             2 -> pick + 8
             3 -> pick + 12
@@ -104,7 +102,7 @@ class DataUploadViewModel(
 
         val videosize = files6.size
         val video = 0
-        val videooo = when(videosize) {
+        val videooo = when (videosize) {
             1 -> video + 4
             2 -> video + 8
             3 -> video + 12
@@ -116,7 +114,7 @@ class DataUploadViewModel(
 
         val keyscore = 0
         val key = _registeredKeyword.value?.count()
-        val keyy = when(key) {
+        val keyy = when (key) {
             1 -> keyscore + 4
             2 -> keyscore + 8
             3 -> keyscore + 12
@@ -126,32 +124,40 @@ class DataUploadViewModel(
         }
         val keywordscore = keyy.toString()
 
-        val pickk : Int = pickscore.toInt()
-        val vidd : Int = videoscore.toInt()
-        val kkk : Int = keywordscore.toInt()
+        val pickk: Int = pickscore.toInt()
+        val vidd: Int = videoscore.toInt()
+        val kkk: Int = keywordscore.toInt()
 
         val all = pickk + vidd + kkk
-        val allscore : String = all.toString()
-        val title = title.value?:""
-        val keyword = this.myKeyword.value?:""
-        val timestamps = timestamp.value?:""
+        val allscore: String = all.toString()
+        val title = title.value ?: ""
+        val keyword = this.registeredKeyword.value.toString() ?: ""
+        val timestamps = timestamp.value ?: ""
 
         requestHashMap["title"] = title.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         requestHashMap["keyword"] = keyword.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["timestamp"] = timestamps.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["sendcode"] = sendcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["defaultcode"] = defaultcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["sensitivity"] = sensitivity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["pickscore"] = pickscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["videoscore"] = videoscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["keywordscore"] = keywordscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        requestHashMap["allscore"] = allscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["timestamp"] =
+            timestamps.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["sendcode"] =
+            sendcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["defaultcode"] =
+            defaultcode.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["sensitivity"] =
+            sensitivity.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["pickscore"] =
+            pickscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["videoscore"] =
+            videoscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["keywordscore"] =
+            keywordscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        requestHashMap["allscore"] =
+            allscore.toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         LLog.d("데이터 업로드_두번째 API")
         viewModelScope.launch(Dispatchers.IO) {
-            when (val result = getCreateUseCase.invoke(newToken,textimg, requestHashMap)) {
+            when (val result = getCreateUseCase.invoke(newToken, textimg, requestHashMap)) {
                 is Result.Success -> {
-                    Log.d(LLog.TAG,"getCreate Second API SUCCESS -> ${result.data}")
+                    Log.d(LLog.TAG, "getCreate Second API SUCCESS -> ${result.data}")
                     viewEvent(NAVIGATE_SAVE_ACTIVITY)
                 }
                 is Result.Error -> {
@@ -167,28 +173,33 @@ class DataUploadViewModel(
     }
 
     fun createKeyWord() {
-        myKeyword.value?.let { _registeredKeyword.value?.add(it)?: arrayListOf<String>(it)}
-        val size = _registeredKeyword.value?.count()?:0
+        val keyword = myKeyword.value
+        LLog.d(keyword)
+        if (keyword.isNullOrEmpty()) return
+        if(_registeredKeyword.value == null) _registeredKeyword.value = arrayListOf<String>()
+        _registeredKeyword.value!!.add(keyword)
+        val size = _registeredKeyword.value?.count() ?: 0
         if (size == 6) {
-//            Toast.makeText(this,"키워드는 5개만 등록할 수 있습니다.", Toast.LENGTH_SHORT).show()
+            mutableErrorMessage.postValue("키워드는 5개만 등록할 수 있습니다.")
             _registeredKeyword.value?.clear()
-            this.myKeyword.postValue(_registeredKeyword.value?.count().toString())
+            viewEvent(NOTIFY_DATA_DELETED)
         } else {
             registeredKeywordCount.postValue(size.toString())
-            this.myKeyword.postValue("")
+            viewEvent(NOTIFY_DATA_ADDED)
         }
-        viewEvent(NOTIFY_DATA_CHANGED)
+        this.myKeyword.postValue("")
+
     }
 
-    fun deleteText(){
-        if(_registeredKeyword.value?.size == 0) {
-//            Toast.makeText(this,"키워드를 등록해주세요", Toast.LENGTH_SHORT).show()
+    fun deleteText(keyword:String?) {
+        if (keyword.isNullOrEmpty()) {
+            mutableErrorMessage.postValue("키워드를 등록해주세요")
         } else {
-            _registeredKeyword.value?.removeLastOrNull()
-            val size = _registeredKeyword.value?.count()?:0
+            _registeredKeyword.value?.remove(keyword)
+            val size = _registeredKeyword.value?.count() ?: 0
             registeredKeywordCount.postValue(size.toString())
         }
-        viewEvent(NOTIFY_DATA_CHANGED)
+//        viewEvent(NOTIFY_DATA_CHANGED)
     }
 
     private fun prepareFilePart(partName: String, fileUri: Uri): MultipartBody.Part {
@@ -202,7 +213,8 @@ class DataUploadViewModel(
     companion object {
         const val NAVIGATE_SAVE_ACTIVITY = 11111
         const val SHOW_ERROR_DIALOG = 20000
-        const val NOTIFY_DATA_CHANGED = 30000
+        const val NOTIFY_DATA_DELETED = 30000
+        const val NOTIFY_DATA_ADDED = 40000
 
     }
 

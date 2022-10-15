@@ -105,84 +105,84 @@ class SendActivity : BaseActivity() {
         setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
         window.statusBarColor = getColor(R.color.colorPrimary)
     }
-
-    private fun naverOCRAPI() {
-        Thread {
-            val apiURL = Constant.OCR_URL
-            val secretKey = OCR_SECRET
-            try {
-                val url = URL(apiURL)
-                val con: HttpURLConnection = url.openConnection() as HttpURLConnection
-                con.useCaches = false
-                con.doInput = true
-                con.doOutput = true
-                con.requestMethod = "POST"
-                con.setRequestProperty("Content-Type", "application/json; charset=utf-8")
-                con.setRequestProperty("X-OCR-SECRET", secretKey)
-                val json = JSONObject()
-                json.put("version", "V2")
-                json.put("requestId", UUID.randomUUID().toString())
-                json.put("timestamp", System.currentTimeMillis())
-                json.put("lang","ko")
-                val image = JSONObject()
-                image.put("format", "jpg")
-                image.put(
-                    "url", OCR_URL_IMG
-                )
-                image.put("name", "demo")
-
-                val images = JSONArray()
-                images.put(image)
-                json.put("images", images)
-
-                val postParams: String = json.toString()
-                val wr = DataOutputStream(con.outputStream)
-                wr.writeBytes(postParams)
-                wr.flush()
-                wr.close()
-                val responseCode: Int = con.responseCode
-                val br: BufferedReader = if (responseCode == 200) {
-                    BufferedReader(InputStreamReader(con.inputStream))
-                } else {
-                    BufferedReader(InputStreamReader(con.errorStream))
-                }
-                var inputLine: String?
-                val response = StringBuffer()
-                while (br.readLine().also { inputLine = it } != null) {
-                    response.append(inputLine)
-                }
-                Thread {
-                    OCRAPI(response)
-                }.start()
-                br.close()
-            } catch (e: java.lang.Exception) {
-                println(e)
-            }
-        }.start()
-    }
-
-    private fun OCRAPI(response: StringBuffer) {
-        LLog.e("네이버 OCR API")
-
-        val ocrModel = OCRModel(response)
-        val vercall: Call<OCRModel> = apiServices.postOCR(prefs.newaccesstoken,ocrModel)
-        vercall.enqueue(object : Callback<OCRModel> {
-            override fun onResponse(call: Call<OCRModel>, response: Response<OCRModel>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"네이버 OCR response SUCCESS -> $result")
-//                    moveSaveSend()
-                    movePDF()
-                }
-                else {
-                    Log.d(LLog.TAG,"네이버 OCR response ERROR -> $result")
-                }
-            }
-            override fun onFailure(call: Call<OCRModel>, t: Throwable) {
-                Log.d(LLog.TAG, "네이버 OCR Fail -> ${t.localizedMessage}")
-            }
-        })
-    }
+//
+//    private fun naverOCRAPI() {
+//        Thread {
+//            val apiURL = Constant.OCR_URL
+//            val secretKey = OCR_SECRET
+//            try {
+//                val url = URL(apiURL)
+//                val con: HttpURLConnection = url.openConnection() as HttpURLConnection
+//                con.useCaches = false
+//                con.doInput = true
+//                con.doOutput = true
+//                con.requestMethod = "POST"
+//                con.setRequestProperty("Content-Type", "application/json; charset=utf-8")
+//                con.setRequestProperty("X-OCR-SECRET", secretKey)
+//                val json = JSONObject()
+//                json.put("version", "V2")
+//                json.put("requestId", UUID.randomUUID().toString())
+//                json.put("timestamp", System.currentTimeMillis())
+//                json.put("lang","ko")
+//                val image = JSONObject()
+//                image.put("format", "jpg")
+//                image.put(
+//                    "url", OCR_URL_IMG
+//                )
+//                image.put("name", "demo")
+//
+//                val images = JSONArray()
+//                images.put(image)
+//                json.put("images", images)
+//
+//                val postParams: String = json.toString()
+//                val wr = DataOutputStream(con.outputStream)
+//                wr.writeBytes(postParams)
+//                wr.flush()
+//                wr.close()
+//                val responseCode: Int = con.responseCode
+//                val br: BufferedReader = if (responseCode == 200) {
+//                    BufferedReader(InputStreamReader(con.inputStream))
+//                } else {
+//                    BufferedReader(InputStreamReader(con.errorStream))
+//                }
+//                var inputLine: String?
+//                val response = StringBuffer()
+//                while (br.readLine().also { inputLine = it } != null) {
+//                    response.append(inputLine)
+//                }
+//                Thread {
+//                    OCRAPI(response)
+//                }.start()
+//                br.close()
+//            } catch (e: java.lang.Exception) {
+//                println(e)
+//            }
+//        }.start()
+//    }
+//
+//    private fun OCRAPI(response: StringBuffer) {
+//        LLog.e("네이버 OCR API")
+//
+//        val ocrModel = OCRModel(response)
+//        val vercall: Call<OCRModel> = apiServices.postOCR(prefs.newaccesstoken,ocrModel)
+//        vercall.enqueue(object : Callback<OCRModel> {
+//            override fun onResponse(call: Call<OCRModel>, response: Response<OCRModel>) {
+//                val result = response.body()
+//                if (response.isSuccessful && result != null) {
+//                    Log.d(LLog.TAG,"네이버 OCR response SUCCESS -> $result")
+////                    moveSaveSend()
+//                    movePDF()
+//                }
+//                else {
+//                    Log.d(LLog.TAG,"네이버 OCR response ERROR -> $result")
+//                }
+//            }
+//            override fun onFailure(call: Call<OCRModel>, t: Throwable) {
+//                Log.d(LLog.TAG, "네이버 OCR Fail -> ${t.localizedMessage}")
+//            }
+//        })
+//    }
 
 
     fun onBackPressed(v: View?) {
@@ -204,9 +204,9 @@ class SendActivity : BaseActivity() {
         dlg.show()
     }
 
-    private fun runDelayed(millis: Long, function: () -> Unit) {
-        Handler(Looper.getMainLooper()).postDelayed(function, millis)
-    }
+//    private fun runDelayed(millis: Long, function: () -> Unit) {
+//        Handler(Looper.getMainLooper()).postDelayed(function, millis)
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

@@ -60,7 +60,7 @@ class AchievementViewModel(
             when (val result = getMedicalDataSource.invoke(token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "나의 의료데이터 조회 SUCCESS -> $result ")
-                    val calendarSize = result.data.datalist?.size ?: 0
+                    val calendarSize = result.data?.datalist?.size ?: 0
                     when {
                         (calendarSize in 1..1000) -> ach1.postValue(R.drawable.ach_1)
                         (calendarSize in 10..1000) -> ach5.postValue(R.drawable.ach_5)
@@ -89,8 +89,8 @@ class AchievementViewModel(
             when (val result = remoteUserDataSource.invoke(token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "GetUser API SUCCESS -> ${result.data}")
-                    _nickName.postValue(result.data.user?.name ?: "홍길동")
-                    result.data.user?.imgName?.let { img -> profileImg(img, newToken) }
+                    _nickName.postValue(result.data?.user?.name ?: "홍길동")
+                    result.data?.user?.imgName?.let { img -> profileImg(img, newToken) }
                 }
                 is Result.Error -> {
                     Log.d(LLog.TAG, "GetUser API ERROR -> ${result.message}")
@@ -110,8 +110,8 @@ class AchievementViewModel(
             when (val result = remoteUserDataSource.invoke(newToken)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "GetUser Second API SUCCESS -> ${result.data}")
-                    _nickName.postValue(result.data.user?.name ?: "홍길동")
-                    result.data.user?.imgName?.let { img -> profileImg(img, newToken) }
+                    _nickName.postValue(result.data?.user?.name ?: "홍길동")
+                    result.data?.user?.imgName?.let { img -> profileImg(img, newToken) }
                 }
                 is Result.Error -> {
                     mutableErrorMessage.value = "${result.code} ${result.message}"
@@ -133,7 +133,7 @@ class AchievementViewModel(
             when (val result = getFeelDataSource.invoke(token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "캘린더 조회 SUCCESS -> ${result.data} ")
-                    val calendarSize = result.data.calendarList.size
+                    val calendarSize = result.data?.calendarList?.size
                     if (calendarSize in 30..1000) {
                         ach3.postValue(R.drawable.ach_3)
                     } else {
@@ -159,7 +159,7 @@ class AchievementViewModel(
             when (val result = getSendDataSource.invoke(token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "의료데이터 판매 조회 SUCCESS -> ${result.data} ")
-                    val calendarSize = result.data.datalist?.size
+                    val calendarSize = result.data?.datalist?.size
                     if (calendarSize in 10..1000) {
                         ach3.postValue(R.drawable.bch_2)
                     } else {
@@ -185,7 +185,7 @@ class AchievementViewModel(
             when (val result = getDocumentDataSource.invoke(token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "제휴병원 서류 조회 SUCCESS -> ${result.data} ")
-                    val calendarSize = result.data.documentList.size
+                    val calendarSize = result.data?.documentList?.size
                     if (calendarSize in 10..1000) {
                         ach3.postValue(R.drawable.bch_4)
                     } else {
@@ -211,7 +211,7 @@ class AchievementViewModel(
             when (val result = getProfileImageDataSource.invoke(profile ?: "", token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "getProfileImg  response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     achProfileImg.postValue(bit)
                 }
@@ -239,7 +239,7 @@ class AchievementViewModel(
             when (val result = getProfileImageDataSource.invoke(profile ?: "", newToken)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "getProfileImg second response SUCCESS -> $profile: ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     achProfileImg.postValue(bit)
                 }

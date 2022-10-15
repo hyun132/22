@@ -83,7 +83,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/medical_search"
-                android:onClick='@{activity::onSearchClick2}'
+                android:onClick='@{(v)-> activity.onSearchClick2(v)}'
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -42,7 +42,7 @@ class AddressViewModel(
                 is Result.Success -> {
                     Log.d(LLog.TAG, "제휴병원 response SUCCESS -> ${result.data}")
                     result.let { dto ->
-                        _addressList.postValue(dto.data.result)
+                        _addressList.postValue(dto.data?.result)
                     }
                 }
                 is Result.Error -> {

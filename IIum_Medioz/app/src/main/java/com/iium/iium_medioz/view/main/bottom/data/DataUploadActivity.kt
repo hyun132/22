@@ -2,61 +2,47 @@ package com.iium.iium_medioz.view.main.bottom.data
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.Gravity.CENTER_HORIZONTAL
+import android.view.Gravity.CENTER_VERTICAL
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.TransitionManager
+import com.bumptech.glide.Glide
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
 import com.iium.iium_medioz.databinding.ActivityDataUploadBinding
-import com.iium.iium_medioz.model.upload.CreateMedical
-import com.iium.iium_medioz.util.`object`.Constant.DEFAULT_CODE_TRUE
 import com.iium.iium_medioz.util.`object`.Constant.ONE_PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.`object`.Constant.SECOND_PERMISSION_REQUEST_CODE
-import com.iium.iium_medioz.util.`object`.Constant.SEND_CODE_FALSE
 import com.iium.iium_medioz.util.`object`.Constant.THRID_PERMISSION_REQUEST_CODE
 import com.iium.iium_medioz.util.adapter.upload.MultiImageAdapter
 import com.iium.iium_medioz.util.adapter.upload.NormalImgAdapter
 import com.iium.iium_medioz.util.adapter.upload.VideoRecyclerAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
-import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
-import com.iium.iium_medioz.util.feel.show
 import com.iium.iium_medioz.util.file.FileUtil
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.util.log.LLog.TAG
 import com.iium.iium_medioz.view.main.MainActivity
 import com.iium.iium_medioz.viewmodel.main.bottom.DataUploadViewModel
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.File
 import java.time.LocalDate
-import kotlin.concurrent.thread
 
 
 class DataUploadActivity : BaseActivity() {
@@ -64,17 +50,17 @@ class DataUploadActivity : BaseActivity() {
     private lateinit var mBinding: ActivityDataUploadBinding
     private lateinit var apiServices: APIService
     private val viewModel: DataUploadViewModel by viewModel()
+//
+//    private var files4: MutableList<Uri> = ArrayList()      // 텍스트 이미지
+//    private var files5: MutableList<Uri> = ArrayList()      // 일반 이미지
+//    private var files6: MutableList<Uri> = ArrayList()      // 비디오
 
-    private var files4: MutableList<Uri> = ArrayList()      // 텍스트 이미지
-    private var files5: MutableList<Uri> = ArrayList()      // 일반 이미지
-    private var files6: MutableList<Uri> = ArrayList()      // 비디오
-
-    private val textAdapter = MultiImageAdapter(files4, this)
-    private val normalAdapter = NormalImgAdapter(files5, this)
-    private val videoAdapter = VideoRecyclerAdapter(files6, this)
+    private val textAdapter by lazy { MultiImageAdapter(viewModel.files4, this) }
+    private val normalAdapter by lazy { NormalImgAdapter(viewModel.files5, this) }
+    private val videoAdapter by lazy { VideoRecyclerAdapter(viewModel.files6, this) }
 
     private val fileUtil = FileUtil()
-    private val listArray = ArrayList<String>()
+//    private val listArray = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,13 +84,15 @@ class DataUploadActivity : BaseActivity() {
                 when (event) {
                     DataUploadViewModel.NAVIGATE_SAVE_ACTIVITY -> moveMain()
                     DataUploadViewModel.SHOW_ERROR_DIALOG -> ErrorDialog()
-                    DataUploadViewModel.NOTIFY_DATA_CHANGED -> createKeyWordView()
+                    DataUploadViewModel.NOTIFY_DATA_DELETED -> deleteKeyWordView()
+                    DataUploadViewModel.NOTIFY_DATA_ADDED -> viewModel.registeredKeyword.value?.lastOrNull()
+                        ?.let { it1 -> createKeyWordView(it1) }
                 }
             }
         }
 
         viewModel.registeredKeyword.observe(this) {
-            createKeyWordView()
+            if(!it.isNullOrEmpty()) createKeyWordView(it.last())
         }
     }
 
@@ -153,33 +141,67 @@ class DataUploadActivity : BaseActivity() {
 //            mBinding.etKeyword.text = null
 //        }
 //    }
+    private fun deleteKeyWordView() {
+        mBinding.llKeyword.invalidate()
+    }
 
-
-    // 동적 생성 이부분은 어디로?
-    private fun createKeyWordView() {
-        val textView = TextView(applicationContext)
+    private fun createKeyWordView(keyword:String) {
+        val textView = TextView(this)
+        val imageView = ImageView(this)
         val listView = mBinding.llKeyword
         val typeface = resources.getFont(R.font.noto_sans_kr_bold)
 
-        val param: LinearLayout.LayoutParams =
-            LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-        param.marginStart = 20
+        var param: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
 
-        textView.apply {
-            text = mBinding.etKeyword.text.toString()
+        param.apply {
+            weight = 1f
+            marginStart = 20
+        }
+
+        textView.run {
+            text = keyword
+            LLog.d("text : ${text}")
             textSize = 15f
             this.typeface = typeface
             id = ViewCompat.generateViewId()
-            layoutParams = param
+            setTextColor(Color.BLACK)
+        }
+        val row = LinearLayout(this)
+        imageView.run {
+            Glide.with(context).load(R.drawable.ic_close).override(80).into(this)
+            setOnClickListener {
+                viewModel.deleteText(keyword)
+                (row.parent as ViewGroup).removeView(row)
+            }
+            id = TextView.generateViewId()
         }
 
+        row.run {
+            orientation = LinearLayout.HORIZONTAL
+            addView(textView, param)
+            param = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            param.apply {
+                marginEnd = 20
+            }
+            addView(imageView, param)
+            param = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            setVerticalGravity(CENTER_VERTICAL)
+            this.layoutParams = param;
+        }
         if (viewModel.registeredKeyword.value.isNullOrEmpty()) {
-            listView.removeAllViews()
+            if (listView.parent != null) (listView.parent as ViewGroup).removeView(listView)
         } else {
-            listView.addView(textView)
+            LLog.e("text : ${keyword}")
+            listView.addView(row, param)
         }
     }
 
@@ -336,7 +358,7 @@ class DataUploadActivity : BaseActivity() {
     private fun getAlbum() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        intent.action = Intent.ACTION_GET_CONTENT
+        intent.action = Intent.ACTION_PICK
         intent.type = "image/*"
         startActivityForResult(intent, 200)
     }
@@ -344,7 +366,7 @@ class DataUploadActivity : BaseActivity() {
     private fun getNormal() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        intent.action = Intent.ACTION_GET_CONTENT
+        intent.action = Intent.ACTION_PICK
         intent.type = "image/*"
         startActivityForResult(intent, 300)
     }
@@ -352,7 +374,7 @@ class DataUploadActivity : BaseActivity() {
     private fun getVideo() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        intent.action = Intent.ACTION_GET_CONTENT
+        intent.action = Intent.ACTION_PICK
         intent.type = "video/*"
         startActivityForResult(intent, 400)
     }
@@ -374,7 +396,7 @@ class DataUploadActivity : BaseActivity() {
                         val imgPath = imageUri.let {
                             fileUtil.getPath(this, it!!)
                         }
-                        files4.add(Uri.parse(imgPath))
+                        viewModel.files4.add(Uri.parse(imgPath))
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -385,7 +407,7 @@ class DataUploadActivity : BaseActivity() {
                     val imageUri: Uri? = img
                     fileUtil.getPath(this, it!!)
                     if (imageUri != null) {
-                        files4.add(Uri.parse(img.toString()))
+                        viewModel.files4.add(Uri.parse(img.toString()))
                         Log.d(TAG, "upload TextIMG One -> $img")
                     }
                 }
@@ -406,7 +428,7 @@ class DataUploadActivity : BaseActivity() {
                         val imgPath = imageUri.let {
                             fileUtil.getPath(this, it!!)
                         }
-                        files5.add(Uri.parse(imgPath))
+                        viewModel.files5.add(Uri.parse(imgPath))
                         Log.d(TAG, "upload IMG -> $imgPath")
                     }
                 } catch (e: NullPointerException) {
@@ -418,7 +440,7 @@ class DataUploadActivity : BaseActivity() {
                     val imageUri: Uri? = img
                     fileUtil.getPath(this, it!!)
                     if (imageUri != null) {
-                        files5.add(Uri.parse(img.toString()))
+                        viewModel.files5.add(Uri.parse(img.toString()))
                         Log.d(TAG, "upload IMG One -> $img")
                     }
                 }
@@ -439,7 +461,7 @@ class DataUploadActivity : BaseActivity() {
                         val videoPath = videoUri.let {
                             fileUtil.getPath(this, it!!)
                         }
-                        files6.add(Uri.parse(videoPath))
+                        viewModel.files6.add(Uri.parse(videoPath))
                         Log.d(TAG, "upload video -> $videoPath")
                     }
                 } catch (e: NullPointerException) {
@@ -451,7 +473,7 @@ class DataUploadActivity : BaseActivity() {
                     val videoUri: Uri? = video
                     fileUtil.getPath(this, it!!)
                     if (videoUri != null) {
-                        files6.add(Uri.parse(video.toString()))
+                        viewModel.files6.add(Uri.parse(video.toString()))
                         Log.d(TAG, "upload video One -> $video")
                     }
                 }

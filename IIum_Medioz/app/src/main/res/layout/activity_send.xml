@@ -210,10 +210,10 @@
 
                                     <LinearLayout
                                         android:id="@+id/ll_first"
+                                        bindLayoutVisibilityByContents="@{viewModel.image1}"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
-                                        android:visibility="gone">
+                                        android:orientation="horizontal">
 
                                         <androidx.constraintlayout.widget.ConstraintLayout
                                             android:layout_width="match_parent"
@@ -221,12 +221,12 @@
                                             app:layout_constraintBottom_toBottomOf="parent"
                                             app:layout_constraintEnd_toEndOf="parent"
                                             app:layout_constraintStart_toStartOf="parent"
+
                                             app:layout_constraintTop_toBottomOf="@+id/ht_sv">
 
                                             <ImageView
                                                 android:id="@+id/image1"
                                                 bindImgResource="@{viewModel.image1}"
-                                                bindImgVisibility="@{viewModel.image1}"
                                                 android:layout_width="300dp"
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
@@ -283,10 +283,10 @@
 
                                     <LinearLayout
                                         android:id="@+id/ll_second"
+                                        bindLayoutVisibilityByContents="@{viewModel.image2}"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
-                                        android:visibility="gone">
+                                        android:orientation="horizontal">
 
                                         <androidx.constraintlayout.widget.ConstraintLayout
                                             android:layout_width="match_parent"
@@ -299,7 +299,6 @@
                                             <ImageView
                                                 android:id="@+id/image2"
                                                 bindImgResource="@{viewModel.image2}"
-                                                bindImgVisibility="@{viewModel.image2}"
                                                 android:layout_width="300dp"
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
@@ -356,10 +355,10 @@
 
                                     <LinearLayout
                                         android:id="@+id/ll_third"
+                                        bindLayoutVisibilityByContents="@{viewModel.image3}"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
-                                        android:visibility="gone">
+                                        android:orientation="horizontal">
 
                                         <androidx.constraintlayout.widget.ConstraintLayout
                                             android:layout_width="match_parent"
@@ -372,7 +371,6 @@
                                             <ImageView
                                                 android:id="@+id/image3"
                                                 bindImgResource="@{viewModel.image3}"
-                                                bindImgVisibility="@{viewModel.image3}"
                                                 android:layout_width="300dp"
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
@@ -430,10 +428,10 @@
 
                                     <LinearLayout
                                         android:id="@+id/ll_four"
+                                        bindLayoutVisibilityByContents="@{viewModel.image4}"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
-                                        android:visibility="gone">
+                                        android:orientation="horizontal">
 
                                         <androidx.constraintlayout.widget.ConstraintLayout
                                             android:layout_width="match_parent"
@@ -446,7 +444,6 @@
                                             <ImageView
                                                 android:id="@+id/image4"
                                                 bindImgResource="@{viewModel.image4}"
-                                                bindImgVisibility="@{viewModel.image4}"
                                                 android:layout_width="300dp"
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"
@@ -504,11 +501,11 @@
 
                                     <LinearLayout
                                         android:id="@+id/ll_five"
+                                        bindLayoutVisibilityByContents="@{viewModel.image5}"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal"
-                                        android:visibility="gone"
-                                        >
+                                        android:visibility="gone">
 
                                         <androidx.constraintlayout.widget.ConstraintLayout
                                             android:layout_width="match_parent"
@@ -521,7 +518,6 @@
                                             <ImageView
                                                 android:id="@+id/image5"
                                                 bindImgResource="@{viewModel.image5}"
-                                                bindImgVisibility="@{viewModel.image5}"
                                                 android:layout_width="300dp"
                                                 android:layout_height="150dp"
                                                 app:layout_constraintEnd_toEndOf="parent"

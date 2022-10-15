@@ -278,15 +278,16 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
 
-                                    <ImageView
-                                        android:id="@+id/iv_text_delete"
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
-                                        android:layout_marginEnd="15dp"
-                                        android:onClick="@{()->viewModel.deleteText()}"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        app:srcCompat="@drawable/clear" />
+<!--                                    <ImageView-->
+<!--                                        android:id="@+id/iv_text_delete"-->
+<!--                                        android:layout_width="20dp"-->
+<!--                                        android:layout_height="20dp"-->
+<!--                                        android:visibility="gone"-->
+<!--                                        android:layout_marginEnd="15dp"-->
+<!--                                        android:onClick="@{()->viewModel.deleteText()}"-->
+<!--                                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                                        app:srcCompat="@drawable/clear" />-->
                                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                                 <LinearLayout
@@ -294,7 +295,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/activity_margin_narrow"
-                                    android:orientation="horizontal"
+                                    android:orientation="vertical"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintLeft_toLeftOf="parent"

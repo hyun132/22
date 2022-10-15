@@ -113,7 +113,7 @@ class DataRepositoryImpl(private val service: APIService) : DataRepository {
         return try {
             val response = execute()
             val body = response.body()
-            if (response.isSuccessful && body != null) {
+            if (response.isSuccessful) {
                 Result.Success(body)
             } else {
                 Result.Error(code = response.code(), message = response.message())

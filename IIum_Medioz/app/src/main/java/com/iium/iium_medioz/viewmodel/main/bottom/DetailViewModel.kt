@@ -33,9 +33,9 @@ class DetailViewModel(
     val nImage4 = MutableLiveData<Bitmap>()
     val nImage5 = MutableLiveData<Bitmap>()
 
-    val pvFirst = MutableLiveData<Bitmap>()
-    val pvSecond = MutableLiveData<Bitmap>()
-    val pvThird = MutableLiveData<Bitmap>()
+//    val pvFirst = MutableLiveData<Bitmap>()
+//    val pvSecond = MutableLiveData<Bitmap>()
+//    val pvThird = MutableLiveData<Bitmap>()
 
     val mutableErrorMessage = SingleLiveEvent<String>()
 
@@ -59,11 +59,11 @@ class DetailViewModel(
     //////////////////////텍스트 이미지 추출 API////////////////////////////
     private fun getTextImg(str_idx: Int, text: String, token: String) {
         LLog.e("텍스트 ${str_idx + 1}번째 이미지 API")
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "텍스트 ${str_idx + 1}번째 response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     val bitimage = Bitmap.createScaledBitmap(bit, 210, 210, true)
                     when (str_idx) {
@@ -90,11 +90,11 @@ class DetailViewModel(
     //////////////////////일반 이미지 추출 API////////////////////////////
     private fun getNormalImg(str_idx: Int, text: String, token: String) {
         LLog.e("일반 ${str_idx + 1}번째 이미지 API")
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "일반 ${str_idx + 1}번째 response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     val bitimage = Bitmap.createScaledBitmap(bit, 210, 210, true)
                     when (str_idx) {
@@ -121,7 +121,7 @@ class DetailViewModel(
     //////////////////////영상 추출 API////////////////////////////
     private fun getVideo(str_idx: Int, text: String, token: String) {
         LLog.e("비디오 추출_${str_idx + 1}번째 API")
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "비디오 추출_${str_idx + 1}번째 response SUCCESS -> ${result.data}")
@@ -164,7 +164,7 @@ class DetailViewModel(
         val normalstart = normaltest.split(",")
 
         for (i in normalstart.indices step (1)) {
-            getNormalImg(i, tnla[i].trim(), newToken)
+            getNormalImg(i, normalstart[i].trim(), newToken)
         }
         normalCount.postValue(normalstart.count().toString())
 
@@ -205,9 +205,5 @@ class DetailViewModel(
     companion object {
         const val NAVIGATE_MAIN_ACTIVITY = 22212
         const val SHOW_ERROR_DIALOG = 55555
-    }
-
-    enum class MediaRscType {
-        TEXT, NORMAL, VEDIO
     }
 }

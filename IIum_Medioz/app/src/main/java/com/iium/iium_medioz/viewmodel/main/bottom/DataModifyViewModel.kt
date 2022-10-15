@@ -63,7 +63,7 @@ class DataModifyViewModel(
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "텍스트 ${str_idx + 1}번째 response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     val bitimage = Bitmap.createScaledBitmap(bit, 210, 210, true)
                     when (str_idx) {
@@ -94,7 +94,7 @@ class DataModifyViewModel(
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "일반 ${str_idx + 1}번째 response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     val bitimage = Bitmap.createScaledBitmap(bit, 210, 210, true)
                     when (str_idx) {

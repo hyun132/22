@@ -44,7 +44,7 @@ class HospitalViewModel(
             when (val result = GetMapUseCase.invoke(newToken, query)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "제휴병원 response SUCCESS -> ${result.data} ")
-                    _locations.postValue(result.data.result)
+                    _locations.postValue(result.data?.result)
                 }
                 is Result.Error -> {
                     Log.d(LLog.TAG, "제휴병원 response ERROR -> ${result.message}")

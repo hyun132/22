@@ -31,7 +31,7 @@ class CsViewModel(
             when (val result = getCounRequestDataSource.invoke(myToken)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "CounGet response SUCCESS -> ${result.data}")
-                    _counList.postValue(result.data.userRequest?: emptyList())
+                    _counList.postValue(result.data?.userRequest?: emptyList())
                 }
                 is Result.Error -> {
                     otherAPI()
@@ -50,7 +50,7 @@ class CsViewModel(
             when (val result = getCounRequestDataSource.invoke(newToken)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "CounGet Second response SUCCESS -> ${result.data}")
-                    _counList.postValue(result.data.userRequest?: emptyList())
+                    _counList.postValue(result.data?.userRequest?: emptyList())
                 }
                 is Result.Error -> {
                     otherAPI()

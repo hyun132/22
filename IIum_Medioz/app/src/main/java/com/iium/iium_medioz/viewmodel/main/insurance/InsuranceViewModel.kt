@@ -38,7 +38,7 @@ class InsuranceViewModel(
             when (val result = getDocumentDataSource.invoke(newToken)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "서류신청 조회 SUCCESS -> ${result.data}")
-                    documentList.postValue(result.data.documentList)
+                    documentList.postValue(result.data?.documentList)
                 }
                 is Result.Error -> {
                     mutableErrorMessage.value = "${result.code} ${result.message}"

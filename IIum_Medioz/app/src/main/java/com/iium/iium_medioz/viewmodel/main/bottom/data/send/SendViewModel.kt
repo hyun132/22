@@ -56,9 +56,9 @@ class SendViewModel(
     val nImage4 = MutableLiveData<Bitmap>()
     val nImage5 = MutableLiveData<Bitmap>()
 
-    val pvFirst = MutableLiveData<Bitmap>()
-    val pvSecond = MutableLiveData<Bitmap>()
-    val pvThird = MutableLiveData<Bitmap>()
+//    val pvFirst = MutableLiveData<Bitmap>()
+//    val pvSecond = MutableLiveData<Bitmap>()
+//    val pvThird = MutableLiveData<Bitmap>()
 
     val mutableErrorMessage = SingleLiveEvent<String>()
 
@@ -118,7 +118,7 @@ class SendViewModel(
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "텍스트 ${str_idx + 1}번째 response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     val bitimage = Bitmap.createScaledBitmap(bit, 210, 210, true)
                     when (str_idx) {
@@ -149,7 +149,7 @@ class SendViewModel(
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "일반 ${str_idx + 1}번째 response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     val bitimage = Bitmap.createScaledBitmap(bit, 210, 210, true)
                     when (str_idx) {
@@ -193,27 +193,27 @@ class SendViewModel(
         }
     }
 
-    private fun OCRAPI(response: StringBuffer) {
-        LLog.e("네이버 OCR API")
-        val ocrModel = OCRModel(response)
-        viewModelScope.launch(Dispatchers.IO) {
-            when (val result = postOCRDataSource.invoke(newToken, ocrModel)) {
-                is Result.Success -> {
-                    Log.d(LLog.TAG, "네이버 OCR response SUCCESS ->  ${result.data}")
-                    //                    moveSaveSend()
-                    viewEvent(NAVIGATE_MAKE_PDF_ACTIVITY)
-                }
-                is Result.Error -> {
-                    mutableErrorMessage.postValue("${result.code} ${result.message}")
-                    Log.d(LLog.TAG, "네이버 OCR response ERROR -> ${result.message}")
-                }
-                is Result.Exception -> {
-                    mutableErrorMessage.postValue(result.e.localizedMessage)
-                    Log.d(LLog.TAG, "네이버 OCR Fail -> ${result.e.localizedMessage}")
-                }
-            }
-        }
-    }
+//    private fun OCRAPI(response: StringBuffer) {
+//        LLog.e("네이버 OCR API")
+//        val ocrModel = OCRModel(response)
+//        viewModelScope.launch(Dispatchers.IO) {
+//            when (val result = postOCRDataSource.invoke(newToken, ocrModel)) {
+//                is Result.Success -> {
+//                    Log.d(LLog.TAG, "네이버 OCR response SUCCESS ->  ${result.data}")
+//                    //                    moveSaveSend()
+//                    viewEvent(NAVIGATE_MAKE_PDF_ACTIVITY)
+//                }
+//                is Result.Error -> {
+//                    mutableErrorMessage.postValue("${result.code} ${result.message}")
+//                    Log.d(LLog.TAG, "네이버 OCR response ERROR -> ${result.message}")
+//                }
+//                is Result.Exception -> {
+//                    mutableErrorMessage.postValue(result.e.localizedMessage)
+//                    Log.d(LLog.TAG, "네이버 OCR Fail -> ${result.e.localizedMessage}")
+//                }
+//            }
+//        }
+//    }
 
     fun setViewData(
         inputTitle: String?,
@@ -244,7 +244,7 @@ class SendViewModel(
         val normalstart = normaltest?.split(",")
 
         for (i in 0 until normalstart?.size!! step (1)) {
-            getNormalImg(i, tnla[i].trim(), newToken)
+            getNormalImg(i, normalstart[i].trim(), newToken)
         }
         normalCount = normalstart.count().toString()
 
@@ -267,8 +267,7 @@ class SendViewModel(
 
 
     companion object {
-        const val NAVIGATE_SAVE_SEND_ACTIVITY =
-            33333 // 얘네도 base객체로 넘겨서 처리하는건 어떨지?, intent넘기는것도 더 편한방법..
+        const val NAVIGATE_SAVE_SEND_ACTIVITY = 33333
         const val NAVIGATE_MAKE_PDF_ACTIVITY = 44444
     }
 

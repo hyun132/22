@@ -18,6 +18,7 @@ import com.iium.iium_medioz.util.`object`.Constant.SEARCH_TEXTIMG
 import com.iium.iium_medioz.util.`object`.Constant.SEARCH_TIME_STAMP
 import com.iium.iium_medioz.util.`object`.Constant.SEARCH_TITLE
 import com.iium.iium_medioz.util.`object`.Constant.SEARCH_VIDEO
+import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.view.main.bottom.data.search.SearchDetailActivity
 
 class SearchAdapter(private val searchlist : List<DataList>, private val context: Context)
@@ -31,6 +32,7 @@ class SearchAdapter(private val searchlist : List<DataList>, private val context
     }
 
     override fun onBindViewHolder(holder: SearchAdapter.ViewHolder, position: Int) {
+        LLog.d("holder : $holder context :$context")
         holder.bind(searchlist[position], context)
 
     }

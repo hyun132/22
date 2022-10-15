@@ -62,12 +62,12 @@ class SearchDetailActivity : BaseActivity() {
     }
 
     private fun initView2() {
-        val title = intent?.getStringExtra(Constant.DATA_TITLE)
-        val keyword = intent?.getStringExtra(Constant.DATA_KEYWORD)
-        val timestamp = intent?.getStringExtra(Constant.DATA_TIMESTAMP)
-        val textList = intent?.getStringExtra(Constant.DATA_TEXTIMG)
-        val normalList = intent?.getStringExtra(Constant.DATA_NORMAL)
-        val videoList = intent?.getStringExtra(Constant.DATA_VIDEOFILE)
+        val title = intent?.getStringExtra(Constant.SEARCH_TITLE)
+        val keyword = intent?.getStringExtra(Constant.SEARCH_KEYWORD)
+        val timestamp = intent?.getStringExtra(Constant.SEARCH_TIME_STAMP)
+        val textList = intent?.getStringExtra(Constant.SEARCH_TEXTIMG)
+        val normalList = intent?.getStringExtra(Constant.SEARCH_NORMAL)
+        val videoList = intent?.getStringExtra(Constant.SEARCH_VIDEO)
 
         Log.d(LLog.TAG, "텍스트 이미지 : ${textList.toString()}")
         Log.d(LLog.TAG, "일반 이미지 : ${normalList.toString()}")
@@ -86,7 +86,7 @@ class SearchDetailActivity : BaseActivity() {
         dlg.setTitle("판매 해제") //제목
         dlg.setMessage("판매를 해제하시겠습니까?") // 메시지
         dlg.setPositiveButton("확인") { dialog, which ->
-            initDelete()
+            viewModel.initDelete(Constant.DATA_ID)
             dialog.dismiss()
         }
         dlg.setNegativeButton("취소") { dialog, which ->
@@ -95,28 +95,28 @@ class SearchDetailActivity : BaseActivity() {
         dlg.show()
     }
 
-    private fun initDelete() {
-        val id = intent.getStringExtra(Constant.DATA_ID)
-        LLog.e("데이터 삭제 API")
-        val vercall: Call<DeleteModel> = apiServices.getDataDelete(MyApplication.prefs.newaccesstoken,id)
-        vercall.enqueue(object : Callback<DeleteModel> {
-            override fun onResponse(call: Call<DeleteModel>, response: Response<DeleteModel>) {
-                val result = response.body()
-                if (response.isSuccessful && result != null) {
-                    Log.d(LLog.TAG,"데이터 삭제 response SUCCESS -> $result")
-                    moveMain()
-                }
-                else {
-                    Log.d(LLog.TAG,"데이터 삭제  response ERROR -> $id")
-                    ErrorDialog()
-                }
-            }
-            override fun onFailure(call: Call<DeleteModel>, t: Throwable) {
-                Log.d(LLog.TAG, "데이터 삭제 Fail -> ${t.localizedMessage}")
-                ErrorDialog()
-            }
-        })
-    }
+//    private fun initDelete() {
+//        val id = intent.getStringExtra(Constant.DATA_ID)
+//        LLog.e("데이터 삭제 API")
+//        val vercall: Call<DeleteModel> = apiServices.getDataDelete(MyApplication.prefs.newaccesstoken,id)
+//        vercall.enqueue(object : Callback<DeleteModel> {
+//            override fun onResponse(call: Call<DeleteModel>, response: Response<DeleteModel>) {
+//                val result = response.body()
+//                if (response.isSuccessful && result != null) {
+//                    Log.d(LLog.TAG,"데이터 삭제 response SUCCESS -> $result")
+//                    moveMain()
+//                }
+//                else {
+//                    Log.d(LLog.TAG,"데이터 삭제  response ERROR -> $id")
+//                    ErrorDialog()
+//                }
+//            }
+//            override fun onFailure(call: Call<DeleteModel>, t: Throwable) {
+//                Log.d(LLog.TAG, "데이터 삭제 Fail -> ${t.localizedMessage}")
+//                ErrorDialog()
+//            }
+//        })
+//    }
 
 
     fun onBackPressed(v: View) {

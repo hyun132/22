@@ -21,9 +21,8 @@ class SearchDataViewModel(
     private val newToken: String
 ) : ViewModel() {
 
-    val searchKeyword = MutableLiveData<String>()
+    val searchKeyword = MutableLiveData<String>("")
     val error = MutableLiveData<String>()
-    val dataList = MutableLiveData<List<DataList>>()
 
     private val _viewEvent = MutableLiveData<Event<Any>>()
     val viewEvent: LiveData<Event<Any>> get() = _viewEvent
@@ -39,20 +38,21 @@ class SearchDataViewModel(
     fun initAPI() {
 //        error.value=""
         val name = searchKeyword.value
+        LLog.e("initAPI ${searchKeyword.value}")
         if (name.isNullOrEmpty()) {
-//            error.value="미입력"
+            error.value="미입력"
             return
         }
         LLog.e("검색_첫번째 API")
         viewModelScope.launch(Dispatchers.IO) {
-            when (val result = getSearchDataSource.invoke(myToken, name)) {
+            when (val result = getSearchDataSource.invoke(name,myToken)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "Search response SUCCESS -> ${result.data}")
-                    result.data.result.let { dataList.postValue(it) }
+                    _myDataList.postValue(result.data?.result?: emptyList())
                 }
                 is Result.Error -> {
-                    Log.d(LLog.TAG, "Search response ERROR ->  ${result.message}")
-                    otherAPI()
+                    Log.d(LLog.TAG, "Search response ERROR ->  ${result.code} ${result.message}")
+                    otherAPI(name)
                 }
                 is Result.Exception -> {
                     Log.d(LLog.TAG, "Search Fail -> $ ${result.e.localizedMessage}")
@@ -62,16 +62,13 @@ class SearchDataViewModel(
         }
     }
 
-    private fun otherAPI() {
+    private fun otherAPI(name:String) {
         LLog.e("검색_두번째 API")
-        val name = searchKeyword.value.toString()
         viewModelScope.launch(Dispatchers.IO) {
-            when (val result = getSearchDataSource.invoke(newToken, name)) {
+            when (val result = getSearchDataSource.invoke(name,newToken)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "Search Second response SUCCESS -> ${result.data}")
-                    result.data.result.let { dataList.postValue(it) }
-
-
+                    _myDataList.postValue(result.data?.result?: emptyList())
                 }
                 is Result.Error -> {
                     Log.d(LLog.TAG, "Search Second response ERROR -> ${result.message}")

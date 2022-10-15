@@ -1,37 +1,21 @@
 package com.iium.iium_medioz.view.main.bottom.data.search
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.iium.iium_medioz.R
 import com.iium.iium_medioz.api.APIService
 import com.iium.iium_medioz.api.ApiUtils
-import com.iium.iium_medioz.databinding.ActivityMainBinding
 import com.iium.iium_medioz.databinding.ActivitySearchBinding
-import com.iium.iium_medioz.model.rest.base.CreateName
 import com.iium.iium_medioz.model.rest.base.DataList
 import com.iium.iium_medioz.util.adapter.SearchAdapter
-import com.iium.iium_medioz.util.adapter.TestAdapter
 import com.iium.iium_medioz.util.base.BaseActivity
-import com.iium.iium_medioz.util.base.MyApplication.Companion.prefs
 import com.iium.iium_medioz.util.log.LLog
-import com.iium.iium_medioz.util.log.LLog.TAG
 import com.iium.iium_medioz.viewmodel.main.bottom.data.search.SearchDataViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SearchActivity : BaseActivity() {
 
@@ -52,12 +36,18 @@ class SearchActivity : BaseActivity() {
 
         inStatusBar()
 
-        viewModel.viewEvent.observe(this){
+        viewModel.viewEvent.observe(this) {
             it.getContentIfNotHandled()?.let { event ->
-                when(event){
+                when (event) {
                     SearchDataViewModel.SHOW_ERROR_DIALOG -> ErrorDialog()
                 }
             }
+        }
+        viewModel.myDataList.observe(this) {
+            if(!it.isNullOrEmpty()) {
+                setAdapter(it)
+            }
+
         }
     }
 
@@ -73,18 +63,18 @@ class SearchActivity : BaseActivity() {
             mBinding.etSearch.error = "미입력"
         } else {
             viewModel.initAPI()
-            viewModel.myDataList.observe(this) {
-                setAdapter(it)
-            }
         }
     }
 
-    private fun setAdapter(it: List<DataList>?) {
-        val adapter = it?.let { it1 -> SearchAdapter(it1, this) }
-        val rv = mBinding.searchRecyclerView
-        rv.adapter = adapter
-        rv.layoutManager = LinearLayoutManager(this)
-        rv.setHasFixedSize(true)
+    private fun setAdapter(it: List<DataList>) {
+        LLog.d("setAdapter")
+        searchAdapter = SearchAdapter(it, this)
+        mBinding.searchRecyclerView.apply {
+            adapter = searchAdapter
+            layoutManager = LinearLayoutManager(this@SearchActivity)
+            setHasFixedSize(true)
+        }
+        searchAdapter!!.notifyDataSetChanged()
     }
 
     fun onBackPressed(v: View) {

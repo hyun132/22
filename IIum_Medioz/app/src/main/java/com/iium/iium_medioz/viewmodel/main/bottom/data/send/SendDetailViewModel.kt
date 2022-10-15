@@ -33,15 +33,16 @@ class SendDetailViewModel(
     val nImage4 = MutableLiveData<Bitmap>()
     val nImage5 = MutableLiveData<Bitmap>()
 
-    val pvFirst = MutableLiveData<Bitmap>()
-    val pvSecond = MutableLiveData<Bitmap>()
-    val pvThird = MutableLiveData<Bitmap>()
+//    val pvFirst = MutableLiveData<Bitmap>()
+//    val pvSecond = MutableLiveData<Bitmap>()
+//    val pvThird = MutableLiveData<Bitmap>()
 
     val mutableErrorMessage = SingleLiveEvent<String>()
 
-    val count = MutableLiveData<String>("0")
-    val normalCount = MutableLiveData<String>("0")
-    val vedioCount = MutableLiveData<String>("0")
+//    val count = MutableLiveData<String>("0")
+//    val normalCount = MutableLiveData<String>("0")
+//    val vedioCount = MutableLiveData<String>("0")
+
     val medicalDetailTitle = MutableLiveData<String>("0")
     val myKeyword = MutableLiveData<String>("0")
     val timestamp = MutableLiveData<String>("0")
@@ -59,11 +60,11 @@ class SendDetailViewModel(
     //////////////////////텍스트 이미지 추출 API////////////////////////////
     private fun getTextImg(str_idx: Int, text: String, token: String) {
         LLog.e("텍스트 ${str_idx + 1}번째 이미지 API")
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "텍스트 ${str_idx + 1}번째 response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     val bitimage = Bitmap.createScaledBitmap(bit, 210, 210, true)
                     when (str_idx) {
@@ -88,11 +89,11 @@ class SendDetailViewModel(
     //////////////////////일반 이미지 추출 API////////////////////////////
     private fun getNormalImg(str_idx: Int, text: String, token: String) {
         LLog.e("일반 ${str_idx + 1}번째 이미지 API")
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "일반 ${str_idx + 1}번째 response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     val bitimage = Bitmap.createScaledBitmap(bit, 210, 210, true)
                     when (str_idx) {
@@ -144,6 +145,10 @@ class SendDetailViewModel(
         Log.d(LLog.TAG, "텍스트 이미지 : ${textList.toString()}")
         Log.d(LLog.TAG, "일반 이미지 : ${normalList.toString()}")
         Log.d(LLog.TAG, "비디오 이미지 : ${videoList.toString()}")
+        medicalDetailTitle.value = inputTitle ?: ""
+        timestamp.value = inputTimestamp ?: ""
+        myKeyword.value = inputKeyword ?: ""
+        id=inputId?:""
 
         val img = textList?.substring(2)
         val imgtest = img?.substring(0, img.length - 2)
@@ -154,9 +159,9 @@ class SendDetailViewModel(
                 getTextImg(i, tnla[i].trim(), newToken)
             }
         }
-        if (tnla != null) {
-            count.postValue(tnla.count().toString())
-        }
+//        if (tnla != null) {
+//            viewModel.count.postValue(tnla.count().toString())
+//        }
 
         val normal = normalList?.substring(2)
         val normaltest = normal?.substring(0, normal.length - 2)
@@ -167,9 +172,9 @@ class SendDetailViewModel(
                 tnla?.get(i)?.let { getNormalImg(i, it.trim(), newToken) }
             }
         }
-        if (normalstart != null) {
-            normalCount.postValue(normalstart.count().toString())
-        }
+//        if (normalstart != null) {
+//            viewModel.normalCount.postValue(normalstart.count().toString())
+//        }
 
 //        val video = videoList?.substring(2)
 //        val videotest = video?.substring(0, video.length - 2)
@@ -179,11 +184,6 @@ class SendDetailViewModel(
 //            getVideo(i,videostart[i].trim(),newToken)
 //        }
 //        vedioCount.postValue(videostart.count().toString())
-
-        medicalDetailTitle.value = inputTitle ?: ""
-        timestamp.value = inputTimestamp ?: ""
-        myKeyword.value = inputKeyword ?: ""
-        id=inputId?:""
     }
 
     fun initDelete() {
@@ -196,7 +196,7 @@ class SendDetailViewModel(
                     viewEvent(NAVIGATE_MAIN_ACTIVITY)
                 }
                 is Result.Error -> {
-                    Log.d(LLog.TAG, "판매 데이터 해제 response ERROR -> ${result.message}")
+                    Log.d(LLog.TAG, "판매 데이터 해제 response ERROR -> ${result.message} ${result.code}")
                     viewEvent(SHOW_ERROR_DIALOG)
                 }
                 is Result.Exception -> {
@@ -210,9 +210,5 @@ class SendDetailViewModel(
     companion object {
         const val NAVIGATE_MAIN_ACTIVITY = 33333
         const val SHOW_ERROR_DIALOG = 55555
-    }
-
-    enum class MediaRscType {
-        TEXT, NORMAL, VEDIO
     }
 }

@@ -7,9 +7,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iium.iium_medioz.model.datasource.Result
 import com.iium.iium_medioz.model.datasource.GetDataDeleteDataSource
 import com.iium.iium_medioz.model.datasource.GetImgDataSource
+import com.iium.iium_medioz.model.datasource.Result
 import com.iium.iium_medioz.util.base.SingleLiveEvent
 import com.iium.iium_medioz.util.common.Event
 import com.iium.iium_medioz.util.log.LLog
@@ -33,9 +33,9 @@ class SearchDetailViewModel(
     val nImage4 = MutableLiveData<Bitmap>()
     val nImage5 = MutableLiveData<Bitmap>()
 
-    val pvFirst = MutableLiveData<Bitmap>()
-    val pvSecond = MutableLiveData<Bitmap>()
-    val pvThird = MutableLiveData<Bitmap>()
+//    val pvFirst = MutableLiveData<Bitmap>()
+//    val pvSecond = MutableLiveData<Bitmap>()
+//    val pvThird = MutableLiveData<Bitmap>()
 
     val mutableErrorMessage = SingleLiveEvent<String>()
 
@@ -59,11 +59,11 @@ class SearchDetailViewModel(
     //////////////////////텍스트 이미지 추출 API////////////////////////////
     private fun getTextImg(str_idx: Int, text: String, token: String) {
         LLog.e("텍스트 ${str_idx + 1}번째 이미지 API")
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch{
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "텍스트 ${str_idx + 1}번째 response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     val bitimage = Bitmap.createScaledBitmap(bit, 210, 210, true)
                     when (str_idx) {
@@ -90,11 +90,11 @@ class SearchDetailViewModel(
     //////////////////////일반 이미지 추출 API////////////////////////////
     private fun getNormalImg(str_idx: Int, text: String, token: String) {
         LLog.e("일반 ${str_idx + 1}번째 이미지 API")
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch{
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "일반 ${str_idx + 1}번째 response SUCCESS -> ${result.data}")
-                    val imgs = result.data.byteStream()
+                    val imgs = result.data?.byteStream()
                     val bit = BitmapFactory.decodeStream(imgs)
                     val bitimage = Bitmap.createScaledBitmap(bit, 210, 210, true)
                     when (str_idx) {
@@ -121,7 +121,7 @@ class SearchDetailViewModel(
     //////////////////////영상 추출 API////////////////////////////
     private fun getVideo(str_idx: Int, text: String, token: String) {
         LLog.e("비디오 추출_${str_idx + 1}번째 API")
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (val result = getImgDataSource.invoke(text, token)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "비디오 추출_${str_idx + 1}번째 response SUCCESS -> ${result.data}")
@@ -150,9 +150,13 @@ class SearchDetailViewModel(
         Log.d(LLog.TAG, "일반 이미지 : ${normalList.toString()}")
         Log.d(LLog.TAG, "비디오 이미지 : ${videoList.toString()}")
 
+        medicalDetailTitle.value = title ?: ""
+        medicalDetailData.value = timestamp ?: ""
+        myKeyword.value = keyword ?: ""
+
         val img = textList?.substring(2)
         val imgtest = img?.substring(0, img.length - 2)
-        val tnla = imgtest?.split(",")
+        val tnla = imgtest?.split(",")?: emptyList()
 
         for (i in 0 until tnla?.size!! step (1)) {
             getTextImg(i, tnla[i].trim(), newToken)
@@ -161,7 +165,7 @@ class SearchDetailViewModel(
 
         val normal = normalList?.substring(2)
         val normaltest = normal?.substring(0, normal.length - 2)
-        val normalstart = normaltest?.split(",")
+        val normalstart = normaltest?.split(",")?: emptyList()
 
         for (i in 0 until normalstart?.size!! step (1)) {
             getNormalImg(i, tnla[i].trim(), newToken)
@@ -177,21 +181,19 @@ class SearchDetailViewModel(
 //        }
 //        vedioCount.postValue(videostart.count().toString())
 
-        medicalDetailTitle.value = title ?: ""
-        medicalDetailData.value = timestamp ?: ""
-        myKeyword.value = keyword ?: ""
+
     }
 
     fun initDelete(id: String = "") {
         LLog.e("데이터 삭제 API")
         viewModelScope.launch(Dispatchers.IO) {
-            when (val result = getDataDeleteDataSource.invoke(newToken,id)) {
+            when (val result = getDataDeleteDataSource.invoke(newToken, id)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "데이터 삭제 response SUCCESS -> ${result.data}")
                     viewEvent(NAVIGATE_SAVE_SEND_ACTIVITY)
                 }
                 is Result.Error -> {
-                    Log.d(LLog.TAG, "데이터 삭제  response ERROR -> $id")
+                    Log.d(LLog.TAG, "데이터 삭제  response ERROR -> ${result.code} ${id}")
                     viewEvent(SHOW_ERROR_DIALOG)
                 }
                 is Result.Exception -> {

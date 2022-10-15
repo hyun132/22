@@ -66,8 +66,8 @@ class HomeViewModel(
             isLoading.value = true
             when (val result = remoteUserDataSource.invoke(token)) {
                 is Result.Success -> {
-                    Log.d(LLog.TAG, "userName is ${result.data.user?.name}")
-                    _nickName.postValue(result.data.user?.name?:"홍길동")
+                    Log.d(LLog.TAG, "userName is ${result.data?.user?.name}")
+                    _nickName.postValue(result.data?.user?.name?:"홍길동")
                 }
                 is Result.Error -> mutableErrorMessage.value =
                     "${result.code} ${result.message}"
@@ -101,9 +101,9 @@ class HomeViewModel(
             isLoading.value = true
             when (val result = getMedicalDataSource.invoke(token)) {
                 is Result.Success -> {
-                    if (result.data.datalist.isNullOrEmpty()) {
+                    if (result.data?.datalist.isNullOrEmpty()) {
                         Log.d(LLog.TAG, "데이터가 없습니다.")
-                    } else initData(result.data.datalist.map { list -> list.allscore })
+                    } else initData(result.data?.datalist?.map { list -> list.allscore })
                 }
                 is Result.Error -> mutableErrorMessage.value =
                     "${result.code} ${result.message}"

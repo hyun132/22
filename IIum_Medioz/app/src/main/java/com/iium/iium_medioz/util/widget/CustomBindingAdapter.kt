@@ -63,6 +63,16 @@ fun bindImgResource(layout: ImageView, rsc: Int?) {
 /**
  * 추가
  */
+@BindingAdapter("bindLayoutVisibilityByContents")
+fun bindLayoutVisibilityByContents(view: ViewGroup, rsc: Bitmap?) {
+    view.visibility = if (rsc == null) {
+        View.GONE
+    } else View.VISIBLE
+}
+
+/**
+ * 추가
+ */
 @BindingAdapter("bindImgResource")
 fun bindImgResource(view: ImageView, rsc: Bitmap?) {
     if (rsc != null) {

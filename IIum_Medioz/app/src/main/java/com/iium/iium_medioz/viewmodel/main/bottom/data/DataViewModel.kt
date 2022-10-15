@@ -45,7 +45,7 @@ class DataViewModel(
             when (val result = getCreateGetDataSource.invoke(newToken)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "List Second response SUCCESS -> ${result.data} ")
-                    _myDataList.postValue(result.data.datalist ?: emptyList())
+                    _myDataList.postValue(result.data?.datalist ?: emptyList())
                 }
                 is Result.Error -> {
                     Log.d(LLog.TAG, "List Second response ERROR -> ${result.message}")
@@ -64,7 +64,7 @@ class DataViewModel(
             when (val result = getSendDataSource.invoke(newToken)) {
                 is Result.Success -> {
                     Log.d(LLog.TAG, "판매 데이터 조회 SUCCESS -> ${result.data} ")
-                    _sendDataList.postValue(result.data.datalist ?: emptyList())
+                    _sendDataList.postValue(result.data?.datalist ?: emptyList())
                 }
                 is Result.Error -> {
                     Log.d(LLog.TAG, "판매 데이터 조회 ERROR -> ${result.message}")
