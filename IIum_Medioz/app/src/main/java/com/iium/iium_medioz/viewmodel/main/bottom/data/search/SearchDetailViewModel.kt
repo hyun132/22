@@ -108,7 +108,7 @@ class SearchDetailViewModel(
                 }
                 is Result.Error -> {
                     mutableErrorMessage.postValue("${result.code} ${result.message}")
-                    Log.d(LLog.TAG, "일반 ${str_idx + 1}번째 response ERROR -> ${result.message}")
+                    Log.d(LLog.TAG, "일반 ${str_idx + 1}번째 response ERROR -> ${result.message}  ${result.code}")
                 }
                 is Result.Exception -> {
                     mutableErrorMessage.postValue(result.e.localizedMessage)

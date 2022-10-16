@@ -18,6 +18,7 @@ import com.iium.iium_medioz.util.`object`.Constant.SEARCH_TEXTIMG
 import com.iium.iium_medioz.util.`object`.Constant.SEARCH_TIME_STAMP
 import com.iium.iium_medioz.util.`object`.Constant.SEARCH_TITLE
 import com.iium.iium_medioz.util.`object`.Constant.SEARCH_VIDEO
+import com.iium.iium_medioz.util.common.setOnDebounceClickListener
 import com.iium.iium_medioz.util.log.LLog
 import com.iium.iium_medioz.view.main.bottom.data.search.SearchDetailActivity
 
@@ -41,7 +42,7 @@ class SearchAdapter(private val searchlist : List<DataList>, private val context
         return searchlist.count()
     }
 
-    inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val search_title = itemView?.findViewById<TextView>(R.id.tv_search_title)
         val search_keyword = itemView?.findViewById<TextView>(R.id.tv_search_keyword)
@@ -54,14 +55,18 @@ class SearchAdapter(private val searchlist : List<DataList>, private val context
             search_data?.text = list?.timestamp.toString()
 
             val textlist = list?.DataList?.map {  it ->
-                it.textImg.map {
-                    it.filename
+                if (!it.textImg.isNullOrEmpty()){
+                    it.textImg.map {
+                        it.filename
+                    }
                 }
             }
 
             val normallist = list?.DataList?.map { it ->
-                it.Img.map {
-                    it.filename
+                if (!it.Img.isNullOrEmpty()){
+                    it.Img.map {
+                        it.filename
+                    }
                 }
             }
 
@@ -71,7 +76,7 @@ class SearchAdapter(private val searchlist : List<DataList>, private val context
 //                }
 //            }
 
-            search_cl?.setOnClickListener {
+            search_cl.setOnDebounceClickListener {
                 val intent = Intent(context, SearchDetailActivity::class.java)
                 intent.putExtra(SEARCH_TITLE, list?.title.toString())
                 intent.putExtra(SEARCH_KEYWORD, list?.keyword.toString())
